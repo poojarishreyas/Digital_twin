@@ -4,6 +4,7 @@
 #   bash deploy/aws/ecommerce/deploy.sh status               # dashboard URL, setup code, per-host readiness
 #   bash deploy/aws/ecommerce/deploy.sh join 'curl -fsSL http://.../agent/install.sh | sudo bash -s -- ...'
 #                                                            # optional: run the dashboard's install command on all shop hosts
+#   bash deploy/aws/ecommerce/deploy.sh retry                # rerun server setup in place after a fix
 #   bash deploy/aws/ecommerce/deploy.sh down                 # delete everything (stops all charges)
 set -euo pipefail
 STACK=larkspur-goods
@@ -14,6 +15,17 @@ BUCKET="larkspur-twin-${ACCOUNT}-${REGION}"
 export AWS_DEFAULT_REGION="$REGION"
 
 output() { aws cloudformation describe-stacks --stack-name "$STACK" --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text; }
+
+bundle() {  # upload the code with Unix line endings (a Windows checkout has CRLF, which breaks bash)
+  local archive work
+  archive=$(mktemp --suffix=.tgz); work=$(mktemp -d)
+  (cd "$ROOT" && tar -cf - --exclude=node_modules --exclude=__pycache__ --exclude=.venv \
+     agent ingestion ui deploy schema docker-compose.yml) | tar -xf - -C "$work"
+  grep -rIl $'\r' "$work" | while IFS= read -r f; do sed -i 's/\r$//' "$f"; done
+  tar -czf "$archive" -C "$work" agent ingestion ui deploy schema docker-compose.yml
+  aws s3 cp --quiet "$archive" "s3://$BUCKET/repo.tgz"
+  rm -rf "$archive" "$work"
+}
 
 run_on() {  # instance-ids... -- command ; prints each host's output via Session Manager
   local ids=() command
@@ -45,11 +57,7 @@ up)
     aws cloudformation delete-stack --stack-name "$STACK"
     aws cloudformation wait stack-delete-complete --stack-name "$STACK"
   fi
-  archive=$(mktemp --suffix=.tgz)
-  (cd "$ROOT" && tar -czf "$archive" --exclude=node_modules --exclude=__pycache__ \
-     agent ingestion ui deploy schema docker-compose.yml)
-  aws s3 cp --quiet "$archive" "s3://$BUCKET/repo.tgz"
-  rm -f "$archive"
+  bundle
   url=$(aws s3 presign "s3://$BUCKET/repo.tgz" --expires-in 21600)
   aws cloudformation deploy --stack-name "$STACK" --template-file "$ROOT/deploy/aws/ecommerce/stack.yaml" \
     --capabilities CAPABILITY_IAM --parameter-overrides "OperatorCidr=$cidr" "RepoUrl=$url" \
@@ -67,6 +75,17 @@ status)
   # shellcheck disable=SC2046
   run_on $(output ShopInstances) -- 'tail -n 1 /var/log/larkspur-setup.log 2>/dev/null; systemctl is-active twin-agent 2>/dev/null | sed "s/^/twin agent: /"'
   ;;
+retry)
+  # Re-upload fixed code and rerun each server's boot script in place (no rebuild).
+  bundle
+  # shellcheck disable=SC2046
+  ids=$(output ControlInstance; output ShopInstances)
+  # shellcheck disable=SC2086
+  aws ssm send-command --document-name AWS-RunShellScript --instance-ids $ids --timeout-seconds 3600 \
+    --parameters '{"commands":["T=$(curl -sX PUT http://169.254.169.254/latest/api/token -H \"X-aws-ec2-metadata-token-ttl-seconds: 60\"); curl -s -H \"X-aws-ec2-metadata-token: $T\" http://169.254.169.254/latest/user-data > /root/boot.sh; bash /root/boot.sh"],"executionTimeout":["3600"]}' \
+    --query Command.CommandId --output text >/dev/null
+  echo "Setup is running again on all servers. Check in ~10 minutes: bash deploy/aws/ecommerce/deploy.sh status"
+  ;;
 join)
   command="${2:?usage: deploy.sh join '<Linux install command copied from Hosts -> Add hosts>'}"
   # shellcheck disable=SC2046
@@ -80,5 +99,5 @@ down)
   aws s3api delete-bucket --bucket "$BUCKET" 2>/dev/null || true
   echo "Everything for Larkspur Goods is deleted."
   ;;
-*) sed -n '2,8p' "$0"; exit 2 ;;
+*) sed -n '2,9p' "$0"; exit 2 ;;
 esac
