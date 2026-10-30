@@ -18,7 +18,8 @@ output() { aws cloudformation describe-stacks --stack-name "$STACK" --query "Sta
 run_on() {  # instance-ids... -- command ; prints each host's output via Session Manager
   local ids=() command
   while [ "$1" != "--" ]; do ids+=("$1"); shift; done; shift; command="$1"
-  local params; params=$(python3 -c 'import json,sys; print(json.dumps({"commands": [sys.argv[1]]}))' "$command")
+  local escaped="${command//\\/\\\\}"; escaped="${escaped//\"/\\\"}"   # JSON string escaping, no python needed
+  local params="{\"commands\":[\"$escaped\"]}"
   local cid; cid=$(aws ssm send-command --document-name AWS-RunShellScript --instance-ids "${ids[@]}" \
     --parameters "$params" --query Command.CommandId --output text)
   for id in "${ids[@]}"; do
