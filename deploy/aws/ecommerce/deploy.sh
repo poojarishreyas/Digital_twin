@@ -7,6 +7,7 @@
 #   bash deploy/aws/ecommerce/deploy.sh retry                # rerun server setup in place after a fix
 #   bash deploy/aws/ecommerce/deploy.sh down                 # delete everything (stops all charges)
 set -euo pipefail
+trap 'echo "deploy.sh stopped at line $LINENO (command: $BASH_COMMAND)" >&2' ERR
 STACK=larkspur-goods
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 REGION="${AWS_REGION:-$(aws configure get region || echo us-east-1)}"
@@ -18,13 +19,18 @@ output() { aws cloudformation describe-stacks --stack-name "$STACK" --query "Sta
 
 bundle() {  # upload the code with Unix line endings (a Windows checkout has CRLF, which breaks bash)
   local archive work
+  echo "Packaging code with Unix line endings..."
   archive=$(mktemp --suffix=.tgz); work=$(mktemp -d)
   (cd "$ROOT" && tar -cf - --exclude=node_modules --exclude=__pycache__ --exclude=.venv \
      agent ingestion ui deploy schema docker-compose.yml) | tar -xf - -C "$work"
-  grep -rIl $'\r' "$work" | while IFS= read -r f; do sed -i 's/\r$//' "$f"; done
+  { grep -rIl $'\r' "$work" 2>/dev/null || true; } | while IFS= read -r f; do sed -i 's/\r$//' "$f"; done
+  if grep -q $'\r' "$work/deploy/aws/ecommerce/host-setup.sh"; then
+    echo "Could not convert line endings; aborting before upload." >&2; exit 1
+  fi
   tar -czf "$archive" -C "$work" agent ingestion ui deploy schema docker-compose.yml
   aws s3 cp --quiet "$archive" "s3://$BUCKET/repo.tgz"
   rm -rf "$archive" "$work"
+  echo "Uploaded."
 }
 
 run_on() {  # instance-ids... -- command ; prints each host's output via Session Manager
@@ -79,7 +85,8 @@ retry)
   # Re-upload fixed code and rerun each server's boot script in place (no rebuild).
   bundle
   # shellcheck disable=SC2046
-  ids=$(output ControlInstance; output ShopInstances)
+  ids="$(output ControlInstance) $(output ShopInstances)"
+  echo "Rerunning setup on: $ids"
   # shellcheck disable=SC2086
   aws ssm send-command --document-name AWS-RunShellScript --instance-ids $ids --timeout-seconds 3600 \
     --parameters '{"commands":["T=$(curl -sX PUT http://169.254.169.254/latest/api/token -H \"X-aws-ec2-metadata-token-ttl-seconds: 60\"); curl -s -H \"X-aws-ec2-metadata-token: $T\" http://169.254.169.254/latest/user-data > /root/boot.sh; bash /root/boot.sh"],"executionTimeout":["3600"]}' \
