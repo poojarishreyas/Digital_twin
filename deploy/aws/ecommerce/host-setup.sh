@@ -100,7 +100,8 @@ app)
   # Cart sessions; left without a password on the internal network (a common finding).
   sed -i -e 's/^bind .*/bind 0.0.0.0/' -e 's/^protected-mode .*/protected-mode no/' /etc/redis6/redis6.conf
   systemctl enable --now redis6
-  install_services catalog cart
+  # shellcheck disable=SC2086  # compact layout: orders and payments share this host
+  install_services catalog cart ${EXTRA_SERVICES:-}
   declare_workload catalog "$VERSION_TAG" 8081 /opt/larkspur/shop_service.py
   ;;
 orders)

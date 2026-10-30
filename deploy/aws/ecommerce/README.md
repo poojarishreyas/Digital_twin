@@ -25,7 +25,7 @@ A small, realistic-looking online store (fictional, all data synthetic) built fr
 |---|---|---|
 | shop-web01 | nginx, Python shopper simulator | `server_tokens on` (version disclosure) |
 | shop-app01 | catalog and cart services, Redis 6 | Redis without a password, `protected-mode no` |
-| shop-orders01 | orders and payments (mock) services | — |
+| shop-orders01 | orders and payments (mock) services; **full layout only**. In the default compact layout these run on shop-app01 | — |
 | shop-db01 | PostgreSQL 15 | reachable from two service tiers |
 
 Synthetic shoppers browse, add to cart and buy every few seconds, so live connections web → app/orders → db exist for the agents to observe. All upstream connections are kept open.
@@ -86,5 +86,6 @@ bash deploy/aws/ecommerce/deploy.sh down
 - **No setup code after 15 min:** connect to `twin-control` with Session Manager and run `sudo tail -50 /var/log/twin-control-setup.log`.
 - **A shop host isn't ready:** run `sudo tail -50 /var/log/larkspur-setup.log` on that host.
 - **Install command fails to download:** the dashboard must be opened with the `http://<public-ip>:3000` URL that `deploy.sh` prints, because the command uses that address.
-- **vCPU limit error during `up`:** new accounts may allow fewer than 10 vCPUs. Request an increase, or deploy with smaller instances by adding `ControlInstanceType=t3.medium` to the `--parameter-overrides` line in `deploy.sh`.
+- **vCPU limit:** the default **compact** layout uses 8 vCPUs: control, web, app and db servers, with orders and payments running on `shop-app01`. The **full** layout gives orders its own server and needs 10 vCPUs. Use it with `LAYOUT=full bash deploy/aws/ecommerce/deploy.sh up …` after AWS raises your limit (request at Service Quotas → EC2 → "Running On-Demand Standard instances").
+- **A failed `up`:** run `up` again. It removes the failed attempt first.
 - **The code bundle link expires 6 hours after `up`.** Servers download it at boot, so re-run `up` only if you rebuild servers later.

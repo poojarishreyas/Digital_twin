@@ -38,6 +38,12 @@ up)
     else aws s3api create-bucket --bucket "$BUCKET" --create-bucket-configuration "LocationConstraint=$REGION" >/dev/null; fi
     aws s3api put-public-access-block --bucket "$BUCKET" --public-access-block-configuration \
       BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true; }
+  state=$(aws cloudformation describe-stacks --stack-name "$STACK" --query "Stacks[0].StackStatus" --output text 2>/dev/null || true)
+  if [ "$state" = ROLLBACK_COMPLETE ]; then
+    echo "Removing the earlier failed attempt first..."
+    aws cloudformation delete-stack --stack-name "$STACK"
+    aws cloudformation wait stack-delete-complete --stack-name "$STACK"
+  fi
   archive=$(mktemp --suffix=.tgz)
   (cd "$ROOT" && tar -czf "$archive" --exclude=node_modules --exclude=__pycache__ \
      agent ingestion ui deploy schema docker-compose.yml)
@@ -46,7 +52,7 @@ up)
   url=$(aws s3 presign "s3://$BUCKET/repo.tgz" --expires-in 21600)
   aws cloudformation deploy --stack-name "$STACK" --template-file "$ROOT/deploy/aws/ecommerce/stack.yaml" \
     --capabilities CAPABILITY_IAM --parameter-overrides "OperatorCidr=$cidr" "RepoUrl=$url" \
-    "DbPassword=$(openssl rand -hex 16)"
+    "DbPassword=$(openssl rand -hex 16)" "Layout=${LAYOUT:-compact}"
   echo
   echo "Created. Servers are installing software now (about 10 minutes)."
   echo "Dashboard:  $(output Dashboard)"

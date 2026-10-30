@@ -27,6 +27,14 @@ Parameters:
   ShopInstanceType:
     Type: String
     Default: t3.micro
+  Layout:
+    Type: String
+    Default: compact
+    AllowedValues: [compact, full]
+    Description: compact = 3 shop servers (orders and payments share shop-app01; fits an 8 vCPU limit). full = 4 shop servers.
+
+Conditions:
+  Full: !Equals [!Ref Layout, full]
 
 Mappings:
   Net:
@@ -131,10 +139,11 @@ Resources:
       VpcId: !Ref Vpc
       GroupDescription: shop-app01 catalog and cart services
       SecurityGroupIngress:
-        - {IpProtocol: tcp, FromPort: 8081, ToPort: 8082, SourceSecurityGroupId: !Ref WebSg, Description: Catalog and cart from storefront}
+        - {IpProtocol: tcp, FromPort: 8081, ToPort: 8083, SourceSecurityGroupId: !Ref WebSg, Description: Catalog cart and compact-layout orders from storefront}
         - {IpProtocol: tcp, FromPort: 6379, ToPort: 6379, CidrIp: !FindInMap [Net, Cidr, Vpc], Description: Cart session store inside the VPC}
   OrdersSg:
     Type: AWS::EC2::SecurityGroup
+    Condition: Full
     Properties:
       VpcId: !Ref Vpc
       GroupDescription: shop-orders01 orders and payments services
@@ -147,7 +156,7 @@ Resources:
       GroupDescription: shop-db01 customer and order database
       SecurityGroupIngress:
         - {IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref AppSg, Description: Catalog reads}
-        - {IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref OrdersSg, Description: Order writes}
+        - !If [Full, {IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref OrdersSg, Description: Order writes}, !Ref "AWS::NoValue"]
 
   ControlHost:
     Type: AWS::EC2::Instance
@@ -179,13 +188,15 @@ Resources:
       SecurityGroupIds: [!Ref WebSg]
       Tags: [{Key: Name, Value: shop-web01}, {Key: twin-lab, Value: larkspur}, {Key: role, Value: storefront}]
       UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          set -eux
-          mkdir -p /opt/twin
-          curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
-          APP_IP=${AppHost.PrivateIp} ORDERS_IP=${OrdersHost.PrivateIp} \
-            bash /opt/twin/deploy/aws/ecommerce/host-setup.sh web > /var/log/larkspur-setup.log 2>&1
+        Fn::Base64: !Sub
+          - |
+            #!/bin/bash
+            set -eux
+            mkdir -p /opt/twin
+            curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
+            APP_IP=${AppHost.PrivateIp} ORDERS_IP=${OrdersIp} \
+              bash /opt/twin/deploy/aws/ecommerce/host-setup.sh web > /var/log/larkspur-setup.log 2>&1
+          - OrdersIp: !If [Full, !GetAtt OrdersHost.PrivateIp, !GetAtt AppHost.PrivateIp]
 
   AppHost:
     Type: AWS::EC2::Instance
@@ -198,16 +209,19 @@ Resources:
       SecurityGroupIds: [!Ref AppSg]
       Tags: [{Key: Name, Value: shop-app01}, {Key: twin-lab, Value: larkspur}, {Key: role, Value: catalog-cart}]
       UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          set -eux
-          mkdir -p /opt/twin
-          curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
-          DB_IP=${DbHost.PrivateIp} DB_PASSWORD=${DbPassword} \
-            bash /opt/twin/deploy/aws/ecommerce/host-setup.sh app > /var/log/larkspur-setup.log 2>&1
+        Fn::Base64: !Sub
+          - |
+            #!/bin/bash
+            set -eux
+            mkdir -p /opt/twin
+            curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
+            DB_IP=${DbHost.PrivateIp} DB_PASSWORD=${DbPassword} EXTRA_SERVICES="${Extra}" \
+              bash /opt/twin/deploy/aws/ecommerce/host-setup.sh app > /var/log/larkspur-setup.log 2>&1
+          - Extra: !If [Full, "", "orders payments"]
 
   OrdersHost:
     Type: AWS::EC2::Instance
+    Condition: Full
     DependsOn: PrivateDefaultRoute
     Properties:
       InstanceType: !Ref ShopInstanceType
@@ -250,4 +264,5 @@ Outputs:
   Dashboard: {Value: !Sub "http://${ControlHost.PublicIp}:3000", Description: Open in your browser}
   Storefront: {Value: !Sub "http://${WebHost.PublicIp}", Description: The synthetic store}
   ControlInstance: {Value: !Ref ControlHost}
-  ShopInstances: {Value: !Sub "${WebHost} ${AppHost} ${OrdersHost} ${DbHost}"}
+  ShopInstances:
+    Value: !If [Full, !Sub "${WebHost} ${AppHost} ${OrdersHost} ${DbHost}", !Sub "${WebHost} ${AppHost} ${DbHost}"]
