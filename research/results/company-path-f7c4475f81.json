@@ -1,0 +1,16 @@
+{
+  "recorded_at": "2026-10-30T13:35:01.216929+00:00",
+  "project": "company-path-f7c4475f81",
+  "model_condition": "scripted_boundary_smoke_not_ai",
+  "status": "failed",
+  "checks": {},
+  "runs": {},
+  "scope": "synthetic company; Docker Desktop behavior and segmentation",
+  "agent_binary_sha256": "3316ec6876b2880cbd9ee227d374b38be8d8a067511c168060a8186b59f8e468",
+  "image_catalog": {
+    "node_image": "sha256:373aaf1fc967ca5bdbe82dc342ae96e183f96aec9f9df30b61f8833326861bcd",
+    "database_image": "sha256:4e58097e1ee612be7540a02a57cb43d4d43f997ed8dc232f4942df1a21241f1b"
+  },
+  "error": "command failed; inspect local command log",
+  "cleanup": "complete"
+}

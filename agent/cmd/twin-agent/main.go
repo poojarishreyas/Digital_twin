@@ -50,7 +50,7 @@ func main() {
 	if err != nil {
 		fatal("configure transport", err)
 	}
-	a := &app{cfg: cfg, collector: collector.Collector{AgentID: agentID, ConfigFiles: cfg.ConfigFiles}, outbox: outbox, client: client, log: slog.New(slog.NewJSONHandler(os.Stdout, nil))}
+	a := &app{cfg: cfg, collector: collector.Collector{AgentID: agentID, ConfigFiles: cfg.ConfigFiles, WorkloadFile: cfg.WorkloadFile}, outbox: outbox, client: client, log: slog.New(slog.NewJSONHandler(os.Stdout, nil))}
 	if err = daemon.Run("TwinAgent", func(ctx context.Context) error { return a.run(ctx, *once) }); err != nil {
 		fatal("agent stopped", err)
 	}
@@ -243,6 +243,7 @@ func loadOrCreateID(path, certificatePath string) (string, error) {
 	}
 	return id, os.Rename(tmp, path)
 }
+
 // runEnroll exchanges a dashboard enrollment token for this machine's identity and config.
 func runEnroll(args []string) {
 	fs := flag.NewFlagSet("enroll", flag.ExitOnError)

@@ -25,6 +25,8 @@ from .audit import AuditStore
 from .security import AuthManager, BodyLimitMiddleware, COOKIE, RateLimiter, ROLES, access_rule
 from .identity import IdentityError, IdentityStore
 from .enrollment import CertificateIssuer, EnrollmentError, clean_hostname
+from .company.api import register_routes as register_company_routes
+from .company.store import CompanyStore
 
 
 class Classification(BaseModel):
@@ -178,7 +180,7 @@ def create_app(settings: Settings, history: HistoryStore, graph: GraphStore, eve
                runs: RunStore | None = None, research: ResearchStore | None = None,
                audit: AuditStore | None = None, identity: IdentityStore | None = None,
                issuer: CertificateIssuer | None = None, setup_code: str | None = None,
-               auth: AuthManager | None = None) -> FastAPI:
+               auth: AuthManager | None = None, company: CompanyStore | None = None) -> FastAPI:
     auth = auth or AuthManager(settings, allow_missing_manifest=identity is not None)
     if identity is not None:
         auth.directory = identity
@@ -288,6 +290,8 @@ def create_app(settings: Settings, history: HistoryStore, graph: GraphStore, eve
         import hmac
         if not settings.emulation_api_token or not value or not hmac.compare_digest(value, settings.emulation_api_token):
             raise HTTPException(403, "emulation API is disabled or token invalid")
+
+    register_company_routes(app, settings, company, graph, events, lambda request: tenant_of(request))
 
     @app.get("/healthz")
     async def health():

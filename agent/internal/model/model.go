@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 const SchemaVersion = "1.0"
 
@@ -74,4 +77,21 @@ type Ack struct {
 	Duplicate        bool   `json:"duplicate"`
 	RequireFull      bool   `json:"require_full_snapshot"`
 	Error            string `json:"error,omitempty"`
+}
+
+// MarshalJSON keeps required telemetry collections as arrays on empty deltas.
+// A null collection is rejected by the server schema and would block the outbox.
+func (e Envelope) MarshalJSON() ([]byte, error) {
+	type wire Envelope
+	value := wire(e)
+	if value.Components == nil {
+		value.Components = []Component{}
+	}
+	if value.Relationships == nil {
+		value.Relationships = []Relationship{}
+	}
+	if value.Gaps == nil {
+		value.Gaps = []Gap{}
+	}
+	return json.Marshal(value)
 }

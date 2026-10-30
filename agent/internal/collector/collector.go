@@ -24,8 +24,9 @@ type Result struct {
 }
 
 type Collector struct {
-	AgentID     string
-	ConfigFiles map[string][]string
+	AgentID      string
+	ConfigFiles  map[string][]string
+	WorkloadFile string
 }
 
 func ProcessMetrics() (float64, uint64) { return processMetrics() }
@@ -35,6 +36,12 @@ func (c Collector) Collect(ctx context.Context) Result {
 	host, gaps := collectHost(ctx, c.AgentID, now)
 	components, rels, platformGaps := collectPlatform(ctx, host, now)
 	gaps = append(gaps, platformGaps...)
+	if c.WorkloadFile != "" {
+		wc, wr, wg := collectWorkload(c.WorkloadFile, host.ID, now)
+		components = append(components, wc...)
+		rels = append(rels, wr...)
+		gaps = append(gaps, wg...)
+	}
 
 	paths := defaultConfigPaths()
 	for service, configured := range c.ConfigFiles {
@@ -87,7 +94,11 @@ func (c Collector) Collect(ctx context.Context) Result {
 		}
 		return rels[i].SourceID < rels[j].SourceID
 	})
-	return Result{Host: host, Components: components, Relationships: rels, Gaps: gaps, WatchedFiles: existingPaths(paths)}
+	watched := existingPaths(paths)
+	if c.WorkloadFile != "" {
+		watched = append(watched, c.WorkloadFile)
+	}
+	return Result{Host: host, Components: components, Relationships: rels, Gaps: gaps, WatchedFiles: watched}
 }
 
 func defaultConfigPaths() map[string][]string {

@@ -1,0 +1,16 @@
+.git
+.venv
+.tools
+**/node_modules
+**/__pycache__
+**/dist
+**/.git
+certs
+secrets
+backups
+bin
+threat-harness
+research/results
+docs/design
+.env
+.env.*

@@ -15,6 +15,7 @@ from .audit import AuditStore
 from .security import AuthManager
 from .identity import IdentityStore
 from .enrollment import CertificateIssuer
+from .company.store import CompanyStore
 import secrets
 
 
@@ -34,6 +35,8 @@ async def run():
     await runs.ensure_schema()
     research = ResearchStore(history.pool)
     await research.ensure_schema()
+    company = CompanyStore(history.pool)
+    await company.ensure_schema()
     file_manifest = auth._file_manifest() if settings.auth_mode == "tokens" else None
     identity = IdentityStore(history.pool, file_manifest.tenants if file_manifest else (), file_manifest.principals if file_manifest else ())
     await identity.ensure_schema()
@@ -65,7 +68,7 @@ async def run():
     server.add_secure_port(settings.grpc_bind, credentials)
     await server.start()
 
-    app = create_app(settings, history, graph, events, runs, research, audit, identity, issuer, setup_code, auth)
+    app = create_app(settings, history, graph, events, runs, research, audit, identity, issuer, setup_code, auth, company=company)
     refresher = asyncio.create_task(identity.refresh_loop())
     web = uvicorn.Server(uvicorn.Config(app, host=settings.http_bind, port=settings.http_port,
                                       log_level="info", access_log=False, proxy_headers=False))

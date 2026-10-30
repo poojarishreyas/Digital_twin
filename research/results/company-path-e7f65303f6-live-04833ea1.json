@@ -1,0 +1,2112 @@
+{
+  "recorded_at": "2026-10-30T14:33:47.463305+00:00",
+  "project": "company-path-e7f65303f6",
+  "status": "passed",
+  "model_condition": "live_gemini",
+  "sources": [
+    {
+      "id": "c6b8a0d3f8ca4944b2747dc506a20841",
+      "stage": "source",
+      "tenant_id": "acme",
+      "artifact_id": "48f3310b923a9c6c6214d93cb038088d0184f10b4e333834d787e39e9aae649e",
+      "policy": "authentication_only",
+      "images": {
+        "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+        "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+        "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+        "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7"
+      },
+      "network_rules": [
+        [
+          "employee",
+          "gateway"
+        ],
+        [
+          "gateway",
+          "api"
+        ],
+        [
+          "api",
+          "database"
+        ]
+      ],
+      "published_ports": false,
+      "configuration_hash": "4974629fce5b3977c47020c95cc2f2ffc8b986e7b4d43b27f85989be29f19416",
+      "scope": "synthetic application behavior; Docker internal network isolation"
+    },
+    {
+      "id": "0345db05ebb943d4b4e0cc3d51a9dad8",
+      "stage": "source",
+      "tenant_id": "globex",
+      "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+      "policy": "authentication_only",
+      "images": {
+        "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+        "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+        "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+        "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7"
+      },
+      "network_rules": [
+        [
+          "employee",
+          "gateway"
+        ],
+        [
+          "gateway",
+          "api"
+        ],
+        [
+          "api",
+          "database"
+        ]
+      ],
+      "published_ports": false,
+      "configuration_hash": "dafa454ba8738a4a70b02e6fb709a3f933ea838a2f861c12829def394e333b1c",
+      "scope": "synthetic application behavior; Docker internal network isolation"
+    }
+  ],
+  "image_catalog": {
+    "node_image": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+    "database_image": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7"
+  },
+  "runs": {
+    "globex": {
+      "tenant_id": "globex",
+      "id": "28d0024c-8b46-432b-90f3-7aab2a122a8b",
+      "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+      "status": "completed",
+      "discovery": {
+        "path": [
+          "company-path-e7f65303f6-globex-employee",
+          "company-path-e7f65303f6-globex-gateway",
+          "company-path-e7f65303f6-globex-api",
+          "company-path-e7f65303f6-globex-database"
+        ],
+        "services": {
+          "api": {
+            "service": "service:company-path-e7f65303f6-globex-api:company-api",
+            "agent_id": "company-path-e7f65303f6-globex-api",
+            "image_id": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+            "configuration_hash": "fc5b7b15b982463c67b2174adcf31c0ccc358c57a54531b1c313bc1a46ece596"
+          },
+          "gateway": {
+            "service": "service:company-path-e7f65303f6-globex-gateway:company-gateway",
+            "agent_id": "company-path-e7f65303f6-globex-gateway",
+            "image_id": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+            "configuration_hash": "be04ccf693721129bab4e120e2f10f371226db19577fac82f28dbc2b3c51915a"
+          },
+          "database": {
+            "service": "service:company-path-e7f65303f6-globex-database:company-database",
+            "agent_id": "company-path-e7f65303f6-globex-database",
+            "image_id": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+            "configuration_hash": "15e6eeba91ccd78369e256757d77c8aff69eae88c20e23ee160b4d5929c0ac03"
+          },
+          "employee": {
+            "service": "service:company-path-e7f65303f6-globex-employee:company-employee",
+            "agent_id": "company-path-e7f65303f6-globex-employee",
+            "image_id": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+            "configuration_hash": "cd4fa23803961cece63fcfc040ad6b81de5bb1366821d77220a1ad10581f1346"
+          }
+        },
+        "assumption": "employee client already compromised; employee credential assumed available",
+        "evidence_kind": "native_agent_discovery_and_observed_socket_connections",
+        "snapshot_hash": "16f4ce783e74530127d074e04470e4c9c240bc0fac43b5c7ebde414209b32a66"
+      },
+      "result": {
+        "scope": "docker_desktop_application_behavior",
+        "checks": {
+          "repair_verified": true,
+          "trace_integrity": true,
+          "hunter_completed": true,
+          "source_discovered": true,
+          "attack_path_confirmed": true,
+          "same_release_reproduced": true
+        },
+        "hunter": {
+          "model": {
+            "seed": 0,
+            "backend": "omniroute",
+            "routing": "combo; upstream may vary",
+            "endpoint_kind": "local",
+            "requested_model": "lynx-harness",
+            "expected_upstream": "gemini-3.8-flash"
+          },
+          "trace": [
+            {
+              "at": "2026-10-30T14:34:25.423762+00:00",
+              "hash": "95c6689a9d4dfa56c4d1ec58e1c993c7f67f693121b868e14338aaa37a1d77b4",
+              "kind": "hypothesis",
+              "index": 0,
+              "payload": {
+                "step": 0,
+                "text": "Verify baseline ordinary employee access to the internal records through the gateway.",
+                "usage": {
+                  "total_tokens": 853,
+                  "prompt_tokens": 400,
+                  "response_model": "gemini-3.8-flash-tiered",
+                  "route_decision": "strategy=round-robin; provider=antigravity; latency_ms=13542",
+                  "completion_tokens": 453,
+                  "completion_tokens_details": {
+                    "reasoning_tokens": 392
+                  }
+                },
+                "budget_reserved": 10450
+              },
+              "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            {
+              "at": "2026-10-30T14:34:25.425501+00:00",
+              "hash": "672d868f71ac0384eda7040c41e44d05c1bb87d9ebd600db52bf886c05acb60d",
+              "kind": "action",
+              "index": 1,
+              "payload": {
+                "name": "company_probe",
+                "port": 8080,
+                "operation": "ordinary",
+                "target_id": "co-38a127f3ab26:gateway"
+              },
+              "previous_hash": "95c6689a9d4dfa56c4d1ec58e1c993c7f67f693121b868e14338aaa37a1d77b4"
+            },
+            {
+              "at": "2026-10-30T14:34:30.383222+00:00",
+              "hash": "98966b237e0ab0eab7f5ae6d3ff12c7f891eb23df3b3e907d6f07339e4bbe37d",
+              "kind": "observation",
+              "index": 2,
+              "payload": {
+                "path": [
+                  "employee",
+                  "gateway",
+                  "api",
+                  "database"
+                ],
+                "tool": "company_probe",
+                "actor": "employee",
+                "record": "ordinary",
+                "verdict": "observed",
+                "target_id": "co-38a127f3ab26:gateway",
+                "tenant_id": "globex",
+                "request_id": "b2011aceedad4307a11a0f9a3eaa4989",
+                "http_status": 200,
+                "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                "evidence_hash": "ae17484c6946fcd7a7c60087fde73860f83da5e7533e60794deaa5fa8799adad",
+                "api_correlated": true,
+                "chain_verified": true,
+                "client_context": "compromised_employee",
+                "database_audit": {
+                  "actor": "employee",
+                  "record": "ordinary",
+                  "status": 200
+                },
+                "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                "gateway_correlated": true,
+                "returned_expected_record": true
+              },
+              "previous_hash": "672d868f71ac0384eda7040c41e44d05c1bb87d9ebd600db52bf886c05acb60d"
+            },
+            {
+              "at": "2026-10-30T14:34:40.293613+00:00",
+              "hash": "4c1065720a6b3158fc89ab8928f37aa4a5ffae0457fda73166f09c877f99e2ae",
+              "kind": "hypothesis",
+              "index": 3,
+              "payload": {
+                "step": 1,
+                "text": "Test whether the compromised employee client can improperly access restricted records across the gateway and internal API to the database.",
+                "usage": {
+                  "total_tokens": 964,
+                  "prompt_tokens": 886,
+                  "response_model": "gemini-3.8-flash-tiered",
+                  "route_decision": "strategy=round-robin; provider=antigravity; latency_ms=9851",
+                  "completion_tokens": 78
+                },
+                "budget_reserved": 22235
+              },
+              "previous_hash": "98966b237e0ab0eab7f5ae6d3ff12c7f891eb23df3b3e907d6f07339e4bbe37d"
+            },
+            {
+              "at": "2026-10-30T14:34:40.294667+00:00",
+              "hash": "dd71dcc18941044f9270b932a68db552a2def11de3782e5bb244931a0ee2b7f7",
+              "kind": "action",
+              "index": 4,
+              "payload": {
+                "name": "company_probe",
+                "port": 8080,
+                "operation": "restricted",
+                "target_id": "co-38a127f3ab26:gateway"
+              },
+              "previous_hash": "4c1065720a6b3158fc89ab8928f37aa4a5ffae0457fda73166f09c877f99e2ae"
+            },
+            {
+              "at": "2026-10-30T14:34:45.169950+00:00",
+              "hash": "0ad983c36c883056f8ef637dc9adfec39825c1f1a9cb7edbf10691ce8154af12",
+              "kind": "observation",
+              "index": 5,
+              "payload": {
+                "path": [
+                  "employee",
+                  "gateway",
+                  "api",
+                  "database"
+                ],
+                "tool": "company_probe",
+                "actor": "employee",
+                "record": "restricted",
+                "verdict": "confirmed",
+                "target_id": "co-38a127f3ab26:gateway",
+                "tenant_id": "globex",
+                "request_id": "4182e72d168b4e0885b7e56bbce1dc0f",
+                "http_status": 200,
+                "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                "evidence_hash": "6b898a79ff7671c53203ad62c49c90f9ac0f6ed7d370646a06657eaa803b2c37",
+                "api_correlated": true,
+                "chain_verified": true,
+                "client_context": "compromised_employee",
+                "database_audit": {
+                  "actor": "employee",
+                  "record": "restricted",
+                  "status": 200
+                },
+                "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                "gateway_correlated": true,
+                "returned_expected_record": true
+              },
+              "previous_hash": "dd71dcc18941044f9270b932a68db552a2def11de3782e5bb244931a0ee2b7f7"
+            },
+            {
+              "at": "2026-10-30T14:34:56.611198+00:00",
+              "hash": "599235ee5d2aba08b518643afb18cd5abe02dd2d1e6db00d6d94872e92ee86ab",
+              "kind": "hypothesis",
+              "index": 6,
+              "payload": {
+                "step": 2,
+                "text": "Restricted access by employee is confirmed. Request the candidate repair by applying company_patch with policy enforce_record_authorization.",
+                "usage": {
+                  "total_tokens": 1494,
+                  "prompt_tokens": 1387,
+                  "response_model": "gemini-3.8-flash-tiered",
+                  "route_decision": "strategy=round-robin; provider=antigravity; latency_ms=11384",
+                  "completion_tokens": 107
+                },
+                "budget_reserved": 35415
+              },
+              "previous_hash": "0ad983c36c883056f8ef637dc9adfec39825c1f1a9cb7edbf10691ce8154af12"
+            },
+            {
+              "at": "2026-10-30T14:34:56.612591+00:00",
+              "hash": "0d1418f9d56c6fa0c0eced2ad56847496ec5f125215b283f648dcc185237ca81",
+              "kind": "action",
+              "index": 7,
+              "payload": {
+                "name": "company_patch",
+                "port": 8080,
+                "policy": "enforce_record_authorization",
+                "target_id": "co-38a127f3ab26:gateway"
+              },
+              "previous_hash": "599235ee5d2aba08b518643afb18cd5abe02dd2d1e6db00d6d94872e92ee86ab"
+            },
+            {
+              "at": "2026-10-30T14:35:57.445890+00:00",
+              "hash": "2161df86171415355bfdd944f886b0ad2c339bccafb7573f9b0b3910c35a7cc4",
+              "kind": "observation",
+              "index": 8,
+              "payload": {
+                "tool": "company_patch",
+                "label": "verified in the tested company twin",
+                "change": {
+                  "after": "enforced",
+                  "field": "authorization",
+                  "before": "authentication_only",
+                  "component": "internal-api"
+                },
+                "source": {
+                  "id": "38a127f3ab264fbebd004e0fe451b91a",
+                  "scope": "synthetic application behavior; Docker internal network isolation",
+                  "stage": "original",
+                  "images": {
+                    "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                    "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                    "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+                    "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e"
+                  },
+                  "policy": "authentication_only",
+                  "tenant_id": "globex",
+                  "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                  "network_rules": [
+                    [
+                      "employee",
+                      "gateway"
+                    ],
+                    [
+                      "gateway",
+                      "api"
+                    ],
+                    [
+                      "api",
+                      "database"
+                    ]
+                  ],
+                  "published_ports": false,
+                  "configuration_hash": "dafa454ba8738a4a70b02e6fb709a3f933ea838a2f861c12829def394e333b1c"
+                },
+                "rollback": {
+                  "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                  "authorization": "authentication_only"
+                },
+                "candidate": {
+                  "id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                  "scope": "synthetic application behavior; Docker internal network isolation",
+                  "stage": "candidate",
+                  "images": {
+                    "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                    "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                    "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+                    "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e"
+                  },
+                  "policy": "enforced",
+                  "tenant_id": "globex",
+                  "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                  "network_rules": [
+                    [
+                      "employee",
+                      "gateway"
+                    ],
+                    [
+                      "gateway",
+                      "api"
+                    ],
+                    [
+                      "api",
+                      "database"
+                    ]
+                  ],
+                  "published_ports": false,
+                  "configuration_hash": "ff96faeac32e1354c5afcbcb3e1f1db6157c69b6cfafa71fec3eacaffc4e9076"
+                },
+                "target_id": "co-38a127f3ab26:gateway",
+                "tenant_id": "globex",
+                "limitations": [
+                  "synthetic application workflow; no production deployment or full desktop reproduction"
+                ],
+                "artifact_hash": "eb13705705d3bac6a47e03ca7634dbc5919ce0347e632aa50f2d95e0d87a7d39",
+                "evidence_hash": "1263a5f77761df18fc590f81f1a26df2f6597608f3145dfbfbc14c79212f4252",
+                "security_retest": {
+                  "path": [
+                    "employee",
+                    "gateway",
+                    "api",
+                    "database"
+                  ],
+                  "actor": "employee",
+                  "record": "restricted",
+                  "verdict": "not_reproduced",
+                  "tenant_id": "globex",
+                  "request_id": "f7ecb5ed91c3434f98bdb5773ccdc92e",
+                  "http_status": 403,
+                  "record_hash": null,
+                  "api_correlated": true,
+                  "chain_verified": true,
+                  "client_context": "compromised_employee",
+                  "database_audit": {
+                    "actor": "employee",
+                    "record": "restricted",
+                    "status": 403
+                  },
+                  "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                  "gateway_correlated": true,
+                  "returned_expected_record": false
+                },
+                "candidate_cleanup": "complete",
+                "original_security": {
+                  "path": [
+                    "employee",
+                    "gateway",
+                    "api",
+                    "database"
+                  ],
+                  "actor": "employee",
+                  "record": "restricted",
+                  "verdict": "confirmed",
+                  "tenant_id": "globex",
+                  "request_id": "98bd4dc0f26847a089d391c01787a991",
+                  "http_status": 200,
+                  "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                  "api_correlated": true,
+                  "chain_verified": true,
+                  "client_context": "compromised_employee",
+                  "database_audit": {
+                    "actor": "employee",
+                    "record": "restricted",
+                    "status": 200
+                  },
+                  "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                  "gateway_correlated": true,
+                  "returned_expected_record": true
+                },
+                "original_workflows": {
+                  "passed": true,
+                  "observations": [
+                    {
+                      "path": [
+                        "employee",
+                        "gateway",
+                        "api",
+                        "database"
+                      ],
+                      "actor": "employee",
+                      "record": "ordinary",
+                      "tenant_id": "globex",
+                      "request_id": "0706f7ccb17646cda4c876cd31d2b844",
+                      "http_status": 200,
+                      "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                      "api_correlated": true,
+                      "chain_verified": true,
+                      "client_context": "compromised_employee",
+                      "database_audit": {
+                        "actor": "employee",
+                        "record": "ordinary",
+                        "status": 200
+                      },
+                      "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                      "gateway_correlated": true,
+                      "returned_expected_record": true
+                    },
+                    {
+                      "path": [
+                        "trusted_admin_probe",
+                        "gateway",
+                        "api",
+                        "database"
+                      ],
+                      "actor": "admin",
+                      "record": "ordinary",
+                      "tenant_id": "globex",
+                      "request_id": "2949321d87624be6819d0b6ca1858d87",
+                      "http_status": 200,
+                      "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                      "api_correlated": true,
+                      "chain_verified": true,
+                      "client_context": "trusted_gateway_workflow_probe",
+                      "database_audit": {
+                        "actor": "admin",
+                        "record": "ordinary",
+                        "status": 200
+                      },
+                      "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                      "gateway_correlated": true,
+                      "returned_expected_record": true
+                    },
+                    {
+                      "path": [
+                        "trusted_admin_probe",
+                        "gateway",
+                        "api",
+                        "database"
+                      ],
+                      "actor": "admin",
+                      "record": "restricted",
+                      "tenant_id": "globex",
+                      "request_id": "f97b54af75cf436793e74bc6990b7a2e",
+                      "http_status": 200,
+                      "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                      "api_correlated": true,
+                      "chain_verified": true,
+                      "client_context": "trusted_gateway_workflow_probe",
+                      "database_audit": {
+                        "actor": "admin",
+                        "record": "restricted",
+                        "status": 200
+                      },
+                      "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                      "gateway_correlated": true,
+                      "returned_expected_record": true
+                    }
+                  ]
+                },
+                "candidate_isolation": {
+                  "scope": "docker_internal_network_segmentation",
+                  "checks": {
+                    "employee_api_blocked": true,
+                    "employee_gateway_allowed": true,
+                    "gateway_database_blocked": true,
+                    "employee_database_blocked": true
+                  },
+                  "passed": true,
+                  "host_lan_internet_firewall_certified": false
+                },
+                "candidate_workflows": {
+                  "passed": true,
+                  "observations": [
+                    {
+                      "path": [
+                        "employee",
+                        "gateway",
+                        "api",
+                        "database"
+                      ],
+                      "actor": "employee",
+                      "record": "ordinary",
+                      "tenant_id": "globex",
+                      "request_id": "428b76b325024459adfaf9559088cb6e",
+                      "http_status": 200,
+                      "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                      "api_correlated": true,
+                      "chain_verified": true,
+                      "client_context": "compromised_employee",
+                      "database_audit": {
+                        "actor": "employee",
+                        "record": "ordinary",
+                        "status": 200
+                      },
+                      "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                      "gateway_correlated": true,
+                      "returned_expected_record": true
+                    },
+                    {
+                      "path": [
+                        "trusted_admin_probe",
+                        "gateway",
+                        "api",
+                        "database"
+                      ],
+                      "actor": "admin",
+                      "record": "ordinary",
+                      "tenant_id": "globex",
+                      "request_id": "5ff307c5714e42e5ba5f731890df2179",
+                      "http_status": 200,
+                      "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                      "api_correlated": true,
+                      "chain_verified": true,
+                      "client_context": "trusted_gateway_workflow_probe",
+                      "database_audit": {
+                        "actor": "admin",
+                        "record": "ordinary",
+                        "status": 200
+                      },
+                      "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                      "gateway_correlated": true,
+                      "returned_expected_record": true
+                    },
+                    {
+                      "path": [
+                        "trusted_admin_probe",
+                        "gateway",
+                        "api",
+                        "database"
+                      ],
+                      "actor": "admin",
+                      "record": "restricted",
+                      "tenant_id": "globex",
+                      "request_id": "b88cb9463923450a88e983014f721a83",
+                      "http_status": 200,
+                      "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                      "api_correlated": true,
+                      "chain_verified": true,
+                      "client_context": "trusted_gateway_workflow_probe",
+                      "database_audit": {
+                        "actor": "admin",
+                        "record": "restricted",
+                        "status": 200
+                      },
+                      "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                      "gateway_correlated": true,
+                      "returned_expected_record": true
+                    }
+                  ]
+                },
+                "same_application_images": true,
+                "candidate_credential_scope": {
+                  "employee_only_credential": true,
+                  "gateway_has_no_static_privileged_credentials": true,
+                  "application_and_database_admin_passwords_distinct": true
+                }
+              },
+              "previous_hash": "0d1418f9d56c6fa0c0eced2ad56847496ec5f125215b283f648dcc185237ca81"
+            },
+            {
+              "at": "2026-10-30T14:35:57.448223+00:00",
+              "hash": "3fc1a57f7ccf537889f22bfb0878c04634cab92c05f1927b3172ce707ff753a7",
+              "kind": "finished",
+              "index": 9,
+              "payload": {
+                "status": "completed",
+                "elapsed_seconds": 105.6710396000417,
+                "reported_tokens": 3311,
+                "reserved_tokens": 35415,
+                "completion_reason": "executor_completion_criteria"
+              },
+              "previous_hash": "2161df86171415355bfdd944f886b0ad2c339bccafb7573f9b0b3910c35a7cc4"
+            }
+          ],
+          "status": "completed",
+          "patches": [
+            {
+              "label": "verified in the tested company twin",
+              "change": {
+                "after": "enforced",
+                "field": "authorization",
+                "before": "authentication_only",
+                "component": "internal-api"
+              },
+              "source": {
+                "id": "38a127f3ab264fbebd004e0fe451b91a",
+                "scope": "synthetic application behavior; Docker internal network isolation",
+                "stage": "original",
+                "images": {
+                  "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+                  "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e"
+                },
+                "policy": "authentication_only",
+                "tenant_id": "globex",
+                "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                "network_rules": [
+                  [
+                    "employee",
+                    "gateway"
+                  ],
+                  [
+                    "gateway",
+                    "api"
+                  ],
+                  [
+                    "api",
+                    "database"
+                  ]
+                ],
+                "published_ports": false,
+                "configuration_hash": "dafa454ba8738a4a70b02e6fb709a3f933ea838a2f861c12829def394e333b1c"
+              },
+              "rollback": {
+                "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                "authorization": "authentication_only"
+              },
+              "candidate": {
+                "id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                "scope": "synthetic application behavior; Docker internal network isolation",
+                "stage": "candidate",
+                "images": {
+                  "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+                  "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e"
+                },
+                "policy": "enforced",
+                "tenant_id": "globex",
+                "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                "network_rules": [
+                  [
+                    "employee",
+                    "gateway"
+                  ],
+                  [
+                    "gateway",
+                    "api"
+                  ],
+                  [
+                    "api",
+                    "database"
+                  ]
+                ],
+                "published_ports": false,
+                "configuration_hash": "ff96faeac32e1354c5afcbcb3e1f1db6157c69b6cfafa71fec3eacaffc4e9076"
+              },
+              "limitations": [
+                "synthetic application workflow; no production deployment or full desktop reproduction"
+              ],
+              "artifact_hash": "eb13705705d3bac6a47e03ca7634dbc5919ce0347e632aa50f2d95e0d87a7d39",
+              "security_retest": {
+                "path": [
+                  "employee",
+                  "gateway",
+                  "api",
+                  "database"
+                ],
+                "actor": "employee",
+                "record": "restricted",
+                "verdict": "not_reproduced",
+                "tenant_id": "globex",
+                "request_id": "f7ecb5ed91c3434f98bdb5773ccdc92e",
+                "http_status": 403,
+                "record_hash": null,
+                "api_correlated": true,
+                "chain_verified": true,
+                "client_context": "compromised_employee",
+                "database_audit": {
+                  "actor": "employee",
+                  "record": "restricted",
+                  "status": 403
+                },
+                "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                "gateway_correlated": true,
+                "returned_expected_record": false
+              },
+              "candidate_cleanup": "complete",
+              "original_security": {
+                "path": [
+                  "employee",
+                  "gateway",
+                  "api",
+                  "database"
+                ],
+                "actor": "employee",
+                "record": "restricted",
+                "verdict": "confirmed",
+                "tenant_id": "globex",
+                "request_id": "98bd4dc0f26847a089d391c01787a991",
+                "http_status": 200,
+                "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                "api_correlated": true,
+                "chain_verified": true,
+                "client_context": "compromised_employee",
+                "database_audit": {
+                  "actor": "employee",
+                  "record": "restricted",
+                  "status": 200
+                },
+                "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                "gateway_correlated": true,
+                "returned_expected_record": true
+              },
+              "original_workflows": {
+                "passed": true,
+                "observations": [
+                  {
+                    "path": [
+                      "employee",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "employee",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "0706f7ccb17646cda4c876cd31d2b844",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "compromised_employee",
+                    "database_audit": {
+                      "actor": "employee",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "2949321d87624be6819d0b6ca1858d87",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "restricted",
+                    "tenant_id": "globex",
+                    "request_id": "f97b54af75cf436793e74bc6990b7a2e",
+                    "http_status": 200,
+                    "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "restricted",
+                      "status": 200
+                    },
+                    "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  }
+                ]
+              },
+              "candidate_isolation": {
+                "scope": "docker_internal_network_segmentation",
+                "checks": {
+                  "employee_api_blocked": true,
+                  "employee_gateway_allowed": true,
+                  "gateway_database_blocked": true,
+                  "employee_database_blocked": true
+                },
+                "passed": true,
+                "host_lan_internet_firewall_certified": false
+              },
+              "candidate_workflows": {
+                "passed": true,
+                "observations": [
+                  {
+                    "path": [
+                      "employee",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "employee",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "428b76b325024459adfaf9559088cb6e",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "compromised_employee",
+                    "database_audit": {
+                      "actor": "employee",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "5ff307c5714e42e5ba5f731890df2179",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "restricted",
+                    "tenant_id": "globex",
+                    "request_id": "b88cb9463923450a88e983014f721a83",
+                    "http_status": 200,
+                    "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "restricted",
+                      "status": 200
+                    },
+                    "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  }
+                ]
+              },
+              "same_application_images": true,
+              "candidate_credential_scope": {
+                "employee_only_credential": true,
+                "gateway_has_no_static_privileged_credentials": true,
+                "application_and_database_admin_passwords_distinct": true
+              }
+            }
+          ],
+          "coverage": {
+            "co-38a127f3ab26:gateway": [
+              "company_patch",
+              "company_probe"
+            ]
+          },
+          "evidence": [
+            {
+              "path": [
+                "employee",
+                "gateway",
+                "api",
+                "database"
+              ],
+              "tool": "company_probe",
+              "actor": "employee",
+              "record": "ordinary",
+              "verdict": "observed",
+              "target_id": "co-38a127f3ab26:gateway",
+              "tenant_id": "globex",
+              "request_id": "b2011aceedad4307a11a0f9a3eaa4989",
+              "http_status": 200,
+              "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+              "evidence_hash": "ae17484c6946fcd7a7c60087fde73860f83da5e7533e60794deaa5fa8799adad",
+              "api_correlated": true,
+              "chain_verified": true,
+              "client_context": "compromised_employee",
+              "database_audit": {
+                "actor": "employee",
+                "record": "ordinary",
+                "status": 200
+              },
+              "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+              "gateway_correlated": true,
+              "returned_expected_record": true
+            },
+            {
+              "path": [
+                "employee",
+                "gateway",
+                "api",
+                "database"
+              ],
+              "tool": "company_probe",
+              "actor": "employee",
+              "record": "restricted",
+              "verdict": "confirmed",
+              "target_id": "co-38a127f3ab26:gateway",
+              "tenant_id": "globex",
+              "request_id": "4182e72d168b4e0885b7e56bbce1dc0f",
+              "http_status": 200,
+              "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+              "evidence_hash": "6b898a79ff7671c53203ad62c49c90f9ac0f6ed7d370646a06657eaa803b2c37",
+              "api_correlated": true,
+              "chain_verified": true,
+              "client_context": "compromised_employee",
+              "database_audit": {
+                "actor": "employee",
+                "record": "restricted",
+                "status": 200
+              },
+              "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+              "gateway_correlated": true,
+              "returned_expected_record": true
+            },
+            {
+              "tool": "company_patch",
+              "label": "verified in the tested company twin",
+              "change": {
+                "after": "enforced",
+                "field": "authorization",
+                "before": "authentication_only",
+                "component": "internal-api"
+              },
+              "source": {
+                "id": "38a127f3ab264fbebd004e0fe451b91a",
+                "scope": "synthetic application behavior; Docker internal network isolation",
+                "stage": "original",
+                "images": {
+                  "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+                  "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e"
+                },
+                "policy": "authentication_only",
+                "tenant_id": "globex",
+                "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                "network_rules": [
+                  [
+                    "employee",
+                    "gateway"
+                  ],
+                  [
+                    "gateway",
+                    "api"
+                  ],
+                  [
+                    "api",
+                    "database"
+                  ]
+                ],
+                "published_ports": false,
+                "configuration_hash": "dafa454ba8738a4a70b02e6fb709a3f933ea838a2f861c12829def394e333b1c"
+              },
+              "rollback": {
+                "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                "authorization": "authentication_only"
+              },
+              "candidate": {
+                "id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                "scope": "synthetic application behavior; Docker internal network isolation",
+                "stage": "candidate",
+                "images": {
+                  "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+                  "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+                  "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e"
+                },
+                "policy": "enforced",
+                "tenant_id": "globex",
+                "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+                "network_rules": [
+                  [
+                    "employee",
+                    "gateway"
+                  ],
+                  [
+                    "gateway",
+                    "api"
+                  ],
+                  [
+                    "api",
+                    "database"
+                  ]
+                ],
+                "published_ports": false,
+                "configuration_hash": "ff96faeac32e1354c5afcbcb3e1f1db6157c69b6cfafa71fec3eacaffc4e9076"
+              },
+              "target_id": "co-38a127f3ab26:gateway",
+              "tenant_id": "globex",
+              "limitations": [
+                "synthetic application workflow; no production deployment or full desktop reproduction"
+              ],
+              "artifact_hash": "eb13705705d3bac6a47e03ca7634dbc5919ce0347e632aa50f2d95e0d87a7d39",
+              "evidence_hash": "1263a5f77761df18fc590f81f1a26df2f6597608f3145dfbfbc14c79212f4252",
+              "security_retest": {
+                "path": [
+                  "employee",
+                  "gateway",
+                  "api",
+                  "database"
+                ],
+                "actor": "employee",
+                "record": "restricted",
+                "verdict": "not_reproduced",
+                "tenant_id": "globex",
+                "request_id": "f7ecb5ed91c3434f98bdb5773ccdc92e",
+                "http_status": 403,
+                "record_hash": null,
+                "api_correlated": true,
+                "chain_verified": true,
+                "client_context": "compromised_employee",
+                "database_audit": {
+                  "actor": "employee",
+                  "record": "restricted",
+                  "status": 403
+                },
+                "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                "gateway_correlated": true,
+                "returned_expected_record": false
+              },
+              "candidate_cleanup": "complete",
+              "original_security": {
+                "path": [
+                  "employee",
+                  "gateway",
+                  "api",
+                  "database"
+                ],
+                "actor": "employee",
+                "record": "restricted",
+                "verdict": "confirmed",
+                "tenant_id": "globex",
+                "request_id": "98bd4dc0f26847a089d391c01787a991",
+                "http_status": 200,
+                "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                "api_correlated": true,
+                "chain_verified": true,
+                "client_context": "compromised_employee",
+                "database_audit": {
+                  "actor": "employee",
+                  "record": "restricted",
+                  "status": 200
+                },
+                "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                "gateway_correlated": true,
+                "returned_expected_record": true
+              },
+              "original_workflows": {
+                "passed": true,
+                "observations": [
+                  {
+                    "path": [
+                      "employee",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "employee",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "0706f7ccb17646cda4c876cd31d2b844",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "compromised_employee",
+                    "database_audit": {
+                      "actor": "employee",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "2949321d87624be6819d0b6ca1858d87",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "restricted",
+                    "tenant_id": "globex",
+                    "request_id": "f97b54af75cf436793e74bc6990b7a2e",
+                    "http_status": 200,
+                    "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "restricted",
+                      "status": 200
+                    },
+                    "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  }
+                ]
+              },
+              "candidate_isolation": {
+                "scope": "docker_internal_network_segmentation",
+                "checks": {
+                  "employee_api_blocked": true,
+                  "employee_gateway_allowed": true,
+                  "gateway_database_blocked": true,
+                  "employee_database_blocked": true
+                },
+                "passed": true,
+                "host_lan_internet_firewall_certified": false
+              },
+              "candidate_workflows": {
+                "passed": true,
+                "observations": [
+                  {
+                    "path": [
+                      "employee",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "employee",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "428b76b325024459adfaf9559088cb6e",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "compromised_employee",
+                    "database_audit": {
+                      "actor": "employee",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "ordinary",
+                    "tenant_id": "globex",
+                    "request_id": "5ff307c5714e42e5ba5f731890df2179",
+                    "http_status": 200,
+                    "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "ordinary",
+                      "status": 200
+                    },
+                    "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  },
+                  {
+                    "path": [
+                      "trusted_admin_probe",
+                      "gateway",
+                      "api",
+                      "database"
+                    ],
+                    "actor": "admin",
+                    "record": "restricted",
+                    "tenant_id": "globex",
+                    "request_id": "b88cb9463923450a88e983014f721a83",
+                    "http_status": 200,
+                    "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+                    "api_correlated": true,
+                    "chain_verified": true,
+                    "client_context": "trusted_gateway_workflow_probe",
+                    "database_audit": {
+                      "actor": "admin",
+                      "record": "restricted",
+                      "status": 200
+                    },
+                    "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+                    "gateway_correlated": true,
+                    "returned_expected_record": true
+                  }
+                ]
+              },
+              "same_application_images": true,
+              "candidate_credential_scope": {
+                "employee_only_credential": true,
+                "gateway_has_no_static_privileged_credentials": true,
+                "application_and_database_admin_passwords_distinct": true
+              }
+            }
+          ],
+          "protocol": "3.1",
+          "reported_tokens": 3311,
+          "reserved_tokens": 35415,
+          "trace_integrity": {
+            "events": 10,
+            "verified": true,
+            "first_invalid": null
+          }
+        },
+        "run_id": "28d0024c-8b46-432b-90f3-7aab2a122a8b",
+        "status": "completed",
+        "budgets": {
+          "max_steps": 8,
+          "max_tokens": 65536,
+          "max_seconds": 360,
+          "response_tokens": 512,
+          "timeout_seconds": 5,
+          "requests_per_second": 2.0,
+          "original_and_candidate_ram_mb": 2176,
+          "model_response_deadline_seconds": 60,
+          "original_and_candidate_cpu_millis": 1900
+        },
+        "cleanup": "complete",
+        "artifact": {
+          "links": [
+            [
+              "employee",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "api"
+            ],
+            [
+              "api",
+              "database"
+            ]
+          ],
+          "release": "1.0.0",
+          "node_image": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "application": "company-records",
+          "authorization": "authentication_only",
+          "source_agents": {
+            "api": "company-path-e7f65303f6-globex-api",
+            "gateway": "company-path-e7f65303f6-globex-gateway",
+            "database": "company-path-e7f65303f6-globex-database",
+            "employee": "company-path-e7f65303f6-globex-employee"
+          },
+          "database_image": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+          "schema_version": "company.1"
+        },
+        "original": {
+          "id": "38a127f3ab264fbebd004e0fe451b91a",
+          "scope": "synthetic application behavior; Docker internal network isolation",
+          "stage": "original",
+          "images": {
+            "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+            "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+            "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+            "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e"
+          },
+          "policy": "authentication_only",
+          "tenant_id": "globex",
+          "artifact_id": "687cb8dfe853515b17588b176d1b5ef71a31fa16efdf209281e0327d4021de66",
+          "network_rules": [
+            [
+              "employee",
+              "gateway"
+            ],
+            [
+              "gateway",
+              "api"
+            ],
+            [
+              "api",
+              "database"
+            ]
+          ],
+          "published_ports": false,
+          "configuration_hash": "dafa454ba8738a4a70b02e6fb709a3f933ea838a2f861c12829def394e333b1c"
+        },
+        "discovery": {
+          "path": [
+            "company-path-e7f65303f6-globex-employee",
+            "company-path-e7f65303f6-globex-gateway",
+            "company-path-e7f65303f6-globex-api",
+            "company-path-e7f65303f6-globex-database"
+          ],
+          "services": {
+            "api": {
+              "service": "service:company-path-e7f65303f6-globex-api:company-api",
+              "agent_id": "company-path-e7f65303f6-globex-api",
+              "image_id": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+              "configuration_hash": "fc5b7b15b982463c67b2174adcf31c0ccc358c57a54531b1c313bc1a46ece596"
+            },
+            "gateway": {
+              "service": "service:company-path-e7f65303f6-globex-gateway:company-gateway",
+              "agent_id": "company-path-e7f65303f6-globex-gateway",
+              "image_id": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+              "configuration_hash": "be04ccf693721129bab4e120e2f10f371226db19577fac82f28dbc2b3c51915a"
+            },
+            "database": {
+              "service": "service:company-path-e7f65303f6-globex-database:company-database",
+              "agent_id": "company-path-e7f65303f6-globex-database",
+              "image_id": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7",
+              "configuration_hash": "15e6eeba91ccd78369e256757d77c8aff69eae88c20e23ee160b4d5929c0ac03"
+            },
+            "employee": {
+              "service": "service:company-path-e7f65303f6-globex-employee:company-employee",
+              "agent_id": "company-path-e7f65303f6-globex-employee",
+              "image_id": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+              "configuration_hash": "cd4fa23803961cece63fcfc040ad6b81de5bb1366821d77220a1ad10581f1346"
+            }
+          },
+          "assumption": "employee client already compromised; employee credential assumed available",
+          "evidence_kind": "native_agent_discovery_and_observed_socket_connections",
+          "snapshot_hash": "16f4ce783e74530127d074e04470e4c9c240bc0fac43b5c7ebde414209b32a66"
+        },
+        "isolation": {
+          "scope": "docker_internal_network_segmentation",
+          "checks": {
+            "employee_api_blocked": true,
+            "employee_gateway_allowed": true,
+            "gateway_database_blocked": true,
+            "employee_database_blocked": true
+          },
+          "passed": true,
+          "host_lan_internet_firewall_certified": false
+        },
+        "tenant_id": "globex",
+        "created_at": "2026-10-30T14:33:54.743078+00:00",
+        "assumptions": [
+          "Employee client already compromised; synthetic employee credential available"
+        ],
+        "limitations": [
+          "One declared synthetic application; no general exploit or desktop cloning claim",
+          "Docker segmentation measured; dedicated host/LAN/internet firewall gate not certified"
+        ],
+        "schema_version": "company-run.1",
+        "repair_verified": true,
+        "credential_scope": {
+          "employee_only_credential": true,
+          "gateway_has_no_static_privileged_credentials": true,
+          "application_and_database_admin_passwords_distinct": true
+        },
+        "attack_path_confirmed": true
+      },
+      "error": null,
+      "worker_id": "company-25859de6ff014262ba24a5cdfb376b8a",
+      "created_at": "2026-10-30T14:33:53.138750+00:00",
+      "started_at": "2026-10-30T14:33:54.685399+00:00",
+      "finished_at": "2026-10-30T14:35:59.237258+00:00"
+    }
+  },
+  "checks": {
+    "globex_fresh_native_source_admitted": true,
+    "globex_attack_fix_business_retest": true,
+    "globex_foreign_run_and_trace_isolation": true,
+    "globex_live_expected_gemini": true,
+    "cross_tenant_network_credentials_and_tools_denied": true,
+    "employee_client_has_no_privileged_credentials": true,
+    "ineffective_and_business_breaking_repairs_rejected": true
+  },
+  "boundary_controls_report": "research\\results\\company-path-e7f65303f6.json",
+  "boundary_controls_reused": {},
+  "scope": "new live hunts; unchanged source deployment and separately retained deterministic boundary controls",
+  "repair_controls": {
+    "ineffective": {
+      "label": "rejected",
+      "source": {
+        "id": "c8d4a967a2704dd880b46604341f17f9",
+        "stage": "control",
+        "tenant_id": "acme",
+        "artifact_id": "48f3310b923a9c6c6214d93cb038088d0184f10b4e333834d787e39e9aae649e",
+        "policy": "authentication_only",
+        "images": {
+          "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7"
+        },
+        "network_rules": [
+          [
+            "employee",
+            "gateway"
+          ],
+          [
+            "gateway",
+            "api"
+          ],
+          [
+            "api",
+            "database"
+          ]
+        ],
+        "published_ports": false,
+        "configuration_hash": "4974629fce5b3977c47020c95cc2f2ffc8b986e7b4d43b27f85989be29f19416",
+        "scope": "synthetic application behavior; Docker internal network isolation"
+      },
+      "original_security": {
+        "request_id": "eec8920eca0b4ff8b4e0f690801125bb",
+        "actor": "employee",
+        "record": "restricted",
+        "http_status": 200,
+        "returned_expected_record": true,
+        "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "client_context": "compromised_employee",
+        "gateway_correlated": true,
+        "api_correlated": true,
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 200
+        },
+        "chain_verified": true,
+        "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+        "tenant_id": "acme",
+        "verdict": "confirmed"
+      },
+      "original_workflows": {
+        "passed": true,
+        "observations": [
+          {
+            "request_id": "ad5bdb39b9c54539bcf7c581f88d52c6",
+            "actor": "employee",
+            "record": "ordinary",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "path": [
+              "employee",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "compromised_employee",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "employee",
+              "record": "ordinary",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "aa0e9d61fcdb47db8a0d26a826fc8a04",
+            "actor": "admin",
+            "record": "ordinary",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "ordinary",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "cf9190098ffe479d82eba0327ba3cead",
+            "actor": "admin",
+            "record": "restricted",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "restricted",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+            "tenant_id": "acme"
+          }
+        ]
+      },
+      "change": {
+        "component": "internal-api",
+        "field": "authorization",
+        "before": "authentication_only",
+        "after": "authentication_only"
+      },
+      "rollback": {
+        "authorization": "authentication_only",
+        "artifact_id": "48f3310b923a9c6c6214d93cb038088d0184f10b4e333834d787e39e9aae649e"
+      },
+      "limitations": [
+        "synthetic application workflow; no production deployment or full desktop reproduction"
+      ],
+      "candidate": {
+        "id": "d681f2760ccc4f5184e4ea59e25f17f0",
+        "stage": "candidate",
+        "tenant_id": "acme",
+        "artifact_id": "48f3310b923a9c6c6214d93cb038088d0184f10b4e333834d787e39e9aae649e",
+        "policy": "authentication_only",
+        "images": {
+          "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7"
+        },
+        "network_rules": [
+          [
+            "employee",
+            "gateway"
+          ],
+          [
+            "gateway",
+            "api"
+          ],
+          [
+            "api",
+            "database"
+          ]
+        ],
+        "published_ports": false,
+        "configuration_hash": "4974629fce5b3977c47020c95cc2f2ffc8b986e7b4d43b27f85989be29f19416",
+        "scope": "synthetic application behavior; Docker internal network isolation"
+      },
+      "candidate_credential_scope": {
+        "employee_only_credential": true,
+        "gateway_has_no_static_privileged_credentials": true,
+        "application_and_database_admin_passwords_distinct": true
+      },
+      "candidate_isolation": {
+        "scope": "docker_internal_network_segmentation",
+        "checks": {
+          "employee_gateway_allowed": true,
+          "employee_api_blocked": true,
+          "employee_database_blocked": true,
+          "gateway_database_blocked": true
+        },
+        "passed": true,
+        "host_lan_internet_firewall_certified": false
+      },
+      "security_retest": {
+        "request_id": "19bf01d0f851404e95d366ecf1a466db",
+        "actor": "employee",
+        "record": "restricted",
+        "http_status": 200,
+        "returned_expected_record": true,
+        "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "client_context": "compromised_employee",
+        "gateway_correlated": true,
+        "api_correlated": true,
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 200
+        },
+        "chain_verified": true,
+        "environment_id": "d681f2760ccc4f5184e4ea59e25f17f0",
+        "tenant_id": "acme",
+        "verdict": "confirmed"
+      },
+      "candidate_workflows": {
+        "passed": true,
+        "observations": [
+          {
+            "request_id": "71020c8a471248a8ad0a9dbe4a15ae59",
+            "actor": "employee",
+            "record": "ordinary",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "path": [
+              "employee",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "compromised_employee",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "employee",
+              "record": "ordinary",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "d681f2760ccc4f5184e4ea59e25f17f0",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "51d2513b048c46b98a891f8e5b426505",
+            "actor": "admin",
+            "record": "ordinary",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "ordinary",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "d681f2760ccc4f5184e4ea59e25f17f0",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "b7019b65d2ad4959955e05db0defaee0",
+            "actor": "admin",
+            "record": "restricted",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "restricted",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "d681f2760ccc4f5184e4ea59e25f17f0",
+            "tenant_id": "acme"
+          }
+        ]
+      },
+      "same_application_images": true,
+      "candidate_cleanup": "complete",
+      "artifact_hash": "2e0f6a9f1d252ed666e63cbc3f9c0c40eff28798c0619dcb06cfaa492e5ebb03"
+    },
+    "breaking": {
+      "label": "rejected",
+      "source": {
+        "id": "c8d4a967a2704dd880b46604341f17f9",
+        "stage": "control",
+        "tenant_id": "acme",
+        "artifact_id": "48f3310b923a9c6c6214d93cb038088d0184f10b4e333834d787e39e9aae649e",
+        "policy": "authentication_only",
+        "images": {
+          "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7"
+        },
+        "network_rules": [
+          [
+            "employee",
+            "gateway"
+          ],
+          [
+            "gateway",
+            "api"
+          ],
+          [
+            "api",
+            "database"
+          ]
+        ],
+        "published_ports": false,
+        "configuration_hash": "4974629fce5b3977c47020c95cc2f2ffc8b986e7b4d43b27f85989be29f19416",
+        "scope": "synthetic application behavior; Docker internal network isolation"
+      },
+      "original_security": {
+        "request_id": "49c52795ed094893bf058da185276646",
+        "actor": "employee",
+        "record": "restricted",
+        "http_status": 200,
+        "returned_expected_record": true,
+        "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "client_context": "compromised_employee",
+        "gateway_correlated": true,
+        "api_correlated": true,
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 200
+        },
+        "chain_verified": true,
+        "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+        "tenant_id": "acme",
+        "verdict": "confirmed"
+      },
+      "original_workflows": {
+        "passed": true,
+        "observations": [
+          {
+            "request_id": "e936153f538542e5a3861392cdb38f5e",
+            "actor": "employee",
+            "record": "ordinary",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "path": [
+              "employee",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "compromised_employee",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "employee",
+              "record": "ordinary",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "db930143bb104e8a9b45157c803f960e",
+            "actor": "admin",
+            "record": "ordinary",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "ordinary",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "848decb4599c4d3583de476ef812b365",
+            "actor": "admin",
+            "record": "restricted",
+            "http_status": 200,
+            "returned_expected_record": true,
+            "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "restricted",
+              "status": 200
+            },
+            "chain_verified": true,
+            "environment_id": "c8d4a967a2704dd880b46604341f17f9",
+            "tenant_id": "acme"
+          }
+        ]
+      },
+      "change": {
+        "component": "internal-api",
+        "field": "authorization",
+        "before": "authentication_only",
+        "after": "deny_all"
+      },
+      "rollback": {
+        "authorization": "authentication_only",
+        "artifact_id": "48f3310b923a9c6c6214d93cb038088d0184f10b4e333834d787e39e9aae649e"
+      },
+      "limitations": [
+        "synthetic application workflow; no production deployment or full desktop reproduction"
+      ],
+      "candidate": {
+        "id": "69e85e25b6fd4a758f40456646b96690",
+        "stage": "candidate",
+        "tenant_id": "acme",
+        "artifact_id": "48f3310b923a9c6c6214d93cb038088d0184f10b4e333834d787e39e9aae649e",
+        "policy": "deny_all",
+        "images": {
+          "employee": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "gateway": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "api": "sha256:79bb35de5a6092c7360ab486adc144ef6bd2d6f9e6712b69221b54633fad968e",
+          "database": "sha256:85c876b429e6981a5aa4d3fefbcc3ac46a5cccc2115ad2faa4ecb0173ef0c1c7"
+        },
+        "network_rules": [
+          [
+            "employee",
+            "gateway"
+          ],
+          [
+            "gateway",
+            "api"
+          ],
+          [
+            "api",
+            "database"
+          ]
+        ],
+        "published_ports": false,
+        "configuration_hash": "3e4581e1d06eb803888ff43595214a8e29f792f09976e12b6664ac00b572bb05",
+        "scope": "synthetic application behavior; Docker internal network isolation"
+      },
+      "candidate_credential_scope": {
+        "employee_only_credential": true,
+        "gateway_has_no_static_privileged_credentials": true,
+        "application_and_database_admin_passwords_distinct": true
+      },
+      "candidate_isolation": {
+        "scope": "docker_internal_network_segmentation",
+        "checks": {
+          "employee_gateway_allowed": true,
+          "employee_api_blocked": true,
+          "employee_database_blocked": true,
+          "gateway_database_blocked": true
+        },
+        "passed": true,
+        "host_lan_internet_firewall_certified": false
+      },
+      "security_retest": {
+        "request_id": "727710b62b0544078bd1a9b0ed51e6f3",
+        "actor": "employee",
+        "record": "restricted",
+        "http_status": 403,
+        "returned_expected_record": false,
+        "record_hash": null,
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "client_context": "compromised_employee",
+        "gateway_correlated": true,
+        "api_correlated": true,
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 403
+        },
+        "chain_verified": true,
+        "environment_id": "69e85e25b6fd4a758f40456646b96690",
+        "tenant_id": "acme",
+        "verdict": "not_reproduced"
+      },
+      "candidate_workflows": {
+        "passed": false,
+        "observations": [
+          {
+            "request_id": "84c2e914a41b47bcb1cf65a1c580bbeb",
+            "actor": "employee",
+            "record": "ordinary",
+            "http_status": 403,
+            "returned_expected_record": false,
+            "record_hash": null,
+            "path": [
+              "employee",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "compromised_employee",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "employee",
+              "record": "ordinary",
+              "status": 403
+            },
+            "chain_verified": true,
+            "environment_id": "69e85e25b6fd4a758f40456646b96690",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "4335b97cdd3a43578d73bd5eeb036a46",
+            "actor": "admin",
+            "record": "ordinary",
+            "http_status": 403,
+            "returned_expected_record": false,
+            "record_hash": null,
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "ordinary",
+              "status": 403
+            },
+            "chain_verified": true,
+            "environment_id": "69e85e25b6fd4a758f40456646b96690",
+            "tenant_id": "acme"
+          },
+          {
+            "request_id": "ed3a9a99ea7646618b1a9615bfb62d0f",
+            "actor": "admin",
+            "record": "restricted",
+            "http_status": 403,
+            "returned_expected_record": false,
+            "record_hash": null,
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "client_context": "trusted_gateway_workflow_probe",
+            "gateway_correlated": true,
+            "api_correlated": true,
+            "database_audit": {
+              "actor": "admin",
+              "record": "restricted",
+              "status": 403
+            },
+            "chain_verified": true,
+            "environment_id": "69e85e25b6fd4a758f40456646b96690",
+            "tenant_id": "acme"
+          }
+        ]
+      },
+      "same_application_images": true,
+      "candidate_cleanup": "complete",
+      "artifact_hash": "7b5afb108654e2abd8e7dba3d6871731d2529a1ed5401dae6e77b62bdaf575c0"
+    }
+  },
+  "boundary_controls_executed_in_this_run": true,
+  "cleanup": "source_and_control_plane_retained_for_review",
+  "dashboard": "http://localhost:3001/#company",
+  "local_access_file": "C:\\Users\\shrey\\Desktop\\digital_twin\\.tools\\company-path-e7f65303f6\\access.json"
+}

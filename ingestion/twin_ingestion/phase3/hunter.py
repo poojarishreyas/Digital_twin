@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import time
+from collections.abc import Callable
 from datetime import datetime, timezone
 from pathlib import Path
 from .contracts import ACTION, Decision, Limits, digest
@@ -53,7 +54,10 @@ class Trace:
         return item
 
 
-def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None) -> dict:
+def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None, *, system_prompt: str | None = None,
+         model_timeout_seconds: int = 30, completion_check: Callable[[], bool] | None = None) -> dict:
+    if not 1 <= model_timeout_seconds <= 60:
+        raise ValueError("model response deadline must be within 1..60 seconds")
     trace = trace or Trace()
     started = time.monotonic()
     reserved_tokens = actual_tokens = 0
@@ -66,10 +70,11 @@ def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None) 
                 "seconds_remaining": max(0, int(limits.max_seconds - (time.monotonic() - started))),
                 "coverage": {target: sorted(tools) for target, tools in coverage.items()}}
 
-    messages = [{"role": "system", "content": SYSTEM},
+    messages = [{"role": "system", "content": system_prompt or SYSTEM},
                 {"role": "user", "content": json.dumps({"untrusted_twin_state": state, "harness_control": control(0)})}]
     usage_complete = True
     status = "step_limit"
+    completion_reason = None
     for step in range(limits.max_steps):
         remaining_time = limits.max_seconds - (time.monotonic() - started)
         if remaining_time <= 0:
@@ -85,7 +90,7 @@ def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None) 
         reserved_tokens += reserve
         try:
             raw, usage = model.decide(messages, Decision.model_json_schema(), limits.response_tokens,
-                                      min(30, remaining_time))
+                                      min(model_timeout_seconds, remaining_time))
             actual_tokens += int(usage.get("total_tokens", 0))
             usage_complete = usage_complete and "total_tokens" in usage
             decision = Decision.model_validate(raw)
@@ -112,6 +117,9 @@ def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None) 
                 messages += [{"role": "assistant", "content": json.dumps(raw)},
                              {"role": "user", "content": json.dumps({"untrusted_tool_observation": result,
                                                                      "harness_control": control(step + 1)})}]
+                if completion_check is not None and completion_check():
+                    status, completion_reason = "completed", "executor_completion_criteria"
+                    break
             if decision.stop:
                 status = "completed"
                 break
@@ -122,8 +130,11 @@ def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None) 
             status = "model_error"
             trace.add("model_error", {"type": type(exc).__name__, "reason": str(exc)[:300]})
             break
-    trace.add("finished", {"status": status, "reserved_tokens": reserved_tokens,
-                           "reported_tokens": actual_tokens if usage_complete else None, "elapsed_seconds": time.monotonic() - started})
+    finished = {"status": status, "reserved_tokens": reserved_tokens,
+                "reported_tokens": actual_tokens if usage_complete else None, "elapsed_seconds": time.monotonic() - started}
+    if completion_reason is not None:
+        finished["completion_reason"] = completion_reason
+    trace.add("finished", finished)
     # Only the executor's evidence ledger supplies findings, never model text.
     return {"status": status, "trace": trace.events, "evidence": list(tools.evidence),
             "patches": list(tools.patches), "reserved_tokens": reserved_tokens,

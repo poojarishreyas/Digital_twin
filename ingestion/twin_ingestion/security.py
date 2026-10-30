@@ -361,6 +361,10 @@ def access_rule(method, path):
         return ("team." if path.startswith("/api/team") else "enrollment.") + ("read" if method == "GET" else "write"), "admin"
     if path == "/api/hosts" and method == "GET":
         return "hosts.read", "viewer"
+    if path in {"/api/company/artifacts", "/api/company/runs"}:
+        return "company." + ("read" if method == "GET" else "write"), "viewer" if method == "GET" else "operator"
+    if re.fullmatch(r"/api/company/runs/[^/]+", path) and method == "GET":
+        return "company.evidence.read", "viewer"
     if re.fullmatch(r"/api/hosts/[^/]+/revoke", path) and method == "POST":
         return "hosts.revoke", "admin"
     if method == "GET":

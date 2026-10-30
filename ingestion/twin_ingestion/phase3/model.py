@@ -102,13 +102,15 @@ def omniroute_decision_schema() -> dict:
         "action": {"type": "object", "nullable": True, "properties": {
             "name": {"type": "string", "enum": ["inspect_config", "scan_service", "security_check",
                                                 "run_nuclei", "http_probe", "tcp_probe", "database_probe",
-                                                "http_headers", "redis_config", "ssh_auth_methods", "test_patch"]},
+                                                "http_headers", "redis_config", "ssh_auth_methods", "test_patch",
+                                                "company_probe", "company_patch"]},
             "target_id": {"type": "string"}, "port": {"type": "integer"},
             "template": {"type": "string"}, "method": {"type": "string"},
             "path": {"type": "string"}, "redirects": {"type": "integer"},
             "operation": {"type": "string"}, "query": {"type": "string"},
             "authenticated": {"type": "boolean"},
             "parameter": {"type": "string"},
+            "policy": {"type": "string"},
             "changes": {"type": "array", "items": {"type": "object", "properties": {
                 "field": {"type": "string"}, "index": {"type": "integer"},
                 "value": {"type": "string"}, "append_name": {"type": "string", "nullable": True}},

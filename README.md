@@ -120,6 +120,8 @@ On Windows with Docker Desktop, set `$env:PYTHONPATH='ingestion'` in PowerShell 
 
 ## Phase 3
 
+The [connected company scenario](docs/company-path-scenario.md) adds one complete synthetic employee-client → gateway → internal-API → database workflow. It accepts immutable deployment artifacts, uses native-agent workload discovery, lets TwinHunter validate restricted-record access across the whole path, and verifies an authorization fix on a separate four-service candidate while preserving legitimate workflows. The **Company validation** dashboard page shows tenant-scoped jobs and executed evidence. This is a declared application fixture, not automatic replication of arbitrary company applications or employee desktops; actual run status is retained in its acceptance report.
+
 TwinHunter, typed tool enforcement, disposable patch verification, research history and dashboard traces are implemented in `ingestion/twin_ingestion/phase3`. The 20-scenario benchmark, independent wire oracle, scheduling comparison, raw results, plots and manuscript draft are under `research/`. See [docs/phase3.md](docs/phase3.md) for exact commands and GPU deployment. The current Colab A100 profile pins Qwen3.8-27B and is unvalidated until a live GPU run completes; historical reports retain their original model locks and missing AI results remain unavailable.
 
 For a free GPU smoke check when an A100 is unavailable, use the separate [Kaggle T4 notebook](deploy/models/kaggle-free-t4-setup.ipynb) with Qwen3.5-4B FP16. Its result is a distinct small-model condition, not the 27B benchmark.

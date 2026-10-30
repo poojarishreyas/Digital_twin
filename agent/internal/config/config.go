@@ -19,6 +19,7 @@ type Config struct {
 	OutboxMax     int                 `yaml:"outbox_max_envelopes"`
 	TLS           TLS                 `yaml:"tls"`
 	ConfigFiles   map[string][]string `yaml:"config_files"`
+	WorkloadFile  string              `yaml:"workload_file"`
 }
 
 type TLS struct {

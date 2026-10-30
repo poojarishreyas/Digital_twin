@@ -79,7 +79,17 @@ class Patch(TargetCall):
     changes: list[Edit] = Field(min_length=1, max_length=4)
 
 
-Action = Annotated[Inspect | Scan | Security | Nuclei | HTTP | TCP | Database | HttpHeaders | RedisConfig | SshAuthMethods | Patch, Field(discriminator="name")]
+class CompanyProbe(TargetCall):
+    name: Literal["company_probe"]
+    operation: Literal["ordinary", "restricted"]
+
+
+class CompanyPatch(TargetCall):
+    name: Literal["company_patch"]
+    policy: Literal["enforce_record_authorization"]
+
+
+Action = Annotated[Inspect | Scan | Security | Nuclei | HTTP | TCP | Database | HttpHeaders | RedisConfig | SshAuthMethods | Patch | CompanyProbe | CompanyPatch, Field(discriminator="name")]
 ACTION = TypeAdapter(Action)
 
 

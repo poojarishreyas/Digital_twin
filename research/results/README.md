@@ -1,5 +1,7 @@
 # Measured artifacts
 
+- `company-path-milestone.json`: authoritative summary for the separate two-tenant company application milestone. It references completed live Gemini Acme/Globex hunts, native discovery, executed restricted-record access, candidate repair and business retests, negative repair controls and tenant isolation. It does not replace paper benchmark measurements.
+- `company-path-e7f65303f6.json` and `company-path-e7f65303f6-live-04833ea1.json`: raw source acceptance and retry reports, with adjacent hash-chained trace directories. The first report retains Globex's failed final model closing request; the retry completed. The summary selects only completed hunts. Earlier `company-path-fc54bfe0b5*` reports and `company-path-milestone-initial-credential-review.json` are explicitly superseded because that initial fixture placed privileged credentials in the employee configuration. Development failures remain recorded and are excluded from milestone evidence.
 - `repeated/`: authoritative two-repetition deterministic benchmark, 160 declared rows, independent wire-oracle evidence, four patch controls, plots and generated tables. Forty AI rows are explicitly unavailable; unsupported cases are retained.
 - `scheduling.json`, `scheduling-results.md`, `scheduling-cost.png`: three repetitions of the matched four-service lifecycle comparison. The 100-node graph is synthetic.
 - `replay-integration.json`: scripted decisions through the real attached Docker tool path, including an enforced blocked action. This is not an AI benchmark.

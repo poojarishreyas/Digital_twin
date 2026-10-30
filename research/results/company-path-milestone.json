@@ -1,0 +1,460 @@
+{
+  "schema_version": "company-milestone.1",
+  "status": "passed",
+  "verified_at": "2026-10-30T14:48:49.171413+00:00",
+  "project": "company-path-e7f65303f6",
+  "scope": "One synthetic company application; Docker Desktop application behavior and network segmentation",
+  "assumption": "Employee client already compromised; only employee credentials available",
+  "dashboard": "http://localhost:3001/#company",
+  "local_access_file": "C:\\Users\\shrey\\Desktop\\digital_twin\\.tools\\company-path-e7f65303f6\\access.json",
+  "tenants": {
+    "acme": {
+      "run_id": "cc9922cc-8882-4c59-b54d-92effaeed2aa",
+      "status": "completed",
+      "report": "company-path-e7f65303f6.json",
+      "response_models": [
+        "gemini-3.8-flash-tiered"
+      ],
+      "trace_integrity": {
+        "verified": true,
+        "events": 11,
+        "first_invalid": null
+      },
+      "discovered_path": [
+        "company-path-e7f65303f6-acme-employee",
+        "company-path-e7f65303f6-acme-gateway",
+        "company-path-e7f65303f6-acme-api",
+        "company-path-e7f65303f6-acme-database"
+      ],
+      "original_attack": {
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "actor": "employee",
+        "record": "restricted",
+        "verdict": "confirmed",
+        "tenant_id": "acme",
+        "request_id": "29cd779c9ea74292a64ce24384af65f5",
+        "http_status": 200,
+        "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+        "api_correlated": true,
+        "chain_verified": true,
+        "client_context": "compromised_employee",
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 200
+        },
+        "environment_id": "ebd2f6b026be4c20b97186db14d93c5e",
+        "gateway_correlated": true,
+        "returned_expected_record": true
+      },
+      "proposed_change": {
+        "after": "enforced",
+        "field": "authorization",
+        "before": "authentication_only",
+        "component": "internal-api"
+      },
+      "candidate_attack": {
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "actor": "employee",
+        "record": "restricted",
+        "verdict": "not_reproduced",
+        "tenant_id": "acme",
+        "request_id": "25116e8a132642efb343823253f20272",
+        "http_status": 403,
+        "record_hash": null,
+        "api_correlated": true,
+        "chain_verified": true,
+        "client_context": "compromised_employee",
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 403
+        },
+        "environment_id": "47c711e5483e42f48dce4a82b7da7845",
+        "gateway_correlated": true,
+        "returned_expected_record": false
+      },
+      "candidate_workflows": {
+        "passed": true,
+        "observations": [
+          {
+            "path": [
+              "employee",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "actor": "employee",
+            "record": "ordinary",
+            "tenant_id": "acme",
+            "request_id": "b51ae17aacdd491db05161e71fa41f65",
+            "http_status": 200,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "api_correlated": true,
+            "chain_verified": true,
+            "client_context": "compromised_employee",
+            "database_audit": {
+              "actor": "employee",
+              "record": "ordinary",
+              "status": 200
+            },
+            "environment_id": "47c711e5483e42f48dce4a82b7da7845",
+            "gateway_correlated": true,
+            "returned_expected_record": true
+          },
+          {
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "actor": "admin",
+            "record": "ordinary",
+            "tenant_id": "acme",
+            "request_id": "f47b2f889d4844d4877d40805736667e",
+            "http_status": 200,
+            "record_hash": "0b682c95a7c1a039f7073c1e0a6096b69c4255e0d7eb3558f5e974052c851998",
+            "api_correlated": true,
+            "chain_verified": true,
+            "client_context": "trusted_gateway_workflow_probe",
+            "database_audit": {
+              "actor": "admin",
+              "record": "ordinary",
+              "status": 200
+            },
+            "environment_id": "47c711e5483e42f48dce4a82b7da7845",
+            "gateway_correlated": true,
+            "returned_expected_record": true
+          },
+          {
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "actor": "admin",
+            "record": "restricted",
+            "tenant_id": "acme",
+            "request_id": "1d1a383af5d54fd4aa3c4dff011766e8",
+            "http_status": 200,
+            "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+            "api_correlated": true,
+            "chain_verified": true,
+            "client_context": "trusted_gateway_workflow_probe",
+            "database_audit": {
+              "actor": "admin",
+              "record": "restricted",
+              "status": 200
+            },
+            "environment_id": "47c711e5483e42f48dce4a82b7da7845",
+            "gateway_correlated": true,
+            "returned_expected_record": true
+          }
+        ]
+      },
+      "credential_scope": {
+        "employee_only_credential": true,
+        "gateway_has_no_static_privileged_credentials": true,
+        "application_and_database_admin_passwords_distinct": true
+      },
+      "candidate_credential_scope": {
+        "employee_only_credential": true,
+        "gateway_has_no_static_privileged_credentials": true,
+        "application_and_database_admin_passwords_distinct": true
+      },
+      "same_application_images": true,
+      "verification_copies_cleanup": "complete",
+      "source_unchanged_probe": {
+        "request_id": "bf8f8c54259b4048b19ed881bc64f7b5",
+        "actor": "employee",
+        "record": "restricted",
+        "http_status": 200,
+        "returned_expected_record": true,
+        "record_hash": "0f8a03dacdcf984b15c4ccb06cfb62f1ab2a3ee96ae5c58dce021685f2b58c05",
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "client_context": "compromised_employee",
+        "gateway_correlated": true,
+        "api_correlated": true,
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 200
+        },
+        "chain_verified": true,
+        "environment_id": "c6b8a0d3f8ca4944b2747dc506a20841",
+        "tenant_id": "acme",
+        "verdict": "confirmed"
+      },
+      "source_network_rules_verified": true,
+      "cookie_dashboard_login_and_own_run": "passed",
+      "cookie_foreign_run_access": "404 denied"
+    },
+    "globex": {
+      "run_id": "28d0024c-8b46-432b-90f3-7aab2a122a8b",
+      "status": "completed",
+      "report": "company-path-e7f65303f6-live-04833ea1.json",
+      "response_models": [
+        "gemini-3.8-flash-tiered"
+      ],
+      "trace_integrity": {
+        "verified": true,
+        "events": 10,
+        "first_invalid": null
+      },
+      "discovered_path": [
+        "company-path-e7f65303f6-globex-employee",
+        "company-path-e7f65303f6-globex-gateway",
+        "company-path-e7f65303f6-globex-api",
+        "company-path-e7f65303f6-globex-database"
+      ],
+      "original_attack": {
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "actor": "employee",
+        "record": "restricted",
+        "verdict": "confirmed",
+        "tenant_id": "globex",
+        "request_id": "98bd4dc0f26847a089d391c01787a991",
+        "http_status": 200,
+        "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+        "api_correlated": true,
+        "chain_verified": true,
+        "client_context": "compromised_employee",
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 200
+        },
+        "environment_id": "38a127f3ab264fbebd004e0fe451b91a",
+        "gateway_correlated": true,
+        "returned_expected_record": true
+      },
+      "proposed_change": {
+        "after": "enforced",
+        "field": "authorization",
+        "before": "authentication_only",
+        "component": "internal-api"
+      },
+      "candidate_attack": {
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "actor": "employee",
+        "record": "restricted",
+        "verdict": "not_reproduced",
+        "tenant_id": "globex",
+        "request_id": "f7ecb5ed91c3434f98bdb5773ccdc92e",
+        "http_status": 403,
+        "record_hash": null,
+        "api_correlated": true,
+        "chain_verified": true,
+        "client_context": "compromised_employee",
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 403
+        },
+        "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+        "gateway_correlated": true,
+        "returned_expected_record": false
+      },
+      "candidate_workflows": {
+        "passed": true,
+        "observations": [
+          {
+            "path": [
+              "employee",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "actor": "employee",
+            "record": "ordinary",
+            "tenant_id": "globex",
+            "request_id": "428b76b325024459adfaf9559088cb6e",
+            "http_status": 200,
+            "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+            "api_correlated": true,
+            "chain_verified": true,
+            "client_context": "compromised_employee",
+            "database_audit": {
+              "actor": "employee",
+              "record": "ordinary",
+              "status": 200
+            },
+            "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+            "gateway_correlated": true,
+            "returned_expected_record": true
+          },
+          {
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "actor": "admin",
+            "record": "ordinary",
+            "tenant_id": "globex",
+            "request_id": "5ff307c5714e42e5ba5f731890df2179",
+            "http_status": 200,
+            "record_hash": "2765d402f49444222a02db4cc1d905be81b09670f14c2cf0476c7175a189da00",
+            "api_correlated": true,
+            "chain_verified": true,
+            "client_context": "trusted_gateway_workflow_probe",
+            "database_audit": {
+              "actor": "admin",
+              "record": "ordinary",
+              "status": 200
+            },
+            "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+            "gateway_correlated": true,
+            "returned_expected_record": true
+          },
+          {
+            "path": [
+              "trusted_admin_probe",
+              "gateway",
+              "api",
+              "database"
+            ],
+            "actor": "admin",
+            "record": "restricted",
+            "tenant_id": "globex",
+            "request_id": "b88cb9463923450a88e983014f721a83",
+            "http_status": 200,
+            "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+            "api_correlated": true,
+            "chain_verified": true,
+            "client_context": "trusted_gateway_workflow_probe",
+            "database_audit": {
+              "actor": "admin",
+              "record": "restricted",
+              "status": 200
+            },
+            "environment_id": "6b850246ad4d4cf2a009dd6d2b1d04bc",
+            "gateway_correlated": true,
+            "returned_expected_record": true
+          }
+        ]
+      },
+      "credential_scope": {
+        "employee_only_credential": true,
+        "gateway_has_no_static_privileged_credentials": true,
+        "application_and_database_admin_passwords_distinct": true
+      },
+      "candidate_credential_scope": {
+        "employee_only_credential": true,
+        "gateway_has_no_static_privileged_credentials": true,
+        "application_and_database_admin_passwords_distinct": true
+      },
+      "same_application_images": true,
+      "verification_copies_cleanup": "complete",
+      "source_unchanged_probe": {
+        "request_id": "f371ff108cc24ad78d767bd185f3ca50",
+        "actor": "employee",
+        "record": "restricted",
+        "http_status": 200,
+        "returned_expected_record": true,
+        "record_hash": "813329b5814413555924140dd6a24bce562fc1890d70acb9c0f939e71a95dc0c",
+        "path": [
+          "employee",
+          "gateway",
+          "api",
+          "database"
+        ],
+        "client_context": "compromised_employee",
+        "gateway_correlated": true,
+        "api_correlated": true,
+        "database_audit": {
+          "actor": "employee",
+          "record": "restricted",
+          "status": 200
+        },
+        "chain_verified": true,
+        "environment_id": "0345db05ebb943d4b4e0cc3d51a9dad8",
+        "tenant_id": "globex",
+        "verdict": "confirmed"
+      },
+      "source_network_rules_verified": true,
+      "cookie_dashboard_login_and_own_run": "passed",
+      "cookie_foreign_run_access": "404 denied"
+    }
+  },
+  "source_discovery_report": "company-path-e7f65303f6.json",
+  "boundary_controls_report": "company-path-e7f65303f6-live-04833ea1.json",
+  "boundary_checks": {
+    "globex_fresh_native_source_admitted": true,
+    "globex_attack_fix_business_retest": true,
+    "globex_foreign_run_and_trace_isolation": true,
+    "globex_live_expected_gemini": true,
+    "cross_tenant_network_credentials_and_tools_denied": true,
+    "employee_client_has_no_privileged_credentials": true,
+    "ineffective_and_business_breaking_repairs_rejected": true
+  },
+  "validation": {
+    "python": {
+      "passed": 148,
+      "skipped": 3
+    },
+    "go": "all packages passed",
+    "ui_production_build": "passed",
+    "browser_visual_review": "not completed: computer-use approval timed out"
+  },
+  "history": {
+    "failed_globex_attempt_preserved": {
+      "report": "company-path-e7f65303f6.json",
+      "run_id": "6a568f7e-07bb-454d-871f-7feaf2165f14",
+      "status": "failed",
+      "reason": "Final model closing request timed out after executed repair verification; a fresh retry completed"
+    },
+    "superseded_fixture": "company-path-milestone-initial-credential-review.json"
+  },
+  "limitations": [
+    "One supported deployment artifact schema and application fixture",
+    "No initial Windows laptop compromise or desktop replica demonstrated",
+    "No production deployment of repairs",
+    "Dedicated host/LAN/internet firewall behavior and general discovery quality not certified"
+  ],
+  "repair_negative_controls": {
+    "ineffective": {
+      "label": "rejected",
+      "security_verdict": "confirmed",
+      "workflows_passed": true
+    },
+    "breaking": {
+      "label": "rejected",
+      "security_verdict": "not_reproduced",
+      "workflows_passed": false
+    }
+  },
+  "resources": {
+    "retained_source_containers": 8,
+    "verification_copies_remaining": 0,
+    "control_plane": "retained for dashboard review"
+  }
+}

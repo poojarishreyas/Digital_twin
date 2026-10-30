@@ -308,6 +308,9 @@ details.disclosure > div { padding: 0 14px 14px }
 .login-form h1 { font-size: 26px; font-weight: 680 }
 .center-screen { min-height: 100vh; display: grid; place-items: center; color: var(--muted) }
 
+.company-layout { grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr) }
+.company-layout .mono { overflow-wrap: anywhere }
+
 /* responsive */
 @media (max-width: 1360px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
 @media (max-width: 1180px) { .grid-2, .split { grid-template-columns: minmax(0, 1fr) } .grid-3 { grid-template-columns: 1fr } }

@@ -53,7 +53,7 @@ def analyze_paths(topology, inventory, max_depth=4, stale_after_seconds=180,
     topology_truncated = bool(topology.get("truncated_nodes") or topology.get("truncated_edges"))
     assumptions = ["Directed observed/inferred edges; explicitly declared entry and critical assets.",
                    "Simple paths stop at the first critical asset and never repeat an asset.",
-                   "Remote endpoints are not automatically joined to enrolled hosts; unresolved endpoints limit multi-hop coverage.",
+                   "Only uniquely matched enrolled workload listeners resolve remote endpoints; other unresolved endpoints limit multi-hop coverage.",
                    "Connectivity does not establish a usable credential, vulnerability, or privilege transition.",
                    "Every returned path is unvalidated; a finding on one service does not validate the chain."]
     warnings = []

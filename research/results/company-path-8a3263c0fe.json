@@ -1,0 +1,17 @@
+{
+  "recorded_at": "2026-10-30T13:39:23.366856+00:00",
+  "project": "company-path-8a3263c0fe",
+  "model_condition": "scripted_boundary_smoke_not_ai",
+  "status": "failed",
+  "checks": {},
+  "runs": {},
+  "scope": "synthetic company; Docker Desktop behavior and segmentation",
+  "image_catalog": {
+    "node_image": "sha256:373aaf1fc967ca5bdbe82dc342ae96e183f96aec9f9df30b61f8833326861bcd",
+    "database_image": "sha256:4e58097e1ee612be7540a02a57cb43d4d43f997ed8dc232f4942df1a21241f1b"
+  },
+  "error": "400 Client Error for http+docker://localnpipe/v1.56/containers/9813675a3028d7c3ac61deb8b5c6bb21a960f297382f94bb5ddb3a3c419cb833/archive?path=%2Frun: Bad Request (\"container rootfs is marked read-only\")",
+  "cleanup": "source_and_control_plane_retained_for_review",
+  "dashboard": "http://localhost:3001/#company",
+  "local_access_file": "C:\\Users\\shrey\\Desktop\\digital_twin\\.tools\\company-path-8a3263c0fe\\access.json"
+}

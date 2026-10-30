@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-10-30T13:33:57.618792+00:00",
+  "project": "company-path-77fc6fac6e",
+  "model_condition": "scripted_boundary_smoke_not_ai",
+  "status": "failed",
+  "checks": {},
+  "runs": {},
+  "scope": "synthetic company; Docker Desktop behavior and segmentation",
+  "error": "command failed; inspect local command log",
+  "cleanup": "complete"
+}

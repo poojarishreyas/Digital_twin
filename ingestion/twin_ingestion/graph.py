@@ -2,6 +2,7 @@ import json
 from neo4j import AsyncGraphDatabase
 from .models import Envelope
 from .path_analysis import analyze_paths
+from .workload_resolution import resolve_workload_endpoints
 
 RELATIONSHIPS = {
     "HAS_SERVICE", "HAS_LISTENER", "HAS_FIREWALL", "HAS_PRIVILEGE", "HAS_CONFIGURATION",
@@ -136,8 +137,8 @@ class GraphStore:
             )
             nodes = [_json_safe(_public(dict(x))) async for x in nodes_result]
             edges = [_json_safe(dict(x)) async for x in rels_result]
-            return {"nodes": nodes[:10000], "edges": edges[:30000],
-                    "truncated_nodes": len(nodes) > 10000, "truncated_edges": len(edges) > 30000}
+            return resolve_workload_endpoints({"nodes": nodes[:10000], "edges": edges[:30000],
+                    "truncated_nodes": len(nodes) > 10000, "truncated_edges": len(edges) > 30000})
 
     async def classify(self, tenant: str, asset_id: str, entry: bool, critical: bool) -> bool:
         async with self.driver.session() as session:

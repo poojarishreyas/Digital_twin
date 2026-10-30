@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-10-30T13:45:25.551763+00:00",
+  "project": "company-path-e7faf7e22c",
+  "model_condition": "scripted_boundary_smoke_not_ai",
+  "status": "failed",
+  "checks": {
+    "acme_native_discovery_admitted": true
+  },
+  "runs": {
+    "acme": {
+      "run_id": "9fb592eb-e690-4cbd-ac1e-dcc9762293a7"
+    }
+  },
+  "scope": "synthetic company; Docker Desktop behavior and segmentation",
+  "image_catalog": {
+    "node_image": "sha256:924316025784f476a91032a511bd2763acc5f736cbc2db977352ac946b391217",
+    "database_image": "sha256:4e58097e1ee612be7540a02a57cb43d4d43f997ed8dc232f4942df1a21241f1b"
+  },
+  "error": "list indices must be integers or slices, not str",
+  "cleanup": "source_and_control_plane_retained_for_review",
+  "dashboard": "http://localhost:3001/#company",
+  "local_access_file": "C:\\Users\\shrey\\Desktop\\digital_twin\\.tools\\company-path-e7faf7e22c\\access.json",
+  "sources": [
+    {
+      "id": "c167a8f319a34634a7fe80d2f0e17596",
+      "tenant_id": "acme"
+    }
+  ]
+}
