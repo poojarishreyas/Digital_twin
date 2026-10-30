@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import {api} from '../api'
 import {useSession} from '../auth'
-import type {PathReport, Run} from '../types'
+import type {PathReport} from '../types'
 import {Twin3D, type TwinHandle} from '../twin/Twin3D'
 import {Icon} from '../ui/icons'
 import {Inspector, type PageProps} from '../ui/Inspector'
@@ -11,17 +11,18 @@ import {ago, hostName} from '../useTwinData'
 export function Overview({data, selected, onSelect, go}: PageProps) {
   const {principal} = useSession()
   const twin = useRef<TwinHandle>(null)
-  const [paths, setPaths] = useState<PathReport | null>(null), [runs, setRuns] = useState<Run[]>([])
+  const [paths, setPaths] = useState<PathReport | null>(null)
   const [replay, setReplay] = useState<{hop: number; outcome?: string} | null>(null)
   useEffect(() => {
     api.get<PathReport>('/api/paths?max_depth=4').then(setPaths).catch(() => setPaths(null))
-    api.get<Run[]>('/api/emulation/runs?limit=5').then(setRuns).catch(() => setRuns([]))
   }, [data.updated])
 
   const {topology, agents} = data
   const hosts = topology.nodes.filter(n => n.labels.includes('Host')).length
-  const services = topology.nodes.filter(n => n.properties.kind === 'service').length
-  const stale = agents.filter(a => a.stale).length, gaps = agents.reduce((n, a) => n + a.gaps.length, 0)
+  const serviceNodes = topology.nodes.filter(n => n.properties.kind === 'service')
+  const serviceNames = [...new Set(serviceNodes.map(n => {
+    try { return String(JSON.parse(String(n.properties.data_json ?? '{}')).name ?? '') } catch { return '' }
+  }).filter(Boolean))]
   const top = paths?.assessments[0]
   const tenantName = principal.tenants.find(t => t.id === principal.tenant)?.name ?? principal.tenant
 
@@ -35,19 +36,16 @@ export function Overview({data, selected, onSelect, go}: PageProps) {
 
   const kpis = [
     {label: 'Hosts in twin', value: hosts, note: `${agents.length} enrolled agents`, icon: 'server', tone: 'accent'},
-    {label: 'Services', value: services, note: 'nginx · postgres · redis · ssh', icon: 'layers', tone: ''},
+    {label: 'Services', value: serviceNodes.length, note: serviceNames.slice(0, 4).join(' · ') || 'none discovered yet', icon: 'layers', tone: ''},
     {label: 'Candidate paths', value: paths?.universe.path_count ?? '—', note: 'entry → critical, unvalidated', icon: 'route', tone: (paths?.universe.path_count ?? 0) > 0 ? 'danger' : 'ok'},
     {label: 'Critical assets', value: paths?.universe.critical.length ?? '—', note: `${paths?.universe.entries.length ?? 0} entry points`, icon: 'target', tone: ''},
-    {label: 'Stale agents', value: stale, note: stale ? 'evidence may be outdated' : 'all reporting', icon: 'clock', tone: stale ? 'warn' : 'ok'},
-    {label: 'Collection gaps', value: gaps, note: gaps ? 'permission or support gaps' : 'complete telemetry', icon: 'alert', tone: gaps ? 'warn' : 'ok'},
   ]
 
   return <>
     <div className="page-head">
       <div><span className="eyebrow"><Icon name="pulse" size={14}/>{tenantName}</span><h1>Security posture overview</h1>
-        <p>Live inventory and topology from this workspace's agents, with candidate attack paths from declared entry points to crown-jewel assets.</p></div>
-      <div className="row"><button className="btn" onClick={() => go('paths')}><Icon name="route"/>Investigate paths</button>
-        <button className="btn primary" onClick={() => go('simulations')}><Icon name="flask"/>Run simulation</button></div>
+        <p>Live map of your machines and the paths an attacker could take to critical assets.</p></div>
+      <div className="row"><button className="btn primary" onClick={() => go('paths')}><Icon name="route"/>Investigate paths</button></div>
     </div>
 
     <section className="kpis" aria-label="Key indicators">
@@ -82,8 +80,7 @@ export function Overview({data, selected, onSelect, go}: PageProps) {
       </section>
     </div>
 
-    <div className="grid-2">
-      <section className="card" aria-label="Agent health">
+    <section className="card" aria-label="Agent health">
         <div className="card-head"><div><h2>Agent health</h2><p>Telemetry freshness and collection completeness for this workspace</p></div>
           <span className="chip">{agents.length} agents</span></div>
         {agents.length === 0 ? <div className="empty"><Icon name="server"/><b>No agents enrolled</b><span>Register an agent certificate to this tenant to start discovery.</span></div> :
@@ -94,16 +91,5 @@ export function Overview({data, selected, onSelect, go}: PageProps) {
               <td className="mono">{a.last_sequence}</td><td>{ago(a.last_seen)}</td>
               <td>{a.gaps.length ? <span className="chip warn">{a.gaps.length}</span> : <span className="muted">—</span>}</td></tr>)}</tbody></table></div>}
       </section>
-      <section className="card" aria-label="Recent simulations">
-        <div className="card-head"><div><h2>Recent simulations</h2><p>Sandboxed twin validation runs</p></div>
-          <button className="btn ghost sm" onClick={() => go('simulations')}>View all</button></div>
-        {runs.length === 0 ? <div className="empty"><Icon name="flask"/><b>No simulations yet</b><span>Plan one from the Simulations page.</span></div> :
-          <div className="list">{runs.slice(0, 5).map(r => <button key={r.id} className="list-row" onClick={() => go('simulations')}>
-            <span className="os-badge"><Icon name="flask" size={16}/></span>
-            <span className="meta"><b className="mono">{r.id.slice(0, 8)}</b><small>{ago(r.created_at)} · cleanup {r.cleanup_status}</small></span>
-            <span className={`chip ${r.status === 'completed' ? 'ok' : r.status === 'failed' ? 'danger' : 'accent'}`}><span className="dot"/>{r.status}</span>
-          </button>)}</div>}
-      </section>
-    </div>
   </>
 }

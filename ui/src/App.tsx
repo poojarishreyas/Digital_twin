@@ -20,8 +20,9 @@ const PAGES = [
   {id: 'twin', label: '3D Twin', icon: 'cube', group: 'Monitor'},
   {id: 'hosts', label: 'Hosts', icon: 'server', group: 'Monitor'},
   {id: 'paths', label: 'Attack paths', icon: 'route', group: 'Analyze'},
-  {id: 'simulations', label: 'Simulations', icon: 'flask', group: 'Analyze'},
-  {id: 'research', label: 'TwinHunter', icon: 'spark', group: 'Analyze'},
+  // Research pages stay reachable by URL (#simulations, #research) but are kept out of the sidebar.
+  {id: 'simulations', label: 'Simulations', icon: 'flask', group: 'Analyze', hidden: true},
+  {id: 'research', label: 'TwinHunter', icon: 'spark', group: 'Analyze', hidden: true},
   {id: 'company', label: 'Company validation', icon: 'route', group: 'Analyze'},
   {id: 'team', label: 'Team', icon: 'users', group: 'Govern', admin: true},
   {id: 'workspace', label: 'Workspace', icon: 'building', group: 'Govern'},
@@ -83,7 +84,7 @@ function Shell() {
     <Sidebar footer={<><b><Icon name="shieldCheck" size={15}/>Isolated workspace</b>Data, events and sandboxes are scoped to <b style={{display: 'inline'}}>{principal.tenant}</b>.</>}>
       {(['Monitor', 'Analyze', 'Govern'] as const).map(group => <div key={group}>
         <div className="nav-label">{group}</div>
-        {visible.filter(p => p.group === group).map(p => <button key={p.id} className={`nav-item ${current.id === p.id ? 'active' : ''}`}
+        {visible.filter(p => p.group === group && !('hidden' in p)).map(p => <button key={p.id} className={`nav-item ${current.id === p.id ? 'active' : ''}`}
           aria-current={current.id === p.id ? 'page' : undefined} onClick={() => go(p.id)}>
           <Icon name={p.icon}/>{p.label}{counts[p.id] ? <span className="count">{counts[p.id]}</span> : null}</button>)}
       </div>)}
