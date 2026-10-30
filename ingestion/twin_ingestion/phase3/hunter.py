@@ -5,6 +5,7 @@ import time
 from collections.abc import Callable
 from datetime import datetime, timezone
 from pathlib import Path
+from pydantic import TypeAdapter
 from .contracts import ACTION, Decision, Limits, digest
 
 SYSTEM = """You are TwinHunter, a bounded lab analyst. State hypotheses, then request one typed action.
@@ -55,9 +56,14 @@ class Trace:
 
 
 def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None, *, system_prompt: str | None = None,
-         model_timeout_seconds: int = 30, completion_check: Callable[[], bool] | None = None) -> dict:
+         model_timeout_seconds: int = 30, completion_check: Callable[[], bool] | None = None,
+         decision_model: type = Decision) -> dict:
     if not 1 <= model_timeout_seconds <= 60:
         raise ValueError("model response deadline must be within 1..60 seconds")
+    # A scenario may narrow the tool set with its own decision model. The shared
+    # schema is the default so existing token accounting and benchmarks are unchanged.
+    schema = decision_model.model_json_schema()
+    actions = ACTION if decision_model is Decision else TypeAdapter(decision_model.model_fields["action"].annotation)
     trace = trace or Trace()
     started = time.monotonic()
     reserved_tokens = actual_tokens = 0
@@ -83,17 +89,17 @@ def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None, 
         # UTF-8 byte length is a conservative token upper bound for the pinned
         # byte-level tokenizer. Include schema and protocol overhead; reserve the
         # full completion allowance before the network request, never refund it.
-        reserve = len(json.dumps(messages, ensure_ascii=False).encode()) + len(json.dumps(Decision.model_json_schema()).encode()) + 512 + limits.response_tokens
+        reserve = len(json.dumps(messages, ensure_ascii=False).encode()) + len(json.dumps(schema).encode()) + 512 + limits.response_tokens
         if reserved_tokens + reserve > limits.max_tokens:
             status = "token_limit"
             break
         reserved_tokens += reserve
         try:
-            raw, usage = model.decide(messages, Decision.model_json_schema(), limits.response_tokens,
+            raw, usage = model.decide(messages, schema, limits.response_tokens,
                                       min(model_timeout_seconds, remaining_time))
             actual_tokens += int(usage.get("total_tokens", 0))
             usage_complete = usage_complete and "total_tokens" in usage
-            decision = Decision.model_validate(raw)
+            decision = decision_model.model_validate(raw)
             trace.add("hypothesis", {"text": decision.hypothesis, "step": step, "usage": usage,
                                       "budget_reserved": reserved_tokens})
             if decision.action:
@@ -107,7 +113,7 @@ def hunt(model, tools, state: dict, limits: Limits, trace: Trace | None = None, 
                     trace.add("blocked", {"action": request, "status": "duplicate", "reason": result["reason"]})
                 else:
                     try:
-                        result = tools.execute(ACTION.validate_python(request))
+                        result = tools.execute(actions.validate_python(request))
                         trace.add("observation", result)
                         executed[key] = result
                         coverage.setdefault(request["target_id"], set()).add(request["name"])

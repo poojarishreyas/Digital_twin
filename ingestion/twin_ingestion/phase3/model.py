@@ -70,7 +70,7 @@ class OmniRouteModel(CompatibleModel):
             raise ValueError("conservative context budget exceeded")
         payload = {"model": self.lock["served_name"], "messages": messages, "max_tokens": max_tokens,
                    "response_format": {"type": "json_schema", "json_schema": {
-                       "name": "hunter_decision", "strict": False, "schema": omniroute_decision_schema()}}}
+                       "name": "hunter_decision", "strict": False, "schema": omniroute_decision_schema(scenario_tools(schema))}}}
         request = urllib.request.Request(self.endpoint + "/chat/completions",
             data=json.dumps(payload).encode(), headers={"Content-Type": "application/json",
                                                     "Authorization": "Bearer " + os.environ["TWIN_MODEL_API_KEY"],
@@ -91,7 +91,19 @@ class OmniRouteModel(CompatibleModel):
         return json.loads(result["choices"][0]["message"]["content"]), usage
 
 
-def omniroute_decision_schema() -> dict:
+SHARED_TOOLS = ["inspect_config", "scan_service", "security_check", "run_nuclei", "http_probe", "tcp_probe",
+                "database_probe", "http_headers", "redis_config", "ssh_auth_methods", "test_patch",
+                "company_probe", "company_patch"]
+
+
+def scenario_tools(schema: dict) -> list[str] | None:
+    """Tool names of a scenario-specific decision schema; None for the shared one."""
+    names = [d["properties"]["name"]["const"] for d in schema.get("$defs", {}).values()
+             if "const" in d.get("properties", {}).get("name", {})]
+    return names if names and not set(names) <= set(SHARED_TOOLS) else None
+
+
+def omniroute_decision_schema(tools: list[str] | None = None) -> dict:
     """Small OpenAPI Schema subset accepted by Gemini's responseSchema bridge.
 
     This is only an output hint. Decision.model_validate and the tool executor
@@ -100,10 +112,7 @@ def omniroute_decision_schema() -> dict:
     return {"type": "object", "properties": {
         "hypothesis": {"type": "string"},
         "action": {"type": "object", "nullable": True, "properties": {
-            "name": {"type": "string", "enum": ["inspect_config", "scan_service", "security_check",
-                                                "run_nuclei", "http_probe", "tcp_probe", "database_probe",
-                                                "http_headers", "redis_config", "ssh_auth_methods", "test_patch",
-                                                "company_probe", "company_patch"]},
+            "name": {"type": "string", "enum": tools or SHARED_TOOLS},
             "target_id": {"type": "string"}, "port": {"type": "integer"},
             "template": {"type": "string"}, "method": {"type": "string"},
             "path": {"type": "string"}, "redirects": {"type": "integer"},
