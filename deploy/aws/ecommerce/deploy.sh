@@ -33,20 +33,28 @@ bundle() {  # upload the code with Unix line endings (a Windows checkout has CRL
   echo "Uploaded."
 }
 
-run_on() {  # instance-ids... -- command ; prints each host's output via Session Manager
-  local ids=() command
-  while [ "$1" != "--" ]; do ids+=("$1"); shift; done; shift; command="$1"
-  local escaped="${command//\\/\\\\}"; escaped="${escaped//\"/\\\"}"   # JSON string escaping, no python needed
-  local params="{\"commands\":[\"$escaped\"]}"
-  local cid; cid=$(aws ssm send-command --document-name AWS-RunShellScript --instance-ids "${ids[@]}" \
-    --parameters "$params" --query Command.CommandId --output text)
-  for id in "${ids[@]}"; do
+ssm_params() {  # one shell command as AWS-RunShellScript JSON, no python needed
+  local escaped="${1//\\/\\\\}"; escaped="${escaped//\"/\\\"}"; escaped="${escaped//$'\n'/\\n}"
+  printf '{"commands":["%s"],"executionTimeout":["3600"]}' "$escaped"
+}
+
+show() {  # command-id instance-ids... ; prints each host's output
+  local cid="$1" id name; shift
+  for id in "$@"; do
     aws ssm wait command-executed --command-id "$cid" --instance-id "$id" 2>/dev/null || true
     name=$(aws ec2 describe-instances --instance-ids "$id" --query "Reservations[0].Instances[0].Tags[?Key=='Name'].Value" --output text)
     echo "== $name"
     aws ssm get-command-invocation --command-id "$cid" --instance-id "$id" \
-      --query '[StandardOutputContent,StandardErrorContent]' --output text | sed '/^None$/d'
+      --query '[StandardOutputContent,StandardErrorContent]' --output text | sed '/^None$/d' | tail -n 8
   done
+}
+
+run_on() {  # instance-ids... -- command ; prints each host's output via Session Manager
+  local ids=() cid
+  while [ "$1" != "--" ]; do ids+=("$1"); shift; done; shift
+  cid=$(aws ssm send-command --document-name AWS-RunShellScript --instance-ids "${ids[@]}" \
+    --parameters "$(ssm_params "$1")" --query Command.CommandId --output text)
+  show "$cid" "${ids[@]}"
 }
 
 case "${1:-}" in
@@ -84,14 +92,28 @@ status)
 retry)
   # Re-upload fixed code and rerun each server's boot script in place (no rebuild).
   bundle
-  # shellcheck disable=SC2046
-  ids="$(output ControlInstance) $(output ShopInstances)"
-  echo "Rerunning setup on: $ids"
-  # shellcheck disable=SC2086
-  aws ssm send-command --document-name AWS-RunShellScript --instance-ids $ids --timeout-seconds 3600 \
-    --parameters '{"commands":["T=$(curl -sX PUT http://169.254.169.254/latest/api/token -H \"X-aws-ec2-metadata-token-ttl-seconds: 60\"); curl -s -H \"X-aws-ec2-metadata-token: $T\" http://169.254.169.254/latest/user-data > /root/boot.sh; bash /root/boot.sh"],"executionTimeout":["3600"]}' \
-    --query Command.CommandId --output text >/dev/null
-  echo "Setup is running again on all servers. Check in ~10 minutes: bash deploy/aws/ecommerce/deploy.sh status"
+  url=$(aws s3 presign "s3://$BUCKET/repo.tgz" --expires-in 21600)
+  read -r -a ids <<< "$(output ControlInstance) $(output ShopInstances)"
+  echo "Rerunning setup on: ${ids[*]}"
+  # Fresh download link; the boot script's own (possibly expired) download line is dropped.
+  command="set -e; T=\$(curl -sX PUT http://169.254.169.254/latest/api/token -H 'X-aws-ec2-metadata-token-ttl-seconds: 60')
+curl -s -H \"X-aws-ec2-metadata-token: \$T\" http://169.254.169.254/latest/user-data | grep -v 'curl -fsSL' > /root/boot.sh
+mkdir -p /opt/twin
+curl -fsS --retry 3 '$url' -o /root/repo.tgz || { echo 'DOWNLOAD FAILED'; exit 1; }
+tar -xzf /root/repo.tgz -C /opt/twin
+echo 'code downloaded; running setup'
+bash /root/boot.sh"
+  cid=$(aws ssm send-command --document-name AWS-RunShellScript --instance-ids "${ids[@]}" --timeout-seconds 3600 \
+    --parameters "$(ssm_params "$command")" --query Command.CommandId --output text)
+  echo "Started. First results in 30 seconds..."
+  sleep 30
+  for id in "${ids[@]}"; do
+    name=$(aws ec2 describe-instances --instance-ids "$id" --query "Reservations[0].Instances[0].Tags[?Key=='Name'].Value" --output text)
+    echo "== $name: $(aws ssm get-command-invocation --command-id "$cid" --instance-id "$id" --query Status --output text)"
+    aws ssm get-command-invocation --command-id "$cid" --instance-id "$id" \
+      --query '[StandardOutputContent,StandardErrorContent]' --output text | sed '/^None$/d' | tail -n 4
+  done
+  echo "Setup keeps running (control server ~10 min). Then: bash deploy/aws/ecommerce/deploy.sh status"
   ;;
 join)
   command="${2:?usage: deploy.sh join '<Linux install command copied from Hosts -> Add hosts>'}"
