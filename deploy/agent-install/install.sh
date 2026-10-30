@@ -56,6 +56,11 @@ else
   TWIN_ENROLL_TOKEN="$TOKEN" /usr/local/bin/twin-agent enroll -url "$URL" -dir /etc/twin-agent $ALLOW_HTTP
 fi
 
+# A machine may declare its main service so connections to it resolve to this host.
+if [ -f /etc/twin-agent/workload.json ] && ! grep -q '^workload_file:' /etc/twin-agent/config.yaml; then
+  echo 'workload_file: /etc/twin-agent/workload.json' >> /etc/twin-agent/config.yaml
+fi
+
 cat >/etc/systemd/system/twin-agent.service <<'EOF'
 [Unit]
 Description=Digital Twin passive discovery agent

@@ -1,0 +1,253 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Larkspur Goods: a synthetic small e-commerce company (storefront, catalog/cart, orders/payments,
+  customer database) plus a Digital Twin control plane. Lab only; all data is synthetic.
+  Agents are NOT pre-installed: join each server from the dashboard (Hosts -> Add hosts).
+
+Parameters:
+  OperatorCidr:
+    Type: String
+    AllowedPattern: '^\d{1,3}(\.\d{1,3}){3}/\d{1,2}$'
+    Description: Your public IP as CIDR (e.g. 203.0.113.5/32). Only this address reaches the dashboard and store.
+  RepoUrl:
+    Type: String
+    NoEcho: true
+    Description: Presigned HTTPS URL of the repository tarball (deploy.sh creates it).
+  DbPassword:
+    Type: String
+    NoEcho: true
+    AllowedPattern: '^[a-f0-9]{32,64}$'
+    Description: Synthetic database password for the shop_app role (deploy.sh generates it).
+  LatestAl2023:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64
+  ControlInstanceType:
+    Type: String
+    Default: m7i-flex.large
+  ShopInstanceType:
+    Type: String
+    Default: t3.micro
+
+Mappings:
+  Net:
+    Cidr: {Vpc: 10.30.0.0/16, Public: 10.30.1.0/24, Private: 10.30.2.0/24}
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !FindInMap [Net, Cidr, Vpc]
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags: [{Key: Name, Value: larkspur-vpc}, {Key: twin-lab, Value: larkspur}]
+  Igw:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags: [{Key: twin-lab, Value: larkspur}]
+  IgwAttach:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties: {VpcId: !Ref Vpc, InternetGatewayId: !Ref Igw}
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: !FindInMap [Net, Cidr, Public]
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags: [{Key: Name, Value: larkspur-public}, {Key: twin-lab, Value: larkspur}]
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: !FindInMap [Net, Cidr, Private]
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags: [{Key: Name, Value: larkspur-private}, {Key: twin-lab, Value: larkspur}]
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties: {VpcId: !Ref Vpc}
+  PublicDefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: IgwAttach
+    Properties: {RouteTableId: !Ref PublicRouteTable, DestinationCidrBlock: 0.0.0.0/0, GatewayId: !Ref Igw}
+  PublicAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: {SubnetId: !Ref PublicSubnet, RouteTableId: !Ref PublicRouteTable}
+  NatEip:
+    Type: AWS::EC2::EIP
+    DependsOn: IgwAttach
+    Properties:
+      Domain: vpc
+      Tags: [{Key: twin-lab, Value: larkspur}]
+  Nat:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatEip.AllocationId
+      SubnetId: !Ref PublicSubnet
+      Tags: [{Key: twin-lab, Value: larkspur}]
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties: {VpcId: !Ref Vpc}
+  PrivateDefaultRoute:
+    Type: AWS::EC2::Route
+    Properties: {RouteTableId: !Ref PrivateRouteTable, DestinationCidrBlock: 0.0.0.0/0, NatGatewayId: !Ref Nat}
+  PrivateAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: {SubnetId: !Ref PrivateSubnet, RouteTableId: !Ref PrivateRouteTable}
+
+  # Session Manager access: "Connect" in the EC2 console, no SSH keys or open port 22.
+  SsmRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement: [{Effect: Allow, Principal: {Service: ec2.amazonaws.com}, Action: sts:AssumeRole}]
+      ManagedPolicyArns: [arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore]
+  SsmProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties: {Roles: [!Ref SsmRole]}
+
+  ControlSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref Vpc
+      GroupDescription: twin-control dashboard and agent telemetry
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 3000, ToPort: 3000, CidrIp: !Ref OperatorCidr, Description: Dashboard from operator}
+        - {IpProtocol: tcp, FromPort: 3000, ToPort: 3000, CidrIp: !Sub "${NatEip.PublicIp}/32", Description: Agent download and enrollment from private shop hosts}
+        - {IpProtocol: tcp, FromPort: 8443, ToPort: 8443, CidrIp: !FindInMap [Net, Cidr, Vpc], Description: Agent mTLS telemetry inside the VPC}
+  ControlFromWeb:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: {GroupId: !Ref ControlSg, IpProtocol: tcp, FromPort: 3000, ToPort: 3000, CidrIp: !Sub "${WebHost.PublicIp}/32", Description: Agent download and enrollment from shop-web01}
+  WebSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref Vpc
+      GroupDescription: shop-web01 storefront (internet entry point)
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: !Ref OperatorCidr, Description: Storefront from operator}
+  AppSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref Vpc
+      GroupDescription: shop-app01 catalog and cart services
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 8081, ToPort: 8082, SourceSecurityGroupId: !Ref WebSg, Description: Catalog and cart from storefront}
+        - {IpProtocol: tcp, FromPort: 6379, ToPort: 6379, CidrIp: !FindInMap [Net, Cidr, Vpc], Description: Cart session store inside the VPC}
+  OrdersSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref Vpc
+      GroupDescription: shop-orders01 orders and payments services
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 8083, ToPort: 8083, SourceSecurityGroupId: !Ref WebSg, Description: Orders from storefront}
+  DbSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref Vpc
+      GroupDescription: shop-db01 customer and order database
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref AppSg, Description: Catalog reads}
+        - {IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref OrdersSg, Description: Order writes}
+
+  ControlHost:
+    Type: AWS::EC2::Instance
+    DependsOn: PublicDefaultRoute
+    Properties:
+      InstanceType: !Ref ControlInstanceType
+      ImageId: !Ref LatestAl2023
+      IamInstanceProfile: !Ref SsmProfile
+      SubnetId: !Ref PublicSubnet
+      SecurityGroupIds: [!Ref ControlSg]
+      BlockDeviceMappings: [{DeviceName: /dev/xvda, Ebs: {VolumeSize: 30, VolumeType: gp3, DeleteOnTermination: true}}]
+      Tags: [{Key: Name, Value: twin-control}, {Key: twin-lab, Value: larkspur}]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -eux
+          mkdir -p /opt/twin
+          curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin
+          bash /opt/twin/deploy/aws/ecommerce/control-setup.sh > /var/log/twin-control-setup.log 2>&1
+
+  WebHost:
+    Type: AWS::EC2::Instance
+    DependsOn: PublicDefaultRoute
+    Properties:
+      InstanceType: !Ref ShopInstanceType
+      ImageId: !Ref LatestAl2023
+      IamInstanceProfile: !Ref SsmProfile
+      SubnetId: !Ref PublicSubnet
+      SecurityGroupIds: [!Ref WebSg]
+      Tags: [{Key: Name, Value: shop-web01}, {Key: twin-lab, Value: larkspur}, {Key: role, Value: storefront}]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -eux
+          mkdir -p /opt/twin
+          curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
+          APP_IP=${AppHost.PrivateIp} ORDERS_IP=${OrdersHost.PrivateIp} \
+            bash /opt/twin/deploy/aws/ecommerce/host-setup.sh web > /var/log/larkspur-setup.log 2>&1
+
+  AppHost:
+    Type: AWS::EC2::Instance
+    DependsOn: PrivateDefaultRoute
+    Properties:
+      InstanceType: !Ref ShopInstanceType
+      ImageId: !Ref LatestAl2023
+      IamInstanceProfile: !Ref SsmProfile
+      SubnetId: !Ref PrivateSubnet
+      SecurityGroupIds: [!Ref AppSg]
+      Tags: [{Key: Name, Value: shop-app01}, {Key: twin-lab, Value: larkspur}, {Key: role, Value: catalog-cart}]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -eux
+          mkdir -p /opt/twin
+          curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
+          DB_IP=${DbHost.PrivateIp} DB_PASSWORD=${DbPassword} \
+            bash /opt/twin/deploy/aws/ecommerce/host-setup.sh app > /var/log/larkspur-setup.log 2>&1
+
+  OrdersHost:
+    Type: AWS::EC2::Instance
+    DependsOn: PrivateDefaultRoute
+    Properties:
+      InstanceType: !Ref ShopInstanceType
+      ImageId: !Ref LatestAl2023
+      IamInstanceProfile: !Ref SsmProfile
+      SubnetId: !Ref PrivateSubnet
+      SecurityGroupIds: [!Ref OrdersSg]
+      Tags: [{Key: Name, Value: shop-orders01}, {Key: twin-lab, Value: larkspur}, {Key: role, Value: orders-payments}]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -eux
+          mkdir -p /opt/twin
+          curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
+          DB_IP=${DbHost.PrivateIp} DB_PASSWORD=${DbPassword} \
+            bash /opt/twin/deploy/aws/ecommerce/host-setup.sh orders > /var/log/larkspur-setup.log 2>&1
+
+  DbHost:
+    Type: AWS::EC2::Instance
+    DependsOn: PrivateDefaultRoute
+    Properties:
+      InstanceType: !Ref ShopInstanceType
+      ImageId: !Ref LatestAl2023
+      IamInstanceProfile: !Ref SsmProfile
+      SubnetId: !Ref PrivateSubnet
+      SecurityGroupIds: [!Ref DbSg]
+      Tags: [{Key: Name, Value: shop-db01}, {Key: twin-lab, Value: larkspur}, {Key: role, Value: customer-database}]
+      UserData:
+        Fn::Base64: !Sub
+          - |
+            #!/bin/bash
+            set -eux
+            mkdir -p /opt/twin
+            curl -fsSL --retry 5 "${RepoUrl}" | tar -xz -C /opt/twin deploy/aws/ecommerce
+            DB_PASSWORD=${DbPassword} VPC_CIDR=${VpcCidr} \
+              bash /opt/twin/deploy/aws/ecommerce/host-setup.sh db > /var/log/larkspur-setup.log 2>&1
+          - VpcCidr: !FindInMap [Net, Cidr, Vpc]
+
+Outputs:
+  Dashboard: {Value: !Sub "http://${ControlHost.PublicIp}:3000", Description: Open in your browser}
+  Storefront: {Value: !Sub "http://${WebHost.PublicIp}", Description: The synthetic store}
+  ControlInstance: {Value: !Ref ControlHost}
+  ShopInstances: {Value: !Sub "${WebHost} ${AppHost} ${OrdersHost} ${DbHost}"}

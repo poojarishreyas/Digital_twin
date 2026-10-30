@@ -115,7 +115,7 @@ func defaultConfigPaths() map[string][]string {
 		"nginx":      {"/etc/nginx/nginx.conf"},
 		"postgresql": {"/etc/postgresql/*/main/postgresql.conf", "/etc/postgresql/postgresql.conf", "/var/lib/pgsql/data/postgresql.conf"},
 		"pg_hba":     {"/etc/postgresql/*/main/pg_hba.conf", "/etc/postgresql/pg_hba.conf", "/var/lib/pgsql/data/pg_hba.conf"},
-		"redis":      {"/etc/redis/redis.conf", "/etc/redis.conf"},
+		"redis":      {"/etc/redis/redis.conf", "/etc/redis.conf", "/etc/redis6/redis6.conf"},
 		"openssh":    {"/etc/ssh/sshd_config"},
 	}
 }
