@@ -1,0 +1,240 @@
+{
+  "status": "completed",
+  "trace": [
+    {
+      "index": 0,
+      "at": "2026-10-26T20:20:16.694495+00:00",
+      "kind": "hypothesis",
+      "payload": {
+        "text": "Inspect the sanitized twin",
+        "step": 0,
+        "usage": {
+          "total_tokens": 0
+        },
+        "budget_reserved": 7660
+      },
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "cf58829935d86b505b254da121e5adfdafedcf5f3c20f7e5c62ab0085adaeec1"
+    },
+    {
+      "index": 1,
+      "at": "2026-10-26T20:20:16.694552+00:00",
+      "kind": "action",
+      "payload": {
+        "target_id": "target",
+        "port": 8080,
+        "name": "inspect_config"
+      },
+      "previous_hash": "cf58829935d86b505b254da121e5adfdafedcf5f3c20f7e5c62ab0085adaeec1",
+      "hash": "81881c958fc4eee6497c56d9f208f1fd725eff1bcab38e5401922da8a5f032b2"
+    },
+    {
+      "index": 2,
+      "at": "2026-10-26T20:20:16.838619+00:00",
+      "kind": "observation",
+      "payload": {
+        "status": "observed",
+        "untrusted_configuration": {
+          "id": "target",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "directives": [
+            {
+              "order": 1,
+              "name": "server_tokens",
+              "values": [
+                "on"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        },
+        "target_id": "target",
+        "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+        "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+        "fidelity_gaps": [],
+        "tool": "inspect_config",
+        "test_version": "3.0",
+        "probe_image_id": "sha256:e6898c68cd2841b4de344ded6af0c540b86c68b54b564c881b3208aa53f202fa",
+        "evidence_id": "ee77cdef7da40a99c863dc46a5980270fcc0873b510e25f0a3c0ab6035fa9e4d"
+      },
+      "previous_hash": "81881c958fc4eee6497c56d9f208f1fd725eff1bcab38e5401922da8a5f032b2",
+      "hash": "1e56b05e988d1ffb7325b68267e812ed0fd7892769a99e3dd13f174a1c4a9731"
+    },
+    {
+      "index": 3,
+      "at": "2026-10-26T20:20:16.845236+00:00",
+      "kind": "hypothesis",
+      "payload": {
+        "text": "Boundary control: reject an unregistered target",
+        "step": 1,
+        "usage": {
+          "total_tokens": 0
+        },
+        "budget_reserved": 16277
+      },
+      "previous_hash": "1e56b05e988d1ffb7325b68267e812ed0fd7892769a99e3dd13f174a1c4a9731",
+      "hash": "07fc960cdf96f81b93910963a0d75a46b44773f5e06eacf9eefdbd385836a236"
+    },
+    {
+      "index": 4,
+      "at": "2026-10-26T20:20:16.845279+00:00",
+      "kind": "action",
+      "payload": {
+        "target_id": "outside-registry",
+        "port": 8080,
+        "name": "security_check"
+      },
+      "previous_hash": "07fc960cdf96f81b93910963a0d75a46b44773f5e06eacf9eefdbd385836a236",
+      "hash": "336dc828165e9f92e23264ff71a55c29d4dad147a323e67da8e95efffb633ed5"
+    },
+    {
+      "index": 5,
+      "at": "2026-10-26T20:20:17.194896+00:00",
+      "kind": "blocked",
+      "payload": {
+        "action": {
+          "target_id": "outside-registry",
+          "port": 8080,
+          "name": "security_check"
+        },
+        "status": "blocked",
+        "reason": "target or port not registered for this run"
+      },
+      "previous_hash": "336dc828165e9f92e23264ff71a55c29d4dad147a323e67da8e95efffb633ed5",
+      "hash": "23a53589bbfe8325235220e403be0ec25f54153ca791d3fad9c674a13d63bbf3"
+    },
+    {
+      "index": 6,
+      "at": "2026-10-26T20:20:17.214680+00:00",
+      "kind": "hypothesis",
+      "payload": {
+        "text": "Measure the registered service behavior",
+        "step": 2,
+        "usage": {
+          "total_tokens": 0
+        },
+        "budget_reserved": 25250
+      },
+      "previous_hash": "23a53589bbfe8325235220e403be0ec25f54153ca791d3fad9c674a13d63bbf3",
+      "hash": "59e4010ab9322f76015966b6d2d989652872a02d1aacc83c9be9cec9caad3515"
+    },
+    {
+      "index": 7,
+      "at": "2026-10-26T20:20:17.214762+00:00",
+      "kind": "action",
+      "payload": {
+        "target_id": "target",
+        "port": 8080,
+        "name": "security_check"
+      },
+      "previous_hash": "59e4010ab9322f76015966b6d2d989652872a02d1aacc83c9be9cec9caad3515",
+      "hash": "a4e2b56cc8586eeea4963b098f4f30f8fec09b436c320e8d1be2f280114e06e0"
+    },
+    {
+      "index": 8,
+      "at": "2026-10-26T20:20:18.249830+00:00",
+      "kind": "observation",
+      "payload": {
+        "verdict": "confirmed",
+        "observations": {
+          "exit_code": 0,
+          "status": 200,
+          "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Mon, 26 Oct 2026 20:20:18 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+        },
+        "test_id": "nginx.policy",
+        "test_version": "3.0",
+        "target_id": "target",
+        "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+        "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+        "fidelity_gaps": [],
+        "tool": "security_check",
+        "probe_image_id": "sha256:e6898c68cd2841b4de344ded6af0c540b86c68b54b564c881b3208aa53f202fa",
+        "evidence_id": "8e92408cf4b6bd4aad24e55b2b9e43e537072259a71af1c29506ffa4e497f1d6"
+      },
+      "previous_hash": "a4e2b56cc8586eeea4963b098f4f30f8fec09b436c320e8d1be2f280114e06e0",
+      "hash": "a8bb64dc8871e1090ab15d6608d765e57c401fd78aa1229ab132ee77edf5a629"
+    },
+    {
+      "index": 9,
+      "at": "2026-10-26T20:20:18.249945+00:00",
+      "kind": "finished",
+      "payload": {
+        "status": "completed",
+        "reserved_tokens": 25250,
+        "reported_tokens": 0,
+        "elapsed_seconds": 1.567439899998135
+      },
+      "previous_hash": "a8bb64dc8871e1090ab15d6608d765e57c401fd78aa1229ab132ee77edf5a629",
+      "hash": "cc2e893145be8763635c9b18a1b98af83313dab4bff507fa3fd411d2fd927cc4"
+    }
+  ],
+  "evidence": [
+    {
+      "status": "observed",
+      "untrusted_configuration": {
+        "id": "target",
+        "kind": "nginx",
+        "version": "1.27.5",
+        "directives": [
+          {
+            "order": 1,
+            "name": "server_tokens",
+            "values": [
+              "on"
+            ],
+            "section": ""
+          }
+        ],
+        "hba_rules": []
+      },
+      "target_id": "target",
+      "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+      "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+      "fidelity_gaps": [],
+      "tool": "inspect_config",
+      "test_version": "3.0",
+      "probe_image_id": "sha256:e6898c68cd2841b4de344ded6af0c540b86c68b54b564c881b3208aa53f202fa",
+      "evidence_id": "ee77cdef7da40a99c863dc46a5980270fcc0873b510e25f0a3c0ab6035fa9e4d"
+    },
+    {
+      "verdict": "confirmed",
+      "observations": {
+        "exit_code": 0,
+        "status": 200,
+        "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Mon, 26 Oct 2026 20:20:18 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+      },
+      "test_id": "nginx.policy",
+      "test_version": "3.0",
+      "target_id": "target",
+      "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+      "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+      "fidelity_gaps": [],
+      "tool": "security_check",
+      "probe_image_id": "sha256:e6898c68cd2841b4de344ded6af0c540b86c68b54b564c881b3208aa53f202fa",
+      "evidence_id": "8e92408cf4b6bd4aad24e55b2b9e43e537072259a71af1c29506ffa4e497f1d6"
+    }
+  ],
+  "patches": [],
+  "reserved_tokens": 25250,
+  "reported_tokens": 0,
+  "model": {
+    "model": "scripted-test-double",
+    "is_ai": false
+  },
+  "mode": "desktop_smoke",
+  "is_ai_evaluation": false,
+  "cleanup_errors": [],
+  "resources": {
+    "peak_ram_mb": 9.43359375,
+    "peak_cpu_millis": 271.04714818267917,
+    "cpu_seconds": 0.488823,
+    "ram_mb_seconds": 17.736110255059316,
+    "sample_interval_seconds": 0.5,
+    "sample_errors": 0
+  },
+  "limitations": [
+    "Scripted decisions test integration, not model quality or Linux isolation"
+  ]
+}

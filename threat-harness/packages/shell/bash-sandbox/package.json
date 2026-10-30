@@ -1,0 +1,54 @@
+{
+  "name": "@elemental/bash-sandbox",
+  "description": "Sandbox-consuming implementation of the Elemental Harness bash executor seam (confines every command via ctx.sandbox, reports denial/enforcement result facts)",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/shell/bash-sandbox"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/shell": "workspace:^",
+    "@elemental/bash-local": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/shell": "workspace:^",
+    "@elemental/bash-local": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-local": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/node-addon-landlock-run": "workspace:^",
+    "@elemental/session-projection": "workspace:^"
+  }
+}

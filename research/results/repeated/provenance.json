@@ -1,0 +1,342 @@
+{
+  "captured_at": "2026-10-25T12:37:04.792575+00:00",
+  "capture_scope": "post-validation repository inventory; not an attestation of unchanged code throughout earlier pilots",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "python": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+  "docker": {
+    "version": "29.9.2",
+    "cpus": 12,
+    "ram_bytes": 8183742464,
+    "architecture": "x86_64"
+  },
+  "dependencies": [
+    {
+      "name": "annotated-types",
+      "version": "0.8.0"
+    },
+    {
+      "name": "anyio",
+      "version": "4.15.1"
+    },
+    {
+      "name": "arrow",
+      "version": "1.4.0"
+    },
+    {
+      "name": "asyncpg",
+      "version": "0.30.0"
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0"
+    },
+    {
+      "name": "certifi",
+      "version": "2026.10.23"
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.2"
+    },
+    {
+      "name": "click",
+      "version": "8.5.0"
+    },
+    {
+      "name": "colorama",
+      "version": "0.4.6"
+    },
+    {
+      "name": "contourpy",
+      "version": "1.4.0"
+    },
+    {
+      "name": "cycler",
+      "version": "0.12.1"
+    },
+    {
+      "name": "docker",
+      "version": "7.1.0"
+    },
+    {
+      "name": "fastapi",
+      "version": "0.115.5"
+    },
+    {
+      "name": "fonttools",
+      "version": "4.67.0"
+    },
+    {
+      "name": "fqdn",
+      "version": "1.6.0"
+    },
+    {
+      "name": "grpcio",
+      "version": "1.68.0"
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0"
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9"
+    },
+    {
+      "name": "httptools",
+      "version": "0.9.0"
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.0"
+    },
+    {
+      "name": "idna",
+      "version": "3.20"
+    },
+    {
+      "name": "iniconfig",
+      "version": "2.3.1"
+    },
+    {
+      "name": "isoduration",
+      "version": "20.11.0"
+    },
+    {
+      "name": "jsonpointer",
+      "version": "3.4"
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.23.0"
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1"
+    },
+    {
+      "name": "kiwisolver",
+      "version": "1.5.1"
+    },
+    {
+      "name": "matplotlib",
+      "version": "3.11.2"
+    },
+    {
+      "name": "neo4j",
+      "version": "5.26.0"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.4"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "name": "pillow",
+      "version": "13.0.0"
+    },
+    {
+      "name": "pip",
+      "version": "25.1.1"
+    },
+    {
+      "name": "pluggy",
+      "version": "1.7.0"
+    },
+    {
+      "name": "prometheus_client",
+      "version": "0.21.0"
+    },
+    {
+      "name": "pydantic",
+      "version": "2.10.2"
+    },
+    {
+      "name": "pydantic_core",
+      "version": "2.27.1"
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.3.3"
+    },
+    {
+      "name": "pytest",
+      "version": "8.3.3"
+    },
+    {
+      "name": "pytest-asyncio",
+      "version": "0.24.0"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "3.0.0"
+    },
+    {
+      "name": "python-dotenv",
+      "version": "1.2.4"
+    },
+    {
+      "name": "pytz",
+      "version": "2026.5"
+    },
+    {
+      "name": "pywin32",
+      "version": "312"
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.3"
+    },
+    {
+      "name": "referencing",
+      "version": "0.37.0"
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2"
+    },
+    {
+      "name": "rfc3339-validator",
+      "version": "0.1.4"
+    },
+    {
+      "name": "rfc3987",
+      "version": "1.3.8"
+    },
+    {
+      "name": "rpds-py",
+      "version": "2026.9.1"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "name": "starlette",
+      "version": "0.41.3"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0"
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.5"
+    },
+    {
+      "name": "uri-template",
+      "version": "1.3.0"
+    },
+    {
+      "name": "urllib3",
+      "version": "2.8.0"
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.32.1"
+    },
+    {
+      "name": "watchfiles",
+      "version": "1.3.0"
+    },
+    {
+      "name": "webcolors",
+      "version": "25.10.0"
+    },
+    {
+      "name": "websockets",
+      "version": "17.3"
+    }
+  ],
+  "source_sha256": {
+    "agent/cmd/twin-agent/main.go": "5a77e25544b52040d0303fe80c6f9d27031a80d255e735de6d6cb4498026f580",
+    "agent/go.mod": "f9f72372460db41ca8502364fe7f58cc1a9fcd0808f7f43cb100ad06104af4c5",
+    "agent/go.sum": "9999df920cdab1628c712ffe305cd275a11744137510647d351f26a241a931fe",
+    "agent/internal/canonical/canonical.go": "925c9529b36261fa9efe80c1598d1eb9b9787d520aedba9ef1218b382ef11201",
+    "agent/internal/canonical/canonical_test.go": "d8565ff5dc804b97e1508f121a055e220d091d4bf3c81c8e1d1ba47c92fd09b9",
+    "agent/internal/collector/collector.go": "c177e5a2c34af36448f83d9e41738b8f6f5219f279b24b7a2d9b5889554c2f8d",
+    "agent/internal/collector/exec.go": "f164d113cdf911c416b0abbf9e2f6e2a4fefb5af4eb6eb1c4cdfca892a6d7d7d",
+    "agent/internal/collector/platform_linux.go": "564fcdd1323b1c8a10c579d09961127cdaaba97c1832ac2fb561b4725166cda7",
+    "agent/internal/collector/platform_other.go": "bfe4d3fb47f62770056030c678938c6a1cea87a7d1f9640f25cb67ceabe852c1",
+    "agent/internal/collector/platform_windows.go": "d3cf37b73bf8bff1beac2676ad8d1010dcf26ad2ad6b8020fce0398f9f732e42",
+    "agent/internal/collector/versions.go": "418f202d577b867c28abd991f83dfb81260674dd73998951f8b937b8325dde26",
+    "agent/internal/config/config.go": "2936b46c89f7555203045bb82639b6727a58db8088defb2108054e5e1b1be383",
+    "agent/internal/daemon/daemon_unix.go": "230ec5074bf3af54aaf16614bb21f83609c47e23d6a5ff22042ad5aeb69d0b49",
+    "agent/internal/daemon/daemon_windows.go": "d179d0cf9138b9bc05ec939130cb9cbf073b2e1a51371da95f077ccf8c982f1f",
+    "agent/internal/model/model.go": "57d1ae8942345ff626d70c26af443de184758a79d6ddf8e49c2f03652223259e",
+    "agent/internal/parsers/parsers.go": "3c8977f28f20a3071b3760e8959e083affa70c073c2523eb8c988b626f137d7c",
+    "agent/internal/parsers/parsers_test.go": "fe03fe378014f92060c4b4777b68909493674cd615e9dd19f8814d2d9eeb2848",
+    "agent/internal/sanitize/sanitize.go": "fcf5b9bd0b8c8973d9118c1c768141feca65eeda1be132019e8d266d9471e1f1",
+    "agent/internal/sanitize/sanitize_test.go": "81b4507df3c885697365bd6c41edbd450b45fd656badf75f5e5dac086bd1da67",
+    "agent/internal/syncer/client.go": "b95635574785b53e8c25546c4b833a521a5ce7c55e8e9126b2b6d3129622cadd",
+    "agent/internal/syncer/outbox.go": "38703fd049cac11247ad18aa8c4d28f9503d8f0caa1a6621af9e8d0c030edf37",
+    "deploy/models/make_notebook.py": "bcf5b13544e36e569070763e90ecf3ca5754be19457b2eee03a9fd4c1a007ae0",
+    "deploy/models/model-lock.json": "140d4ab91ed09ebbbcb5554faaac9d180800461a17c9895aec0cba206590e4f2",
+    "deploy/models/serve_model.py": "59673b0e02464540caf4bbe08186bd5c1f22eca6497416e87d288e4ad6f22000",
+    "ingestion/requirements.txt": "ace4ba0f8c75dfcb808832bb6f4ea364833e673285d0dc37f531c5fdb132b0d8",
+    "ingestion/tests/test_models.py": "67e4067f948286dbe729f365bb025ab59014a6088620034c58e7ff911f32ceab",
+    "ingestion/tests/test_phase2_adapters.py": "09bbbefb4b6efa28ea83dd0750ddf265a4b441b5338515cb6db946aebb960f14",
+    "ingestion/tests/test_phase2_evidence.py": "3ccbf6981c4d720c5e01cfac7a05c1574aa011c8e898331144c85bdc459dce66",
+    "ingestion/tests/test_phase2_planner.py": "ee0dd633b4d45db2c91c4f755c2ddb667de3282a62c1c1ddd24d68e0ed092068",
+    "ingestion/tests/test_phase3_boundaries.py": "ab4cf3a47ae23d1934f79863db4082ff089dd219d1be732dc127a2ab9cd9865c",
+    "ingestion/tests/test_phase3_reporting.py": "a691c1965378e6a80d620a69ab78edab376dfd173cbed4f5f54c69e9eb9a24fc",
+    "ingestion/tests/test_sanitize.py": "6f9507810c1cd58ec4dc8014f950dd0aa9b83dda06ca539674564f460b20a50e",
+    "ingestion/tests/test_validation.py": "230222d169d7b9ecb4e4f502ee42deb8e213bf7fef9957eaa861217dd247b21c",
+    "ingestion/twin_ingestion/__init__.py": "7638ad8f4fe7d2571da027932a544ab92b13e47cdde1ed020663416de2bd9b74",
+    "ingestion/twin_ingestion/api.py": "27c852fe29257cf5a1590f7073f32e2e1c618a24b7be669a19452f237263e7b4",
+    "ingestion/twin_ingestion/graph.py": "f9edf39454acb5985182fe170060b62f09c8b08c20fef186a212cf73dc18dee6",
+    "ingestion/twin_ingestion/main.py": "8d356164262e392d4fbe78116bf2944cc6da621d6f3a0b41f8bd376350944ac4",
+    "ingestion/twin_ingestion/models.py": "862832c35600d6a84d6c09c72d95d50280410c266a83f4471c974dacad979895",
+    "ingestion/twin_ingestion/phase2/__init__.py": "c28fc47dc2d7980cbf6e62c4cd3c81ff1dd39183256c98dc355075ab185d5985",
+    "ingestion/twin_ingestion/phase2/adapters.py": "5c4a8d7b80d4252def55a3a9cace4efb8490ff926ac0c07804a1bb98c6c7f938",
+    "ingestion/twin_ingestion/phase2/catalog.json": "54a606424b2454dbc66bc38685f2ab83c7b5a505d513378f6aa87b637c4a73e6",
+    "ingestion/twin_ingestion/phase2/engine.py": "4e6380afd375b21f8f588f94b15385d0d0358a2d3e695b1f372ac238bc4e3a2e",
+    "ingestion/twin_ingestion/phase2/planner.py": "cd4d24f2672cdcd584630b3582ec57785cbb7d02824005372ac6f6e298924705",
+    "ingestion/twin_ingestion/phase2/store.py": "bbef0ad05c88d3d5054101ea776318d98bd841becfc4158e8dbc6be60c8dea32",
+    "ingestion/twin_ingestion/phase2/worker.py": "0b56155a1135607b52208d0b1b3e1af81ad86c9dd73bf4ea525cc5f4fc98f4ab",
+    "ingestion/twin_ingestion/phase3/__init__.py": "713951ee834d4d3d2251d18cacf6c39b20c82edcb8c3162dcaeb6ae95c707612",
+    "ingestion/twin_ingestion/phase3/contracts.py": "b30266625e4a224edf7df51a8f463b7320d1d0bacf31540479eda41dffb62091",
+    "ingestion/twin_ingestion/phase3/hunter.py": "187a43179c7f82c62bce8a1d2eff6c8a7b9bb1454346222024d53e744c17a178",
+    "ingestion/twin_ingestion/phase3/integration.py": "63f751b747e6f2e750e9726cf38f28085858e18ff984dc37eccd70aa975a2991",
+    "ingestion/twin_ingestion/phase3/metrics.py": "f01c5480e6dfe06a8b4af8abe25b13111e95487aa5337d445577c336294ea97e",
+    "ingestion/twin_ingestion/phase3/model.py": "1a241974f81fad7d5a711084989ca06f55933759fed3237e50f25b39b0d22947",
+    "ingestion/twin_ingestion/phase3/patches.py": "47602c9be003e956446edc05e725266441209ac936e2c8836e7a0d9799bc0747",
+    "ingestion/twin_ingestion/phase3/runtime.py": "8ba65514ea4d2214e99ad8be4b093dd57470600d95a741996db8d3afe2353339",
+    "ingestion/twin_ingestion/phase3/store.py": "37e2e884d1beee0ef1b8a8fcf69022bb40c3b0e75a4d8caf120ffbd118a75aaa",
+    "ingestion/twin_ingestion/phase3/tools.py": "0b0e55bb1361b8edab56093bf8e03a4a55e71a759b0887c70103d92b58cf9dc0",
+    "ingestion/twin_ingestion/postgres.py": "a7fd367c503c144fba1ba7889d3a7b2d3622bae230b3e43a20392a1a7c54dd5c",
+    "ingestion/twin_ingestion/sanitize.py": "7126fe664be796191288c5ce4f68221ddcbc811be7e4adb0306cf181502dbf1e",
+    "ingestion/twin_ingestion/service.py": "edbe1dee5f0ebe8b499f4b9f75bb2d057c8c94c9196229a6ffb658dd959012cc",
+    "ingestion/twin_ingestion/settings.py": "82319c4d740a4dfd47c9c142d1b070746b67aac6426f483c7ffd9a9a9753b0b2",
+    "ingestion/twin_ingestion/validation.py": "5d7b2f4ebe3758bab618b21bbf321f77789effe0c6d41fd3f2aa34425ade43f0",
+    "research/analyze.py": "fd646c0ce56bcb7cd6308aedc7d92563d65e9a90c50c6899db5020142829a1a2",
+    "research/analyze_scheduling.py": "e2e2528a4101b2a8e404590c4b1c4c0affdc6424b37c3f1d7077a955a58e2444",
+    "research/benchmark.py": "9b5775b83ae5eac718d1c066fe6f6c51ecfe5123d72cea4efebd8e51ae675ee2",
+    "research/make_scenarios.py": "f5b24be881eb641b35946588bc2b1ae803770734aaac6c6a42232134420247c5",
+    "research/oracle.py": "8558d31a260da65f86af4e0447daf542f7193e866e9989ae6a53b51bb1f082b0",
+    "research/provenance.py": "cd0f73c89043ca613d391f46a0dc8f94eb3086d5952c09543042ccfec1657397",
+    "research/publish.py": "cc1f9ef06ff47b4920844d0ccfbfef145ed540cd16478df37c60b0880ff08798",
+    "research/replay_integration.py": "570c4e1393ed3eb8b4ee7808fd0df01a3eb80ad5165292d2eda1b8fd3930ebf7",
+    "research/requirements.txt": "111d13e4149cfe3b44735670dd6fc9c481a22642c6a07dd24cf3f638d2b61bd3",
+    "research/scenarios.json": "502ee55bfe41ec1d16e410ddd8734c88ae908ce400946254ff7b094b4460fb43",
+    "research/scheduling.py": "14b94192428cc40be0b5914ec3174f6ed9271c52377bc360c9c59962aee5a069",
+    "research/storage_smoke.py": "a92ca4149d939c6e7651b7de24e5cfd52e7d03f3b87e6b655b3841e44ab41c09",
+    "schema/finding-v1.schema.json": "c4bc8e0aa80f7e333350e08af6b73c50fab5e23083beb738f8b7d31926a5bb3c",
+    "schema/hunter-action-v1.schema.json": "61b1f9a94c157b6603c2249d991c62591dfc79deb31984a8f9433d7e68cfbf4a",
+    "schema/research-report-v1.schema.json": "7b5bce412ff117fe6d525f4f53140fa057270f06184effe7e20c61cbd3e25fd7",
+    "schema/telemetry-v1.schema.json": "dda554330684bf03b50dfe8d3738467c4ecbb6139e90457ba0fae04bc16a8c1f",
+    "ui/package-lock.json": "8db7ab98d06bd39eba4a2c445ad3c18158d894c538397c37ca9e2a7d4e095ec0",
+    "ui/src/main.tsx": "8b849fdac0695be92c362e96dbce46ed71dd69ca9395b5b0333cfe46dae6a7c6",
+    "ui/src/pathView.tsx": "de5525a78c95b72df7018f86304063d4f5830f6586fb3b6c41ab202073666532",
+    "ui/src/researchView.css": "f45b978dfcb81a12e046193e63ed789359296af45a6f7b45a014ab7de85d4f5a",
+    "ui/src/researchView.tsx": "1670849135fe6dd2ed80644c3c67738b82d82669fd16fc914018a862017665ca",
+    "ui/src/runView.css": "efabdea9d71186fa729a26a882459e875042ba9d6a589911040c94c417f91745",
+    "ui/src/runView.tsx": "12dc16ac0edcdcee8e51a2fcbd8145ceb1b4c8d360d5ecd6fd8c5e2c545aaed6",
+    "ui/src/service.css": "ecfbdc2fbef6192603c61cf43490eb71f82c15e8638e5d1f40c7fc64962685e9",
+    "ui/src/styles.css": "5602dd3ad1dbafecb585d97d09f70cb31c869e13b64be64f003f4a472d613cbb"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "real_postgresql": true,
+  "report_roundtrip_rows": 160,
+  "concurrent_identical_imports": 3,
+  "stored_reports": 1,
+  "changed_duplicate_rejected": true,
+  "attached_hunt_roundtrip": true
+}

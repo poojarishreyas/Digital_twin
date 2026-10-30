@@ -1,0 +1,85 @@
+{
+  "name": "@elemental/session-log-export",
+  "description": "Web Session-log export command and shared download dialog",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/session-query/session-log-export"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^",
+    "fflate": "^0.8.2",
+    "@elemental/brand": "workspace:^"
+  },
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-locale": "workspace:^",
+    "@elemental/client-store": "workspace:^",
+    "@elemental/client-ui-commands": "workspace:^",
+    "@elemental/client-ui-conversation": "workspace:^",
+    "@elemental/client-ui-renderer": "workspace:^",
+    "@elemental/client-ui-session": "workspace:^",
+    "@elemental/client-ui-primitives": "workspace:^",
+    "@elemental/client-ui-slots": "workspace:^",
+    "@elemental/commands": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/session-persistence": "workspace:^",
+    "@elemental/session-query": "workspace:^",
+    "@types/react": "~18.3.1",
+    "react": "^18.2.0",
+    "@elemental/session": "workspace:^"
+  },
+  "elemental": {
+    "client": {
+      "inject": [
+        "@elemental/client-locale",
+        "@elemental/client-ui-commands",
+        "@elemental/client-ui-conversation",
+        "@elemental/client-ui-renderer",
+        "@elemental/client-ui-session"
+      ],
+      "platform": "web"
+    }
+  }
+}

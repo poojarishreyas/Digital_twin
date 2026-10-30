@@ -1,0 +1,68 @@
+{
+  "name": "@elemental/app-boot",
+  "description": "Shared boot glue for the app bins: .env loading, fail-loud Loader guards, snapshot-aware config resolution, and the Loader boot sequence",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/boot/app-boot"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/atomic-write": "workspace:^",
+    "js-yaml": "^4.2.0",
+    "resolve.exports": "^2.0.3"
+  },
+  "peerDependencies": {
+    "@elemental/cordis-plugin-group": "workspace:^",
+    "@elemental/cordis-plugin-hmr": "workspace:^",
+    "@elemental/cordis-plugin-include": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/launch-environment": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/home-paths": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@elemental/cordis-plugin-hmr": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@elemental/cordis-plugin-group": "workspace:^",
+    "@elemental/cordis-plugin-hmr": "workspace:^",
+    "@elemental/cordis-plugin-include": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/cordis-plugin-timer": "workspace:^",
+    "@elemental/launch-environment": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/home-paths": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@types/js-yaml": "^4.0.9",
+    "@elemental/cordis": "workspace:^"
+  }
+}

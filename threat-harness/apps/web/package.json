@@ -1,0 +1,58 @@
+{
+  "name": "@elemental/web-frontend",
+  "description": "Web application entry: vite build over the @elemental/client-web shell library; dist/ served by apps/server's elemental web",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "apps/web"
+  },
+  "type": "module",
+  "exports": {
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.map",
+    "!dist/preview.html",
+    "!dist/preview"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "watch": "vite build --watch --no-emptyOutDir",
+    "build:preview": "pnpm --filter @elemental/experimental-webworker-runtime exec tsdown && pnpm --filter @elemental/experimental-webworker-packer exec tsdown && vite build && elemental-pack-vfs-image --out dist/preview/vfs-image.tar.gz",
+    "serve:preview": "http-server dist -a 0.0.0.0 -p 4173 -c-1"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@elemental/cordis-plugin-group": "workspace:^",
+    "@elemental/client-modules": "workspace:^",
+    "@elemental/client-store": "workspace:^",
+    "@elemental/client-ui-primitives": "workspace:^",
+    "@elemental/client-ui-slots": "workspace:^",
+    "@elemental/client-web": "workspace:^",
+    "@elemental/cmdline": "workspace:^",
+    "@elemental/pwsh-local": "workspace:^",
+    "@elemental/experimental-webworker-packer": "workspace:^",
+    "@elemental/experimental-webworker-runtime": "workspace:^",
+    "@types/node": "^22.0.0",
+    "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.0",
+    "@types/ws": "8.18.1",
+    "@vitejs/plugin-react": "^4.0.0",
+    "http-server": "^14.1.1",
+    "fflate": "^0.8.2",
+    "playwright": "^1.49.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^6.0.3",
+    "vite": "^6.0.0",
+    "vitest": "^4.1.8",
+    "ws": "8.21.0"
+  }
+}

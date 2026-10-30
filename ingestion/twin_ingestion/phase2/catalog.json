@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "architecture": "linux/amd64",
+  "mappings": {
+    "nginx": {"version": "1.27.5", "image": "nginx@sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8", "port": 8080, "cpu_millis": 250, "ram_mb": 128},
+    "postgresql": {"version": "17.2", "image": "postgres@sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46", "port": 5432, "cpu_millis": 750, "ram_mb": 512},
+    "redis": {"version": "7.4.2", "image": "redis@sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635", "port": 6379, "cpu_millis": 250, "ram_mb": 128},
+    "openssh": {"version": "9.9p2", "image": "twin-openssh:9.9p2-local", "base_image": "alpine@sha256:1c4eef651f65e2f7daee7ee785882ac164b02b78fb74503052a26dc061c90474", "port": 2222, "cpu_millis": 250, "ram_mb": 128}
+  }
+}
+

@@ -1,0 +1,71 @@
+{
+  "name": "@elemental/client-ui-settings-models",
+  "description": "Models settings and shared product-onboarding dialogs over existing settings and credential joins",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/client/ui-settings-models"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "inject": [
+        "@elemental/client-ui-settings",
+        "@elemental/client-locale",
+        "@elemental/api-remotes"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/api-remotes": "workspace:^",
+    "@elemental/client-locale": "workspace:^",
+    "@elemental/client-store": "workspace:^",
+    "@elemental/client-test-runtime": "workspace:^",
+    "@elemental/client-ui-primitives": "workspace:^",
+    "@elemental/client-ui-settings": "workspace:^",
+    "@elemental/client-ui-slots": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@elemental/cordis": "workspace:^",
+    "react": "^18.2.0",
+    "@elemental/client-ui-renderer": "workspace:^",
+    "@elemental/util-values": "workspace:^"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

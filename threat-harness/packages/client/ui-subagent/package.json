@@ -1,0 +1,79 @@
+{
+  "name": "@elemental/client-ui-subagent",
+  "description": "Subagent conversation catalog, continuation routing UI, and '@' reference source",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/client/ui-subagent"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "inject": [
+        "@elemental/api-session-controller",
+        "@elemental/client-locale",
+        "@elemental/client-ui-conversation",
+        "@elemental/client-ui-primitives",
+        "@elemental/client-ui-input-trigger"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/client-locale": "workspace:^",
+    "@elemental/client-test-runtime": "workspace:^",
+    "@elemental/client-ui-conversation": "workspace:^",
+    "@elemental/client-ui-input-trigger": "workspace:^",
+    "@elemental/client-ui-primitives": "workspace:^",
+    "@elemental/client-ui-slots": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/subagent": "workspace:^",
+    "@elemental/token-meter": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.0",
+    "@elemental/cordis": "workspace:^",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@elemental/api-session-controller": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/client-ui-renderer": "workspace:^",
+    "@elemental/client-ui-session": "workspace:^"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

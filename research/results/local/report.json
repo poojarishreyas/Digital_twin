@@ -1,0 +1,2627 @@
+{
+  "schema_version": "3.0",
+  "run_id": "a5e1f4fc-ea5f-4019-a223-bb31fff18a88",
+  "created_at": "2026-10-25T09:21:01.643135+00:00",
+  "mode": "desktop_smoke",
+  "manifest_hash": "6b0d55a98d433267aafe6990beb25c180445832360ca2921727a0f6b428790be",
+  "model_lock": {
+    "model_id": "Qwen/Qwen3.5-27B",
+    "revision": "fc05daec18b0a78c049392ed2e771dde82bdf654",
+    "served_name": "twinhunter-qwen35-27b-fc05daec",
+    "license": "Apache-2.0",
+    "dtype": "bfloat16",
+    "quantization": null,
+    "context_length": 16384,
+    "vllm_version": "0.32.0",
+    "gpu_memory_utilization": 0.85,
+    "validation_status": "awaiting_gpu_run"
+  },
+  "budgets": {
+    "cpu_millis": 2000,
+    "ram_mb": 2048,
+    "max_steps": 12,
+    "max_tokens": 32768,
+    "response_tokens": 512,
+    "max_seconds": 180,
+    "timeout_seconds": 5,
+    "requests_per_second": 2.0
+  },
+  "environment": {
+    "engine": "29.9.2",
+    "cpus": 12,
+    "memory_bytes": 8183754752,
+    "measured_at": "2026-10-25T09:21:01.642776+00:00",
+    "physical_hosts_instrumented": 0,
+    "agent_overhead": null,
+    "synchronization_latency": null,
+    "missing_metrics_reason": "No Phase 1 instrumented-host measurement imported in this experiment"
+  },
+  "rows": [
+    {
+      "scenario_id": "s01",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0004484999999476713
+    },
+    {
+      "scenario_id": "s01",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:22:07 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "85409b39cb4b923bfc9e11b62a8ee9b51f21ad5b90e81ded5ad8cd4efa783a87",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "35b17bf1081eaaf0f906b8ef11d7fd8d682a61d2704afe054cdad60b0ebc5961"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.0188264999997045,
+      "rendered_snapshot": "85409b39cb4b923bfc9e11b62a8ee9b51f21ad5b90e81ded5ad8cd4efa783a87",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.76171875,
+      "peak_cpu_millis": 236.16410629638364,
+      "cpu_seconds": 0.229428,
+      "ram_mb_seconds": 15.875435958982175,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.2039316000000326
+    },
+    {
+      "scenario_id": "s01",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:22:10 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "2a4613170e9143d746a410bc7603fcea9c6c32a3f04b2ed94e1b821b4f29c788"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.789006099999824,
+      "rendered_snapshot": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.46484375,
+      "peak_cpu_millis": 245.01461246360768,
+      "cpu_seconds": 0.23489200000000002,
+      "ram_mb_seconds": 13.861112448046075,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 2.950692699999763
+    },
+    {
+      "scenario_id": "s01",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.0002030999999078631
+    },
+    {
+      "scenario_id": "s02",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "fe00ae1b457ecf6cf54737d4cdb097c2adf5792b489e0f7cb0e9891e4fa1c984",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00027099999988422496
+    },
+    {
+      "scenario_id": "s02",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "fe00ae1b457ecf6cf54737d4cdb097c2adf5792b489e0f7cb0e9891e4fa1c984",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:22:13 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "57ddee724df9f55b98c79c6444499dd111fdd291d5d6d1f9a4d067c2f3ac2e9c",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "aae9764cbdeae36df8cd6ad500e3cfabe8c081225f1b22cbb6ffd1fea69ed81c"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.771129899999778,
+      "rendered_snapshot": "57ddee724df9f55b98c79c6444499dd111fdd291d5d6d1f9a4d067c2f3ac2e9c",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 9.61328125,
+      "peak_cpu_millis": 247.17977460613216,
+      "cpu_seconds": 0.22537200000000002,
+      "ram_mb_seconds": 12.725862232031824,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 2.9849190999998427
+    },
+    {
+      "scenario_id": "s02",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "fe00ae1b457ecf6cf54737d4cdb097c2adf5792b489e0f7cb0e9891e4fa1c984",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx\r\nDate: Sun, 25 Oct 2026 09:22:17 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "fe00ae1b457ecf6cf54737d4cdb097c2adf5792b489e0f7cb0e9891e4fa1c984",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "140acd37f7c24042012e028c9e9c66ac0cdb7c17ffa46aef232461a8d11afc71"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.1469585999998344,
+      "rendered_snapshot": "fe00ae1b457ecf6cf54737d4cdb097c2adf5792b489e0f7cb0e9891e4fa1c984",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 9.3203125,
+      "peak_cpu_millis": 283.082669523305,
+      "cpu_seconds": 0.39545699999999995,
+      "ram_mb_seconds": 16.873687063671504,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.3813066000002436
+    },
+    {
+      "scenario_id": "s02",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "fe00ae1b457ecf6cf54737d4cdb097c2adf5792b489e0f7cb0e9891e4fa1c984",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00011309999990771757
+    },
+    {
+      "scenario_id": "s03",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4ebff515d2fed96ecb1208669bafe58423b043349f9ad1574429d3f65251eda3",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00027090000003227033
+    },
+    {
+      "scenario_id": "s03",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4ebff515d2fed96ecb1208669bafe58423b043349f9ad1574429d3f65251eda3",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:22:20 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "e2d54ebe2d6bf28ff9a820124804fab5265507cde59f8de4a72b01258430792a",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "0af156b521566a2d9a02e53c5654a45aed0a8347aaea01ea1fbc1d5ef43313e8"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.7841245999998137,
+      "rendered_snapshot": "e2d54ebe2d6bf28ff9a820124804fab5265507cde59f8de4a72b01258430792a",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 9.234375,
+      "peak_cpu_millis": 271.793917147249,
+      "cpu_seconds": 0.24239099999999997,
+      "ram_mb_seconds": 14.092953923047466,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 2.9807645000000775
+    },
+    {
+      "scenario_id": "s03",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4ebff515d2fed96ecb1208669bafe58423b043349f9ad1574429d3f65251eda3",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:22:23 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "4ebff515d2fed96ecb1208669bafe58423b043349f9ad1574429d3f65251eda3",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "01e4d90bcc9bcc573381f68dd8f3c5f0b85e91663742007f603e49fa92ab0339"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.7695337000000109,
+      "rendered_snapshot": "4ebff515d2fed96ecb1208669bafe58423b043349f9ad1574429d3f65251eda3",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 9.1328125,
+      "peak_cpu_millis": 221.62694048417163,
+      "cpu_seconds": 0.227952,
+      "ram_mb_seconds": 14.486892264845553,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.044026899999608
+    },
+    {
+      "scenario_id": "s03",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4ebff515d2fed96ecb1208669bafe58423b043349f9ad1574429d3f65251eda3",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00012560000004668836
+    },
+    {
+      "scenario_id": "s04",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "716bf31158772fa6d3ffe88ea1f4788b9ef3aa2db9de52860f8ea07f46904542",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0003262999998696614
+    },
+    {
+      "scenario_id": "s04",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "716bf31158772fa6d3ffe88ea1f4788b9ef3aa2db9de52860f8ea07f46904542",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:22:26 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "9666cf8b3b7f36092140bc4d6ad5ef8713697671ddbdc32fa55836ef8cc4210e",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "329cef00b37847c4b7fc6eda9a64bfea7c98ebf1b8ae975dd556dcfa61b04053"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.968252300000131,
+      "rendered_snapshot": "9666cf8b3b7f36092140bc4d6ad5ef8713697671ddbdc32fa55836ef8cc4210e",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 9.50390625,
+      "peak_cpu_millis": 219.52946111421917,
+      "cpu_seconds": 0.204559,
+      "ram_mb_seconds": 12.764036153514523,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.1283253000001423
+    },
+    {
+      "scenario_id": "s04",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "716bf31158772fa6d3ffe88ea1f4788b9ef3aa2db9de52860f8ea07f46904542",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx\r\nDate: Sun, 25 Oct 2026 09:22:29 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf"
+          },
+          "test_id": "nginx.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "716bf31158772fa6d3ffe88ea1f4788b9ef3aa2db9de52860f8ea07f46904542",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "04dd0d6c9a6d4abc121a40302c9c2b238fb732a172328e273daed662c53e0045"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.038122100000237,
+      "rendered_snapshot": "716bf31158772fa6d3ffe88ea1f4788b9ef3aa2db9de52860f8ea07f46904542",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 9.47265625,
+      "peak_cpu_millis": 276.9855046630587,
+      "cpu_seconds": 0.24874200000000002,
+      "ram_mb_seconds": 14.963135564845425,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.163648700000067
+    },
+    {
+      "scenario_id": "s04",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "716bf31158772fa6d3ffe88ea1f4788b9ef3aa2db9de52860f8ea07f46904542",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.0001391999999214022
+    },
+    {
+      "scenario_id": "s05",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00040899999976318213
+    },
+    {
+      "scenario_id": "s05",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 2,
+            "response": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: fe_sendauth: no password supplied\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "83fb822ee0a9f09debc762812909c6561c2bf47e516ac73f0fb3e438848db96d",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "a0e77f9721e68be35479893915dc72d6f65b2a95869e23ba115c1f6a50c29e4d"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.800788999999895,
+      "rendered_snapshot": "83fb822ee0a9f09debc762812909c6561c2bf47e516ac73f0fb3e438848db96d",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 69.2109375,
+      "peak_cpu_millis": 767.933919909666,
+      "cpu_seconds": 1.8942700000000003,
+      "ram_mb_seconds": 222.06110111211146,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.871491500000047
+    },
+    {
+      "scenario_id": "s05",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "1\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "b073a8e1384d4eacf4a825a86c3a06fbdd814a9d2a592bee723d67cd4629a669"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.539918299999954,
+      "rendered_snapshot": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 72.4609375,
+      "peak_cpu_millis": 774.5214129900268,
+      "cpu_seconds": 1.6031499999999999,
+      "ram_mb_seconds": 191.40875526876425,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.662961500000165
+    },
+    {
+      "scenario_id": "s05",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.0001938000000336615
+    },
+    {
+      "scenario_id": "s06",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "7bb3ecdd388cb49bdcd28896d5e7831163e7cc7521bfd1557214cc0847a6f2ec",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.000304499999856489
+    },
+    {
+      "scenario_id": "s06",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "7bb3ecdd388cb49bdcd28896d5e7831163e7cc7521bfd1557214cc0847a6f2ec",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 2,
+            "response": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: fe_sendauth: no password supplied\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "c73a13f78f3a7dd064c0afd0691769dc32274d82dcc9352e1098c351fdcfc9f4",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "c0f724829cce26c1b3ed90447e357f951d59cbf4f3c158e15841f0e9ca2ce322"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.928984700000001,
+      "rendered_snapshot": "c73a13f78f3a7dd064c0afd0691769dc32274d82dcc9352e1098c351fdcfc9f4",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 72.66015625,
+      "peak_cpu_millis": 767.5572678593826,
+      "cpu_seconds": 1.8300809999999998,
+      "ram_mb_seconds": 231.9674622738362,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 5.024747699999807
+    },
+    {
+      "scenario_id": "s06",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "7bb3ecdd388cb49bdcd28896d5e7831163e7cc7521bfd1557214cc0847a6f2ec",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 2,
+            "response": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: fe_sendauth: no password supplied\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "7bb3ecdd388cb49bdcd28896d5e7831163e7cc7521bfd1557214cc0847a6f2ec",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "f4be5b1ae1c6909532f087676c34089d564b077f795375b1635b7aed0d8e1468"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.5080410000000484,
+      "rendered_snapshot": "7bb3ecdd388cb49bdcd28896d5e7831163e7cc7521bfd1557214cc0847a6f2ec",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 69.5703125,
+      "peak_cpu_millis": 766.5901486265321,
+      "cpu_seconds": 1.747681,
+      "ram_mb_seconds": 193.24369905429023,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.356074100000114
+    },
+    {
+      "scenario_id": "s06",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "7bb3ecdd388cb49bdcd28896d5e7831163e7cc7521bfd1557214cc0847a6f2ec",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00015040000016597332
+    },
+    {
+      "scenario_id": "s07",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "9c3d25727f1b03c01b95f7a3439c5f3e00af149c327d1c01ae3a3a674f3fdafb",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0005590000000665896
+    },
+    {
+      "scenario_id": "s07",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "9c3d25727f1b03c01b95f7a3439c5f3e00af149c327d1c01ae3a3a674f3fdafb",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 2,
+            "response": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: fe_sendauth: no password supplied\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "474736fddeed058ba4be1d212d8ed29f9ae02d94209697bcb05f92411106d800",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "f13a44d557b4e7837ba75c28155a788a9cf78b39b1a2200075af81c686920780"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.6604991000003793,
+      "rendered_snapshot": "474736fddeed058ba4be1d212d8ed29f9ae02d94209697bcb05f92411106d800",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 68.7578125,
+      "peak_cpu_millis": 768.903362524629,
+      "cpu_seconds": 1.734814,
+      "ram_mb_seconds": 179.68269189179267,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.68495299999995
+    },
+    {
+      "scenario_id": "s07",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "9c3d25727f1b03c01b95f7a3439c5f3e00af149c327d1c01ae3a3a674f3fdafb",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 2,
+            "response": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: FATAL:  pg_hba.conf rejects connection for host \"172.18.0.3\", user \"synthetic\", database \"synthetic\", no encryption\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "9c3d25727f1b03c01b95f7a3439c5f3e00af149c327d1c01ae3a3a674f3fdafb",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "d5cafa1a262e11435dec4721a4446c5915d19bbcbf29d1f58d8de4cb0436ad99"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.705425600000126,
+      "rendered_snapshot": "9c3d25727f1b03c01b95f7a3439c5f3e00af149c327d1c01ae3a3a674f3fdafb",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 71.77734375,
+      "peak_cpu_millis": 785.0153672219867,
+      "cpu_seconds": 1.710487,
+      "ram_mb_seconds": 190.01982189297792,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.842216699999881
+    },
+    {
+      "scenario_id": "s07",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "9c3d25727f1b03c01b95f7a3439c5f3e00af149c327d1c01ae3a3a674f3fdafb",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00008969999998953426
+    },
+    {
+      "scenario_id": "s08",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "3978a8e0c270fff31239a1882b999a1d023d794c6e11700d3efe6a6256516aed",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.000413499999922351
+    },
+    {
+      "scenario_id": "s08",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "3978a8e0c270fff31239a1882b999a1d023d794c6e11700d3efe6a6256516aed",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 2,
+            "response": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: fe_sendauth: no password supplied\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "5f4a22008140aac92d521c5ff34840c5b9fabe84a20f9b5754d7cf35c3320257",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "2fb2da4e041e296e4d7613b3eaafbed7ad4cb97f14f6df153f571921fd095b74"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.540515299999697,
+      "rendered_snapshot": "5f4a22008140aac92d521c5ff34840c5b9fabe84a20f9b5754d7cf35c3320257",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 69.13671875,
+      "peak_cpu_millis": 764.798916599555,
+      "cpu_seconds": 1.6945869999999998,
+      "ram_mb_seconds": 186.75968079180961,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.53607269999975
+    },
+    {
+      "scenario_id": "s08",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "3978a8e0c270fff31239a1882b999a1d023d794c6e11700d3efe6a6256516aed",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "1\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "3978a8e0c270fff31239a1882b999a1d023d794c6e11700d3efe6a6256516aed",
+          "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+          "fidelity_gaps": [
+            "synthetic_local_bootstrap_rule"
+          ],
+          "tool": "security_check",
+          "evidence_id": "45d330e54a7cfffffd555b18c3b989e42017ab502625130415c30d976ae5f20c"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.9883732000002965,
+      "rendered_snapshot": "3978a8e0c270fff31239a1882b999a1d023d794c6e11700d3efe6a6256516aed",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 72.453125,
+      "peak_cpu_millis": 767.6874356257841,
+      "cpu_seconds": 1.7922580000000001,
+      "ram_mb_seconds": 238.23463395585864,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 5.148452500000076
+    },
+    {
+      "scenario_id": "s08",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "3978a8e0c270fff31239a1882b999a1d023d794c6e11700d3efe6a6256516aed",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.000598599999648286
+    },
+    {
+      "scenario_id": "s09",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0002613999999994121
+    },
+    {
+      "scenario_id": "s09",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "response": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command 'CONFIG SET protected-mode no' from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to 'no', and then restarting the server. 3) If you started the server manually just for testing, restart it with the '--protected-mode no' option. 4) Set up an authentication password for the default user. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.\n\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "5d833fd8197b80be6fafad6352593e989b4171b3ffb3f596cf27c40305b86902",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "01a97b6dd64790693c80916efca4bb12e663f6a2ba847965ab2a624cb96ea77b"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.0043995999999424,
+      "rendered_snapshot": "5d833fd8197b80be6fafad6352593e989b4171b3ffb3f596cf27c40305b86902",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 11.22265625,
+      "peak_cpu_millis": 272.54146964652637,
+      "cpu_seconds": 0.252845,
+      "ram_mb_seconds": 19.052857120312396,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.019398099999762
+    },
+    {
+      "scenario_id": "s09",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "PONG\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "44631e9670f1240d01df49a8101fe79d8ab7ba1f1c76b034b778fcf7b24c08c0"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.8527536999999938,
+      "rendered_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.37109375,
+      "peak_cpu_millis": 243.1197968247345,
+      "cpu_seconds": 0.248573,
+      "ram_mb_seconds": 13.575183821483439,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.042536299999938
+    },
+    {
+      "scenario_id": "s09",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.0001826000002438377
+    },
+    {
+      "scenario_id": "s10",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "b31c640d434f01d6d7c8a138b0efddfd6759a3499f884e632374795e193b1ae6",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0004202999998597079
+    },
+    {
+      "scenario_id": "s10",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "b31c640d434f01d6d7c8a138b0efddfd6759a3499f884e632374795e193b1ae6",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "response": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command 'CONFIG SET protected-mode no' from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to 'no', and then restarting the server. 3) If you started the server manually just for testing, restart it with the '--protected-mode no' option. 4) Set up an authentication password for the default user. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.\n\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "8adb14a7f45ce559e892275f2cbf3a2cf3292fdc3404d56b596149768c815078",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "4c3c271bcdf34a1c1d61e9343aa21949a6a71bd08263b3e46968f3a2281864ba"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.0882955000001857,
+      "rendered_snapshot": "8adb14a7f45ce559e892275f2cbf3a2cf3292fdc3404d56b596149768c815078",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.66015625,
+      "peak_cpu_millis": 256.6184055967497,
+      "cpu_seconds": 0.285151,
+      "ram_mb_seconds": 12.49104064804748,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.102878900000178
+    },
+    {
+      "scenario_id": "s10",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "b31c640d434f01d6d7c8a138b0efddfd6759a3499f884e632374795e193b1ae6",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "response": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command 'CONFIG SET protected-mode no' from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to 'no', and then restarting the server. 3) If you started the server manually just for testing, restart it with the '--protected-mode no' option. 4) Set up an authentication password for the default user. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.\n\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "b31c640d434f01d6d7c8a138b0efddfd6759a3499f884e632374795e193b1ae6",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "574ec514d71da2cfc32b301137f9306aa422f396cbb421a522e5f0bed31c69cd"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.83142319999979,
+      "rendered_snapshot": "b31c640d434f01d6d7c8a138b0efddfd6759a3499f884e632374795e193b1ae6",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 10.66015625,
+      "peak_cpu_millis": 282.36551017556724,
+      "cpu_seconds": 0.253477,
+      "ram_mb_seconds": 15.554311241799239,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 2.7758409000002757
+    },
+    {
+      "scenario_id": "s10",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "b31c640d434f01d6d7c8a138b0efddfd6759a3499f884e632374795e193b1ae6",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00014419999979509157
+    },
+    {
+      "scenario_id": "s11",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "d4202308137b7ad198270e944fe4f9067f15193e2bbea0344a436796ddcd500c",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0004226000000926433
+    },
+    {
+      "scenario_id": "s11",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "d4202308137b7ad198270e944fe4f9067f15193e2bbea0344a436796ddcd500c",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "response": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command 'CONFIG SET protected-mode no' from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to 'no', and then restarting the server. 3) If you started the server manually just for testing, restart it with the '--protected-mode no' option. 4) Set up an authentication password for the default user. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.\n\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "0bc2257c241bb47971c1bf26a60e75b793f40940848458c97abf497192a00827",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "23773f68274d79cd3d1be2e5d51f8d34a629e97e729da354adb2bde72e0939fd"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.099251600000116,
+      "rendered_snapshot": "0bc2257c241bb47971c1bf26a60e75b793f40940848458c97abf497192a00827",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 10.0703125,
+      "peak_cpu_millis": 274.38040590068533,
+      "cpu_seconds": 0.259772,
+      "ram_mb_seconds": 14.407822121875615,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.1154866000001675
+    },
+    {
+      "scenario_id": "s11",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "d4202308137b7ad198270e944fe4f9067f15193e2bbea0344a436796ddcd500c",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "response": "NOAUTH Authentication required.\n\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "d4202308137b7ad198270e944fe4f9067f15193e2bbea0344a436796ddcd500c",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [
+            "synthetic_redis_password_substituted"
+          ],
+          "tool": "security_check",
+          "evidence_id": "9494f31204234503dd57d0506a219f3562ef2985712157071511175f5c1a045b"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.9333558999996967,
+      "rendered_snapshot": "d4202308137b7ad198270e944fe4f9067f15193e2bbea0344a436796ddcd500c",
+      "fidelity_gaps": [
+        "synthetic_redis_password_substituted"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 11.078125,
+      "peak_cpu_millis": 229.31928736632014,
+      "cpu_seconds": 0.23206500000000002,
+      "ram_mb_seconds": 16.76467211015381,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 2.9035539999999855
+    },
+    {
+      "scenario_id": "s11",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "d4202308137b7ad198270e944fe4f9067f15193e2bbea0344a436796ddcd500c",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.0001395999997839681
+    },
+    {
+      "scenario_id": "s12",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "7adb6d7a23cb6e6e964bd5fc42183c43ad1366a8f51aef327ef1950bcc5bf602",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0002739000001383829
+    },
+    {
+      "scenario_id": "s12",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "7adb6d7a23cb6e6e964bd5fc42183c43ad1366a8f51aef327ef1950bcc5bf602",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "response": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command 'CONFIG SET protected-mode no' from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to 'no', and then restarting the server. 3) If you started the server manually just for testing, restart it with the '--protected-mode no' option. 4) Set up an authentication password for the default user. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.\n\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "0e54535fc1cf9fb25e7cd6a6737d0d9c21e4968cd2229d90295ded6572cd0a25",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "459d0806b06b0ecfda18f5284036a936c0d3b943011134c486b91366cc49da72"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.8171010000000933,
+      "rendered_snapshot": "0e54535fc1cf9fb25e7cd6a6737d0d9c21e4968cd2229d90295ded6572cd0a25",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 7.61328125,
+      "peak_cpu_millis": 232.94588442440326,
+      "cpu_seconds": 0.242933,
+      "ram_mb_seconds": 11.542324473437118,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.0197410999999192
+    },
+    {
+      "scenario_id": "s12",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "7adb6d7a23cb6e6e964bd5fc42183c43ad1366a8f51aef327ef1950bcc5bf602",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "PONG\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "7adb6d7a23cb6e6e964bd5fc42183c43ad1366a8f51aef327ef1950bcc5bf602",
+          "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "690cbd046a7a68b1694e8a5ecc0d84681cb281d3eeb456c553d88768bb45bbbb"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.8335362000002533,
+      "rendered_snapshot": "7adb6d7a23cb6e6e964bd5fc42183c43ad1366a8f51aef327ef1950bcc5bf602",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 10.34375,
+      "peak_cpu_millis": 217.27334662782556,
+      "cpu_seconds": 0.225353,
+      "ram_mb_seconds": 13.898132461326124,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 2.8864236999997956
+    },
+    {
+      "scenario_id": "s12",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "7adb6d7a23cb6e6e964bd5fc42183c43ad1366a8f51aef327ef1950bcc5bf602",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00015080000002853922
+    },
+    {
+      "scenario_id": "s13",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "6c01efc0df80d9a07a76f9d55b1654eafa81c5e9f37657cb0acc6f2c5e545dbf",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00026900000011664815
+    },
+    {
+      "scenario_id": "s13",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "6c01efc0df80d9a07a76f9d55b1654eafa81c5e9f37657cb0acc6f2c5e545dbf",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 255,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nsynthetic@172.18.0.2: Permission denied (publickey,keyboard-interactive).\r\n"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "b7ce4a2b43a14599a190bf3738c20e3f813dd771ff24ee64d2cea11d89f8d4ec",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "ebb990c160bab609200a38df09bb10f6bd8815c2df0cea71ac79018d86c7ff9a"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.7274857000002157,
+      "rendered_snapshot": "b7ce4a2b43a14599a190bf3738c20e3f813dd771ff24ee64d2cea11d89f8d4ec",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.06640625,
+      "peak_cpu_millis": 243.1312312287863,
+      "cpu_seconds": 0.361164,
+      "ram_mb_seconds": 15.812444939843443,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.4529176000000916
+    },
+    {
+      "scenario_id": "s13",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "6c01efc0df80d9a07a76f9d55b1654eafa81c5e9f37657cb0acc6f2c5e545dbf",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nlegitimate-workflow"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "6c01efc0df80d9a07a76f9d55b1654eafa81c5e9f37657cb0acc6f2c5e545dbf",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "d8aec7faf65e774204d28bd7641b62ab6f2c193fd9bf1623143ed2353ce897a9"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.031567300000006,
+      "rendered_snapshot": "6c01efc0df80d9a07a76f9d55b1654eafa81c5e9f37657cb0acc6f2c5e545dbf",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 9.10546875,
+      "peak_cpu_millis": 243.67271692078148,
+      "cpu_seconds": 0.46887,
+      "ram_mb_seconds": 25.266633486718987,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.810793499999818
+    },
+    {
+      "scenario_id": "s13",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "6c01efc0df80d9a07a76f9d55b1654eafa81c5e9f37657cb0acc6f2c5e545dbf",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00012610000021595624
+    },
+    {
+      "scenario_id": "s14",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "0c62eb240b9197ca5485400e2a00e3639b7479879270e01b56c3c31e42351ca2",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.0002484000001459208
+    },
+    {
+      "scenario_id": "s14",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "0c62eb240b9197ca5485400e2a00e3639b7479879270e01b56c3c31e42351ca2",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 255,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nsynthetic@172.18.0.2: Permission denied (publickey,keyboard-interactive).\r\n"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "4802c72a0a004cb5c87413098773a994fa735e2716763b6b3ae41abb79131238",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "f531b492c0692dfe4f712baf13766738736d20c44ac447e82f72abf7b307e4da"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.6738572999997814,
+      "rendered_snapshot": "4802c72a0a004cb5c87413098773a994fa735e2716763b6b3ae41abb79131238",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.1484375,
+      "peak_cpu_millis": 260.40580845546447,
+      "cpu_seconds": 0.37685399999999997,
+      "ram_mb_seconds": 16.14787520820293,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.4328926000002866
+    },
+    {
+      "scenario_id": "s14",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "0c62eb240b9197ca5485400e2a00e3639b7479879270e01b56c3c31e42351ca2",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 255,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nsynthetic@172.18.0.2: Permission denied (publickey,keyboard-interactive).\r\n"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "0c62eb240b9197ca5485400e2a00e3639b7479879270e01b56c3c31e42351ca2",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "88dc2af952cb8c40177ce5892955e8cfec80e709c7c156e7528dab876f2c6f9d"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.8593793999998525,
+      "rendered_snapshot": "0c62eb240b9197ca5485400e2a00e3639b7479879270e01b56c3c31e42351ca2",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 7.46875,
+      "peak_cpu_millis": 258.5766132751368,
+      "cpu_seconds": 0.360153,
+      "ram_mb_seconds": 16.41118990624852,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.460019600000123
+    },
+    {
+      "scenario_id": "s14",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "0c62eb240b9197ca5485400e2a00e3639b7479879270e01b56c3c31e42351ca2",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.000311000000237982
+    },
+    {
+      "scenario_id": "s15",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "1735e7ef5301fece25b74c9deda8863535e7b0b681ef0ea173e83145b3c1f7b1",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00034779999987222254
+    },
+    {
+      "scenario_id": "s15",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "1735e7ef5301fece25b74c9deda8863535e7b0b681ef0ea173e83145b3c1f7b1",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 255,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nsynthetic@172.18.0.2: Permission denied (publickey,keyboard-interactive).\r\n"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "cb53cb31259888924a212150a239ec31ee9db92123b5243792b6d2a7f0ca4f31",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "ada28c2614de8a085f3b4902b75316c92e7bc2d73f754c3bd8d3fe66e99c1c17"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 2.9491782000000057,
+      "rendered_snapshot": "cb53cb31259888924a212150a239ec31ee9db92123b5243792b6d2a7f0ca4f31",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.11328125,
+      "peak_cpu_millis": 251.7840011439988,
+      "cpu_seconds": 0.45499300000000004,
+      "ram_mb_seconds": 16.894652782033127,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 4.371365699999842
+    },
+    {
+      "scenario_id": "s15",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "1735e7ef5301fece25b74c9deda8863535e7b0b681ef0ea173e83145b3c1f7b1",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 5,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nPermission denied, please try again.\r\n"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "1735e7ef5301fece25b74c9deda8863535e7b0b681ef0ea173e83145b3c1f7b1",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "e1535d1927260fb691efb029690034df23e2ec51b28a35e2e2a35893a786a176"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.8670305000000553,
+      "rendered_snapshot": "1735e7ef5301fece25b74c9deda8863535e7b0b681ef0ea173e83145b3c1f7b1",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.25,
+      "peak_cpu_millis": 250.39363446857357,
+      "cpu_seconds": 0.376499,
+      "ram_mb_seconds": 16.842260208204742,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.669755299999906
+    },
+    {
+      "scenario_id": "s15",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "1735e7ef5301fece25b74c9deda8863535e7b0b681ef0ea173e83145b3c1f7b1",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00012770000012096716
+    },
+    {
+      "scenario_id": "s16",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "a997e8cb19385e093b77f745e43bb48e50817b0d77e6a781db161c7c34437c82",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00031790000002729357
+    },
+    {
+      "scenario_id": "s16",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "a997e8cb19385e093b77f745e43bb48e50817b0d77e6a781db161c7c34437c82",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 255,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nsynthetic@172.18.0.2: Permission denied (publickey,keyboard-interactive).\r\n"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "2ee91f1ecc94de28fae35d88a9950c561f97af9cda0aa830499840be44cf7c85",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "7ad42c6291bd165217fde1a5fd3735856dd514b88b2c9d99c83695faffb6bbe3"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.874968799999806,
+      "rendered_snapshot": "2ee91f1ecc94de28fae35d88a9950c561f97af9cda0aa830499840be44cf7c85",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 8.3125,
+      "peak_cpu_millis": 264.6187919036493,
+      "cpu_seconds": 0.390518,
+      "ram_mb_seconds": 18.436766229296495,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.5350752999997894
+    },
+    {
+      "scenario_id": "s16",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "a997e8cb19385e093b77f745e43bb48e50817b0d77e6a781db161c7c34437c82",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nlegitimate-workflow"
+          },
+          "test_id": "openssh.policy",
+          "test_version": "3.0",
+          "target_id": "target",
+          "snapshot_hash": "a997e8cb19385e093b77f745e43bb48e50817b0d77e6a781db161c7c34437c82",
+          "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+          "fidelity_gaps": [],
+          "tool": "security_check",
+          "evidence_id": "8f56b3bc9c35dc329ed1662c8494d53aa7e583490639fcd9a561d98200983bf4"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 1.9388714000001528,
+      "rendered_snapshot": "a997e8cb19385e093b77f745e43bb48e50817b0d77e6a781db161c7c34437c82",
+      "fidelity_gaps": [],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 7.984375,
+      "peak_cpu_millis": 242.26876997007656,
+      "cpu_seconds": 0.391691,
+      "ram_mb_seconds": 17.44281322695459,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 3.6078904999999395
+    },
+    {
+      "scenario_id": "s16",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "a997e8cb19385e093b77f745e43bb48e50817b0d77e6a781db161c7c34437c82",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00016040000036809943
+    },
+    {
+      "scenario_id": "s17",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "68c70ad1b1a2ff4c55f643c86071642c7779c05efe268bcfcc4c7ec9eac2d90e",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00028350000002319575
+    },
+    {
+      "scenario_id": "s17",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "68c70ad1b1a2ff4c55f643c86071642c7779c05efe268bcfcc4c7ec9eac2d90e",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:24:06 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 3c482346f375"
+          },
+          "test_id": "proxy_chain",
+          "test_version": "3.0",
+          "target_id": "front",
+          "snapshot_hash": "fa931a586c26545beae9ffd3702bdcc03b4ca9d95397d26dfb80634aca7b3536",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [
+            "proxy_upstream_remapped_to_synthetic_twin"
+          ],
+          "tool": "security_check",
+          "evidence_id": "5a1916f9a9a83e4476b0745daa50982a8497f5d691f901e798881dc56ed02cc0"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.5672269000001506,
+      "rendered_snapshot": "fa931a586c26545beae9ffd3702bdcc03b4ca9d95397d26dfb80634aca7b3536",
+      "fidelity_gaps": [
+        "proxy_upstream_remapped_to_synthetic_twin"
+      ],
+      "path_kind": "confirmed_synthetic_proxy_behavior",
+      "peak_ram_mb": 14.19921875,
+      "peak_cpu_millis": 250.35476488852524,
+      "cpu_seconds": 0.495396,
+      "ram_mb_seconds": 35.54040692733902,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 5.879456499999833
+    },
+    {
+      "scenario_id": "s17",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "68c70ad1b1a2ff4c55f643c86071642c7779c05efe268bcfcc4c7ec9eac2d90e",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:24:12 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 3c482346f375"
+          },
+          "test_id": "proxy_chain",
+          "test_version": "3.0",
+          "target_id": "front",
+          "snapshot_hash": "68c70ad1b1a2ff4c55f643c86071642c7779c05efe268bcfcc4c7ec9eac2d90e",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [
+            "proxy_upstream_remapped_to_synthetic_twin"
+          ],
+          "tool": "security_check",
+          "evidence_id": "89e9dc03f5127e26a518d42baf71d2365fac3b1e9bae5b4cc692e021e2b9df9d"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.4302959000001465,
+      "rendered_snapshot": "68c70ad1b1a2ff4c55f643c86071642c7779c05efe268bcfcc4c7ec9eac2d90e",
+      "fidelity_gaps": [
+        "proxy_upstream_remapped_to_synthetic_twin"
+      ],
+      "path_kind": "confirmed_synthetic_proxy_behavior",
+      "peak_ram_mb": 15.79296875,
+      "peak_cpu_millis": 237.50916613700684,
+      "cpu_seconds": 0.42646000000000006,
+      "ram_mb_seconds": 35.149404713676574,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 5.506015099999786
+    },
+    {
+      "scenario_id": "s17",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": true,
+      "truth_verified": true,
+      "snapshot_hash": "68c70ad1b1a2ff4c55f643c86071642c7779c05efe268bcfcc4c7ec9eac2d90e",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00007619999996677507
+    },
+    {
+      "scenario_id": "s18",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "447b808caac6f2208685420bc1c0d090a883b66abec03a23fd09f88fd1c3c9a2",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.000172399999883055
+    },
+    {
+      "scenario_id": "s18",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "447b808caac6f2208685420bc1c0d090a883b66abec03a23fd09f88fd1c3c9a2",
+      "status": "completed",
+      "prediction": true,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "status": 200,
+            "response": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:24:18 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 3c482346f375"
+          },
+          "test_id": "proxy_chain",
+          "test_version": "3.0",
+          "target_id": "front",
+          "snapshot_hash": "f438cb684325c6bbab1b37b8de83a2f204a4c4ee9956cce87928d66cef6bbb29",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [
+            "proxy_upstream_remapped_to_synthetic_twin"
+          ],
+          "tool": "security_check",
+          "evidence_id": "b55d8e7b31b2f9a860a4f32cb06bb1edae81a963ca07f1e67ba8647fb897d1ff"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.453843300000244,
+      "rendered_snapshot": "f438cb684325c6bbab1b37b8de83a2f204a4c4ee9956cce87928d66cef6bbb29",
+      "fidelity_gaps": [
+        "proxy_upstream_remapped_to_synthetic_twin"
+      ],
+      "path_kind": "confirmed_synthetic_proxy_behavior",
+      "peak_ram_mb": 14.5078125,
+      "peak_cpu_millis": 296.1880516242045,
+      "cpu_seconds": 0.455068,
+      "ram_mb_seconds": 35.904242063672214,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 5.490705199999866
+    },
+    {
+      "scenario_id": "s18",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "447b808caac6f2208685420bc1c0d090a883b66abec03a23fd09f88fd1c3c9a2",
+      "status": "completed",
+      "prediction": false,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [
+        {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "status": 403,
+            "response": "HTTP/1.1 403 Forbidden\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 09:24:23 GMT\r\nContent-Type: text/html\r\nContent-Length: 153\r\nConnection: keep-alive\r\n\r\n<html>\r\n<head><title>403 Forbidden</title></head>\r\n<body>\r\n<center><h1>403 Forbidden</h1></center>\r\n<hr><center>nginx/1.27.5</center>\r\n</body>\r\n</html>\r\n"
+          },
+          "test_id": "proxy_chain",
+          "test_version": "3.0",
+          "target_id": "front",
+          "snapshot_hash": "447b808caac6f2208685420bc1c0d090a883b66abec03a23fd09f88fd1c3c9a2",
+          "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+          "fidelity_gaps": [
+            "proxy_upstream_remapped_to_synthetic_twin"
+          ],
+          "tool": "security_check",
+          "evidence_id": "39b04ed4b506622c6e0c36f4f483dff0eebef661fea4b2be4bf157c4f5587a0b"
+        }
+      ],
+      "trace": [],
+      "readiness_seconds": 3.1196570000001884,
+      "rendered_snapshot": "447b808caac6f2208685420bc1c0d090a883b66abec03a23fd09f88fd1c3c9a2",
+      "fidelity_gaps": [
+        "proxy_upstream_remapped_to_synthetic_twin"
+      ],
+      "path_kind": "no_confirmed_attack_chain",
+      "peak_ram_mb": 14.75,
+      "peak_cpu_millis": 265.30390648966124,
+      "cpu_seconds": 0.35140299999999997,
+      "ram_mb_seconds": 26.30403521211013,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": [],
+      "elapsed_seconds": 5.14406820000022
+    },
+    {
+      "scenario_id": "s18",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": false,
+      "truth_verified": true,
+      "snapshot_hash": "447b808caac6f2208685420bc1c0d090a883b66abec03a23fd09f88fd1c3c9a2",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00008650000017951243
+    },
+    {
+      "scenario_id": "s19",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "9593bed9766c2043d78b992d8b5e7133a38ff60b3b3c369a84f7dfbd7a663eac",
+      "status": "unsupported",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00013059999992037774
+    },
+    {
+      "scenario_id": "s19",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "9593bed9766c2043d78b992d8b5e7133a38ff60b3b3c369a84f7dfbd7a663eac",
+      "status": "unsupported",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "source fidelity unsupported",
+      "elapsed_seconds": 0.000824099999590544
+    },
+    {
+      "scenario_id": "s19",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "9593bed9766c2043d78b992d8b5e7133a38ff60b3b3c369a84f7dfbd7a663eac",
+      "status": "unsupported",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "source fidelity unsupported",
+      "elapsed_seconds": 0.00021640000022671302
+    },
+    {
+      "scenario_id": "s19",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "9593bed9766c2043d78b992d8b5e7133a38ff60b3b3c369a84f7dfbd7a663eac",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00012539999988803174
+    },
+    {
+      "scenario_id": "s20",
+      "baseline": "static_assessment",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "34d8d8752b931b8dabb4b5c13be2b9ff1f2acb9e5da3227f4941dfce109ab665",
+      "status": "unsupported",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "assessment_kind": "static_inference_not_confirmed_finding",
+      "elapsed_seconds": 0.00021320000041669118
+    },
+    {
+      "scenario_id": "s20",
+      "baseline": "default_twins",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "34d8d8752b931b8dabb4b5c13be2b9ff1f2acb9e5da3227f4941dfce109ab665",
+      "status": "unsupported",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "source fidelity unsupported",
+      "elapsed_seconds": 0.0003584999999475258
+    },
+    {
+      "scenario_id": "s20",
+      "baseline": "synced_deterministic",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "34d8d8752b931b8dabb4b5c13be2b9ff1f2acb9e5da3227f4941dfce109ab665",
+      "status": "unsupported",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "source fidelity unsupported",
+      "elapsed_seconds": 0.00020989999984522
+    },
+    {
+      "scenario_id": "s20",
+      "baseline": "synced_twinhunter",
+      "repetition": 1,
+      "truth": null,
+      "truth_verified": false,
+      "snapshot_hash": "34d8d8752b931b8dabb4b5c13be2b9ff1f2acb9e5da3227f4941dfce109ab665",
+      "status": "unavailable",
+      "prediction": null,
+      "cost_usd": null,
+      "cost_reason": "GPU billing rate not supplied; zero cost is not assumed",
+      "evidence": [],
+      "trace": [],
+      "error": "pinned GPU model endpoint not configured",
+      "elapsed_seconds": 0.00009719999980006833
+    }
+  ],
+  "patches": [
+    {
+      "source_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "target_id": "target",
+      "changes": [
+        {
+          "field": "directives",
+          "index": 1,
+          "append_name": "requirepass",
+          "value": "<redacted>"
+        }
+      ],
+      "label": "verified in the tested twin scenario",
+      "checks": {
+        "original_security": {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "PONG\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0"
+        },
+        "original_workflow": true,
+        "syntax_and_startup": true,
+        "security_retest": {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 0,
+            "response": "NOAUTH Authentication required.\n\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0"
+        },
+        "legitimate_workflow": true,
+        "cleanup": true
+      },
+      "limitations": [
+        "desktop_smoke",
+        "synthetic workflow only; no production compatibility or downtime claim"
+      ],
+      "rollback": {
+        "source_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+        "configuration": [
+          {
+            "id": "target",
+            "kind": "redis",
+            "version": "7.4.2",
+            "directives": [
+              {
+                "order": 1,
+                "name": "protected-mode",
+                "values": [
+                  "no"
+                ],
+                "section": ""
+              }
+            ],
+            "hba_rules": []
+          }
+        ],
+        "rendered_files": {
+          "redis.conf": "port 6379\nsave \"\"\nappendonly no\nprotected-mode no\n"
+        }
+      },
+      "candidate_snapshot": "dee73e32708a610186678cd9badc58a952f3976d67473c4fdd9981eac12c79a5",
+      "diff": "--- source\n+++ candidate\n@@ -11,6 +11,13 @@\n           \"no\"\n         ],\n         \"section\": \"\"\n+      },\n+      {\n+        \"order\": 2,\n+        \"name\": \"requirepass\",\n+        \"values\": [\n+          \"<redacted>\"\n+        ]\n       }\n     ],\n     \"hba_rules\": []\n",
+      "source_image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+      "fidelity_gaps": [
+        "synthetic_redis_password_substituted"
+      ],
+      "candidate_image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+      "elapsed_seconds": 7.120728000000327,
+      "artifact_hash": "5e3d7d0254051ff19a87dbcda6e1d44d174c22c111e16e482ec64d278bab595c",
+      "seeded_case": "valid"
+    },
+    {
+      "source_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "target_id": "target",
+      "changes": [
+        {
+          "field": "directives",
+          "index": 0,
+          "value": "banana"
+        }
+      ],
+      "label": "rejected",
+      "checks": {
+        "original_security": {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "PONG\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0"
+        },
+        "original_workflow": true,
+        "syntax_and_startup": false
+      },
+      "limitations": [
+        "desktop_smoke",
+        "synthetic workflow only; no production compatibility or downtime claim"
+      ],
+      "rollback": {
+        "source_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+        "configuration": [
+          {
+            "id": "target",
+            "kind": "redis",
+            "version": "7.4.2",
+            "directives": [
+              {
+                "order": 1,
+                "name": "protected-mode",
+                "values": [
+                  "no"
+                ],
+                "section": ""
+              }
+            ],
+            "hba_rules": []
+          }
+        ],
+        "rendered_files": {
+          "redis.conf": "port 6379\nsave \"\"\nappendonly no\nprotected-mode no\n"
+        }
+      },
+      "candidate_snapshot": "0e8210c0fbbb7ee39b99729f13db6725132b793d7197812c43f72d20e6b717ee",
+      "diff": "--- source\n+++ candidate\n@@ -8,7 +8,7 @@\n         \"order\": 1,\n         \"name\": \"protected-mode\",\n         \"values\": [\n-          \"no\"\n+          \"banana\"\n         ],\n         \"section\": \"\"\n       }\n",
+      "source_image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+      "fidelity_gaps": [],
+      "error": "startup/syntax check failed: Could not connect to Redis at 127.0.0.1:6379: Connection refused\n",
+      "elapsed_seconds": 27.332272900000135,
+      "artifact_hash": "89b5b874bf0b23bf55eab590f6d90623171a4900e13603ea4c0f9f821606ecec",
+      "seeded_case": "invalid"
+    },
+    {
+      "source_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "target_id": "target",
+      "changes": [
+        {
+          "field": "directives",
+          "index": 0,
+          "value": "no"
+        }
+      ],
+      "label": "rejected",
+      "checks": {
+        "original_security": {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "PONG\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0"
+        },
+        "original_workflow": true,
+        "syntax_and_startup": true,
+        "security_retest": {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "PONG\n"
+          },
+          "test_id": "redis.policy",
+          "test_version": "3.0"
+        },
+        "legitimate_workflow": true,
+        "cleanup": true
+      },
+      "limitations": [
+        "desktop_smoke",
+        "synthetic workflow only; no production compatibility or downtime claim"
+      ],
+      "rollback": {
+        "source_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+        "configuration": [
+          {
+            "id": "target",
+            "kind": "redis",
+            "version": "7.4.2",
+            "directives": [
+              {
+                "order": 1,
+                "name": "protected-mode",
+                "values": [
+                  "no"
+                ],
+                "section": ""
+              }
+            ],
+            "hba_rules": []
+          }
+        ],
+        "rendered_files": {
+          "redis.conf": "port 6379\nsave \"\"\nappendonly no\nprotected-mode no\n"
+        }
+      },
+      "candidate_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+      "diff": "",
+      "source_image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+      "fidelity_gaps": [],
+      "candidate_image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+      "elapsed_seconds": 6.814695400000346,
+      "artifact_hash": "0a5f82f22e7b8ddf70d7472cc17d52fae343930551c2285939b519e88ebb40ed",
+      "seeded_case": "ineffective"
+    },
+    {
+      "source_snapshot": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+      "target_id": "target",
+      "changes": [
+        {
+          "field": "hba_rules",
+          "index": 0,
+          "value": "reject"
+        }
+      ],
+      "label": "rejected",
+      "checks": {
+        "original_security": {
+          "verdict": "confirmed",
+          "observations": {
+            "exit_code": 0,
+            "response": "1\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0"
+        },
+        "original_workflow": true,
+        "syntax_and_startup": true,
+        "security_retest": {
+          "verdict": "not_reproduced",
+          "observations": {
+            "exit_code": 2,
+            "response": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: FATAL:  pg_hba.conf rejects connection for host \"172.18.0.3\", user \"synthetic\", database \"synthetic\", no encryption\n"
+          },
+          "test_id": "postgresql.policy",
+          "test_version": "3.0"
+        },
+        "legitimate_workflow": false,
+        "cleanup": true
+      },
+      "limitations": [
+        "desktop_smoke",
+        "synthetic workflow only; no production compatibility or downtime claim"
+      ],
+      "rollback": {
+        "source_snapshot": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+        "configuration": [
+          {
+            "id": "target",
+            "kind": "postgresql",
+            "version": "17.2",
+            "directives": [
+              {
+                "order": 1,
+                "name": "listen_addresses",
+                "values": [
+                  "*"
+                ],
+                "section": ""
+              }
+            ],
+            "hba_rules": [
+              {
+                "order": 1,
+                "name": "rule",
+                "values": [
+                  "host",
+                  "all",
+                  "all",
+                  "0.0.0.0/0",
+                  "trust"
+                ]
+              }
+            ]
+          }
+        ],
+        "rendered_files": {
+          "postgresql.conf": "listen_addresses = '*'\nport = 5432\nhba_file = '/run/twin/pg_hba.conf'\n",
+          "pg_hba.conf": "local all all trust\nhost synthetic synthetic 0.0.0.0/0 trust\n"
+        }
+      },
+      "candidate_snapshot": "fa763ce82bcef3730f473506e606f2495c4b30b5e424ee733491fc8a24a87ae8",
+      "diff": "--- source\n+++ candidate\n@@ -22,7 +22,7 @@\n           \"all\",\n           \"all\",\n           \"0.0.0.0/0\",\n-          \"trust\"\n+          \"reject\"\n         ]\n       }\n     ]\n",
+      "source_image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+      "fidelity_gaps": [
+        "synthetic_local_bootstrap_rule",
+        "synthetic_local_bootstrap_rule"
+      ],
+      "candidate_image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+      "elapsed_seconds": 9.905362699999841,
+      "artifact_hash": "4e0cc2829dc399a37331e3c71bbebe27c35be4699512cfea08d7cbeca20ee83b",
+      "seeded_case": "breaking"
+    }
+  ],
+  "limitations": [
+    "20 small policy fixtures, not a representative vulnerability corpus",
+    "Ground truth independently wire-checked by a second implementation; external expert review pending",
+    "Sampled resource peaks can miss sub-interval spikes",
+    "AI results unavailable until pinned model is hosted",
+    "Source hosts are never patched",
+    "VM comparison is not run on this Windows Docker Desktop host"
+  ]
+}

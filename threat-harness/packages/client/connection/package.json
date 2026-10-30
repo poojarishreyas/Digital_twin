@@ -1,0 +1,68 @@
+{
+  "name": "@elemental/client-connection",
+  "description": "Authenticated RPC transport, generation lifecycle, and browser fixture",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/client/connection"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "inject": [],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/credentials": "workspace:^",
+    "@elemental/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/brand": "workspace:^",
+    "@elemental/commands": "workspace:^",
+    "@elemental/host-directory-picker": "workspace:^",
+    "@elemental/host-webserver": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/settings": "workspace:^",
+    "@elemental/tool-todo": "workspace:^",
+    "@elemental/util-values": "workspace:^"
+  }
+}

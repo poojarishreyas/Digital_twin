@@ -1,0 +1,57 @@
+{
+  "name": "@elemental/session-title-first-prompt-llm",
+  "description": "First-message LLM provider plugin for Elemental Harness session titles",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/session/session-title-first-prompt-llm"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-title": "workspace:^",
+    "@elemental/session-title-llm": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis-plugin-include": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/llm-deepseek": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-title": "workspace:^",
+    "@elemental/session-title-llm": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/agent-loop": "workspace:^"
+  }
+}

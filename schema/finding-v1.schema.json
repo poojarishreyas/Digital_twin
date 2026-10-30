@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-twin.local/schema/finding-v1.schema.json",
+  "title": "Phase 2 deterministic finding evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["target_id", "snapshot_hash", "image_id", "test_id", "test_version", "prerequisites", "observations", "verdict", "fidelity_gaps"],
+  "properties": {
+    "target_id": {"type": "string", "minLength": 1},
+    "snapshot_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "image_id": {"type": "string", "minLength": 1},
+    "test_id": {"type": "string", "minLength": 1},
+    "test_version": {"type": "string", "minLength": 1},
+    "prerequisites": {"type": "object"},
+    "observations": {"type": "object"},
+    "verdict": {"enum": ["confirmed", "not_reproduced", "inconclusive", "unsupported"]},
+    "fidelity_gaps": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Proposed SaaS architecture for mixed operating systems",
+    "quality_profile": "showcase",
+    "locale": "en"
+  },
+  "components": [
+    {
+      "id": "customer",
+      "type": "external",
+      "label": "Customer devices",
+      "sublabel": "Windows and Linux agents",
+      "pos": [
+        32,
+        68
+      ],
+      "size": [
+        220,
+        84
+      ]
+    },
+    {
+      "id": "enrollment",
+      "type": "security",
+      "label": "Tenant enrollment",
+      "sublabel": "Outbound mTLS telemetry",
+      "pos": [
+        360,
+        68
+      ],
+      "size": [
+        220,
+        84
+      ]
+    },
+    {
+      "id": "inventory",
+      "type": "database",
+      "label": "Graph and snapshots",
+      "sublabel": "OS, build, architecture, identity",
+      "pos": [
+        688,
+        68
+      ],
+      "size": [
+        250,
+        84
+      ]
+    },
+    {
+      "id": "dashboard",
+      "type": "frontend",
+      "label": "Customer dashboard",
+      "sublabel": "Coverage and scoped evidence",
+      "pos": [
+        1048,
+        68
+      ],
+      "size": [
+        240,
+        84
+      ]
+    },
+    {
+      "id": "model",
+      "type": "external",
+      "label": "Hosted model API",
+      "sublabel": "Approved sanitized context",
+      "pos": [
+        320,
+        278
+      ],
+      "size": [
+        250,
+        84
+      ]
+    },
+    {
+      "id": "planner",
+      "type": "backend",
+      "label": "Planner and TwinHunter",
+      "sublabel": "Capability routing and tool enforcement",
+      "pos": [
+        688,
+        278
+      ],
+      "size": [
+        290,
+        94
+      ]
+    },
+    {
+      "id": "linux",
+      "type": "security",
+      "label": "Linux execution pool",
+      "sublabel": "Disposable tenant job VMs",
+      "pos": [
+        320,
+        548
+      ],
+      "size": [
+        250,
+        84
+      ]
+    },
+    {
+      "id": "windows",
+      "type": "security",
+      "label": "Windows execution pool",
+      "sublabel": "Compatible disposable VMs",
+      "pos": [
+        688,
+        548
+      ],
+      "size": [
+        290,
+        84
+      ]
+    },
+    {
+      "id": "private",
+      "type": "security",
+      "label": "Customer private pool",
+      "sublabel": "Optional approved local execution",
+      "pos": [
+        1048,
+        548
+      ],
+      "size": [
+        270,
+        84
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "telemetry",
+      "from": "customer",
+      "to": "enrollment",
+      "label": "Sanitized state",
+      "variant": "security"
+    },
+    {
+      "id": "store",
+      "from": "enrollment",
+      "to": "inventory",
+      "label": "Tenant-bound writes"
+    },
+    {
+      "id": "show",
+      "from": "inventory",
+      "to": "dashboard",
+      "label": "Inventory and results"
+    },
+    {
+      "id": "schedule",
+      "from": "inventory",
+      "to": "planner",
+      "label": "Snapshot and test scope",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "infer",
+      "from": "planner",
+      "to": "model",
+      "label": "Bounded model requests",
+      "variant": "dashed"
+    },
+    {
+      "id": "linuxjobs",
+      "from": "planner",
+      "to": "linux",
+      "label": "Linux-compatible jobs"
+    },
+    {
+      "id": "windowsjobs",
+      "from": "planner",
+      "to": "windows",
+      "label": "Windows-compatible jobs",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 100
+    },
+    {
+      "id": "privatejobs",
+      "from": "planner",
+      "to": "private",
+      "label": "Residency-bound jobs",
+      "variant": "dashed"
+    }
+  ]
+}

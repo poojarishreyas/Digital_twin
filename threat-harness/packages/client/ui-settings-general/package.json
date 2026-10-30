@@ -1,0 +1,80 @@
+{
+  "name": "@elemental/client-ui-settings-general",
+  "description": "Settings ownerless-copy and product onboarding plugin: the General section, shell trigger/header chrome content, settings dictionaries, and the versioned welcome notice",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/client/ui-settings-general"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "inject": [
+        "@elemental/client-ui-settings",
+        "@elemental/client-locale",
+        "@elemental/client-connection",
+        "@elemental/api-remotes",
+        "@elemental/client-ui-sidebar"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^",
+    "clsx": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/api-remotes": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-locale": "workspace:^",
+    "@elemental/client-store": "workspace:^",
+    "@elemental/client-test-runtime": "workspace:^",
+    "@elemental/client-ui-primitives": "workspace:^",
+    "@elemental/client-ui-settings": "workspace:^",
+    "@elemental/client-ui-sidebar": "workspace:^",
+    "@elemental/client-ui-slots": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@types/react": "~18.3.1",
+    "react": "^18.2.0",
+    "@elemental/client-ui-renderer": "workspace:^",
+    "@elemental/client-ui-session": "workspace:^",
+    "@elemental/settings": "workspace:^"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

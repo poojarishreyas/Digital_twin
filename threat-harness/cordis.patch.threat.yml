@@ -1,0 +1,62 @@
+# Threat-hunting overlay for the Elemental harness.
+#
+# Apply with:  pnpm start -- --patch cordis.patch.threat.yml
+#
+# It does two things:
+#  1. Points the agent's model at Gemini 3.8 Flash through your OmniRoute gateway.
+#  2. Mounts this project's bounded security executor as an MCP server over stdio,
+#     so the model calls the typed hunting tools as native tools named
+#     mcp__hunter__<tool>. Every call is validated and rate/step/time-limited by
+#     the Python executor; only executed observations are evidence.
+#
+# An id-targeted patch REPLACES that row's whole config (no deep merge), so the
+# rows below restate every field they keep. See THREAT-HUNTING.md.
+#
+# Required environment before `pnpm start`:
+#   OMNIROUTE_API_KEY     your OmniRoute gateway key (resolved via the credential
+#                         seam from the environment; never written into config)
+#   HUNT_PY               abs path to the project venv Python
+#   TWIN_INGESTION_PATH   abs path to digital_twin/ingestion
+#   TWIN_HUNT_TARGETS     abs path to your targets file (see hunter-targets.example.json)
+# Keep OmniRoute running and reachable at 127.0.0.1:20128 during the hunt.
+
+# 1a. Declare the OmniRoute route (OpenAI-compatible gateway) on the pi-ai adapter.
+- id: llm-pi-ai
+  name: '@elemental/llm-pi-ai'
+  config:
+    providers:
+      omniroute:
+        displayName: OmniRoute (Gemini 3.8 Flash)
+        api: openai-completions
+        baseURL: http://127.0.0.1:20128/v1
+        apiKeyEnv: OMNIROUTE_API_KEY
+        models:
+          - id: lynx-harness
+            name: Gemini 3.8 Flash (OmniRoute)
+            contextWindow: 65536
+
+# 1b. Make that route the default model for agents created by the Web entry point.
+- id: agent-default-model
+  name: '@elemental/agent-default-model'
+  config:
+    provider: omniroute
+    model: lynx-harness
+
+# 2. Mount the threat-hunter MCP server (this project's bounded executor).
+#    New rows are added with an `insert:` list (a bare `- id:` would be read as an
+#    override of an existing row and warn "entry not found").
+- insert:
+    - id: mcp-hunter
+      name: '@elemental/mcp-client'
+      config:
+        serverName: hunter
+        transport: stdio
+        command: !!js process.env.HUNT_PY || 'python'
+        args: ['-m', 'twin_ingestion.phase3.mcp_server']
+        env:
+          PYTHONPATH: !!js process.env.TWIN_INGESTION_PATH || 'ingestion'
+          TWIN_HUNT_TARGETS: !!js process.env.TWIN_HUNT_TARGETS
+          TWIN_HUNT_MAX_STEPS: !!js process.env.TWIN_HUNT_MAX_STEPS || '24'
+          TWIN_HUNT_MAX_SECONDS: !!js process.env.TWIN_HUNT_MAX_SECONDS || '600'
+        failOnStartupError: true
+        toolCallTimeoutMs: 30000

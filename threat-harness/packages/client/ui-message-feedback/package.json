@@ -1,0 +1,79 @@
+{
+  "name": "@elemental/client-ui-message-feedback",
+  "description": "Per-message feedback controls contributed to the assistant-message action strip, backed by the messageFeedback Host Remote",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/client/ui-message-feedback"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "inject": [
+        "@elemental/api-remotes",
+        "@elemental/client-locale",
+        "@elemental/client-ui-conversation",
+        "@elemental/client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/api-remotes": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-locale": "workspace:^",
+    "@elemental/client-test-runtime": "workspace:^",
+    "@elemental/client-ui-conversation": "workspace:^",
+    "@elemental/client-ui-primitives": "workspace:^",
+    "@elemental/client-ui-renderer": "workspace:^",
+    "@elemental/client-ui-slots": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/message-feedback": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@elemental/client-ui-chat": "workspace:^",
+    "@elemental/client-ui-session": "workspace:^"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

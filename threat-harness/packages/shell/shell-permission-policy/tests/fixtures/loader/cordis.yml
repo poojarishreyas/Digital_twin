@@ -1,0 +1,39 @@
+# Shell permission policy over the platform shell tool: real app boot path,
+# real executor, real tool calls; driven by the package's loader.spec.ts.
+- id: system-prompt
+  name: '@elemental/system-prompt'
+
+- id: tools
+  name: '@elemental/tools'
+
+- id: approval
+  name: '@elemental/user-approval'
+
+- id: subprocess
+  name: '@elemental/subprocess-local'
+
+- id: bash
+  name: '@elemental/bash-local'
+  disabled: !!js process.platform === 'win32'
+
+- id: pwsh
+  name: '@elemental/pwsh-local'
+  disabled: !!js process.platform !== 'win32'
+
+- id: shell-env
+  name: '@elemental/shell-env'
+
+- id: tool-bash
+  name: '@elemental/tool-bash'
+  disabled: !!js process.platform === 'win32'
+
+- id: tool-pwsh
+  name: '@elemental/tool-pwsh'
+  disabled: !!js process.platform !== 'win32'
+
+- id: shell-permission-policy
+  name: '@elemental/shell-permission-policy'
+  config:
+    deny:
+      - bash(git push *)
+      - pwsh(git push *)

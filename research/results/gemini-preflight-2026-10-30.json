@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-10-30T11:59:48.638513+00:00",
+  "scope": "live synthetic schema smoke; not a twin hunt or benchmark measurement",
+  "command": "deploy/models/smoke_omniroute.py",
+  "model_check": {
+    "status": "ok",
+    "requested_model": "lynx-harness",
+    "response_model": "gemini-3.8-flash-tiered",
+    "route_decision": "strategy=round-robin; provider=antigravity; latency_ms=5641",
+    "reported_tokens": 208
+  },
+  "benchmark_status": "not_run",
+  "blockers": [
+    "WSL enumeration returned E_ACCESSDENIED",
+    "Docker docker_engine pipe returned CreateFile access denied",
+    "Docker dockerDesktopLinuxEngine pipe returned CreateFile access denied",
+    "No configured host/LAN/internet isolation destinations file in the workspace"
+  ],
+  "paper_metrics_changed": false
+}

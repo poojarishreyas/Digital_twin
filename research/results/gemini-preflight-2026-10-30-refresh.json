@@ -1,0 +1,37 @@
+{
+  "recorded_at": "2026-10-30T12:17:00.632963+00:00",
+  "scope": "live synthetic schema smoke and local prerequisite check; not a twin hunt or benchmark measurement",
+  "paper_path": "C:\\Users\\shrey\\Downloads\\synchronized-service-twins-paper.docx",
+  "paper_target": "Table II: Detection quality over two repetitions",
+  "model_check": {
+    "status": "ok",
+    "requested_model": "lynx-harness",
+    "response_model": "gemini-3.8-flash-tiered",
+    "route_decision": "strategy=round-robin; provider=antigravity; latency_ms=4024",
+    "reported_tokens": 124
+  },
+  "local_prerequisites": {
+    "docker_accessible": true,
+    "docker_engine": "29.9.2",
+    "docker_operating_system": "Docker Desktop",
+    "wsl_enumeration_accessible": true,
+    "wsl_distributions": [
+      "docker-desktop"
+    ],
+    "configured_isolation_destinations_found": false,
+    "configured_ssh_alias_found": false,
+    "gateway_key_available": true,
+    "gateway_key_compression_enabled": true
+  },
+  "benchmark_status": "not_run",
+  "blockers": [
+    "No dedicated Linux benchmark worker connection supplied or configured; the linux_isolated runner requires Linux root and host iptables",
+    "No configured host/LAN/internet isolation destinations file"
+  ],
+  "before_measurement": [
+    "Disable gateway prompt compression for the benchmark condition and record inference/routing settings",
+    "Run Linux isolation acceptance before benchmark trials"
+  ],
+  "paper_metrics_changed": false,
+  "note": "Preserves the earlier preflight record; prior Docker/WSL access-denied blockers no longer reproduce. Schema-smoke tokens are not benchmark tokens."
+}

@@ -1,0 +1,79 @@
+{
+  "name": "@elemental/tool-bash",
+  "description": "Model-facing bash tool with optional generic background-job and sandbox-escalation support",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/shell/tool-bash"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/shell": "workspace:^",
+    "@elemental/shell-env": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/compaction-tool-result-pruner": "workspace:^",
+    "@elemental/shell-permission-policy": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-loop": "workspace:^",
+    "@elemental/agent-loop-testkit": "workspace:^",
+    "@elemental/shell": "workspace:^",
+    "@elemental/shell-env": "workspace:^",
+    "@elemental/bash-local": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-persistence-jsonl": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/jobs-local": "workspace:^",
+    "@elemental/tool-jobs": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/compaction-tool-result-pruner": "workspace:^",
+    "@elemental/token-meter": "workspace:^",
+    "@elemental/shell-permission-policy": "workspace:^"
+  }
+}

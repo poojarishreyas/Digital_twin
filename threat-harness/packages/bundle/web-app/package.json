@@ -1,0 +1,134 @@
+{
+  "name": "@elemental/web-app",
+  "description": "The elemental browser-surface bundle: the web patch layer over base plus the runtime glue plugin (frontend dist serving, web-surface prompt, bash runtime variables, URL line)",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/bundle/web-app"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./startup": {
+      "types": "./lib/types/startup.d.ts",
+      "default": "./lib/startup.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/startup.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "elemental": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@elemental/agent-presets": "workspace:^",
+    "@elemental/tool-subagent": "workspace:^",
+    "@elemental/api-remotes": "workspace:^",
+    "@elemental/app-boot": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-hmr": "workspace:^",
+    "@elemental/client-locale": "workspace:^",
+    "@elemental/client-modules": "workspace:^",
+    "@elemental/client-ui-renderer": "workspace:^",
+    "@elemental/client-ui-agent-preset": "workspace:^",
+    "@elemental/client-ui-attachment": "workspace:^",
+    "@elemental/client-ui-approval": "workspace:^",
+    "@elemental/client-ui-brand-official": "workspace:^",
+    "@elemental/client-ui-commands": "workspace:^",
+    "@elemental/client-ui-chat": "workspace:^",
+    "@elemental/client-ui-conversation": "workspace:^",
+    "@elemental/client-ui-cordis": "workspace:^",
+    "@elemental/client-ui-deliverables": "workspace:^",
+    "@elemental/client-ui-directory-picker-browse": "workspace:^",
+    "@elemental/client-ui-directory-picker-native": "workspace:^",
+    "@elemental/client-ui-message-feedback": "workspace:^",
+    "@elemental/client-ui-goal": "workspace:^",
+    "@elemental/client-ui-layout": "workspace:^",
+    "@elemental/client-ui-model-selection": "workspace:^",
+    "@elemental/client-ui-settings-models": "workspace:^",
+    "@elemental/client-ui-settings-plugin-inventory": "workspace:^",
+    "@elemental/client-ui-permission-presets": "workspace:^",
+    "@elemental/client-ui-plan": "workspace:^",
+    "@elemental/client-ui-schedule": "workspace:^",
+    "@elemental/client-ui-session": "workspace:^",
+    "@elemental/client-ui-settings-plugins": "workspace:^",
+    "@elemental/client-ui-user-questions": "workspace:^",
+    "@elemental/client-ui-settings": "workspace:^",
+    "@elemental/client-ui-settings-general": "workspace:^",
+    "@elemental/client-ui-sidebar": "workspace:^",
+    "@elemental/client-ui-skill": "workspace:^",
+    "@elemental/client-ui-input-trigger": "workspace:^",
+    "@elemental/client-ui-reference": "workspace:^",
+    "@elemental/client-ui-subagent": "workspace:^",
+    "@elemental/client-ui-jobs": "workspace:^",
+    "@elemental/client-ui-theme": "workspace:^",
+    "@elemental/client-ui-tool": "workspace:^",
+    "@elemental/client-ui-workflow-run": "workspace:^",
+    "@elemental/client-ui-trajectory": "workspace:^",
+    "@elemental/client-ui-workspace": "workspace:^",
+    "@elemental/cmdline": "workspace:^",
+    "@elemental/code-runtime-worker-thread": "workspace:^",
+    "@elemental/cordis-client-runner": "workspace:^",
+    "@elemental/cordis-host-runner": "workspace:^",
+    "@elemental/web-frontend": "workspace:^",
+    "@elemental/host-frontend-static": "workspace:^",
+    "@elemental/host-directory-picker-auto": "workspace:^",
+    "@elemental/host-directory-picker-browse": "workspace:^",
+    "@elemental/host-directory-picker-native": "workspace:^",
+    "@elemental/host-plugin-inventory": "workspace:^",
+    "@elemental/host-webserver": "workspace:^",
+    "@elemental/file-reference": "workspace:^",
+    "@elemental/file-reference-local": "workspace:^",
+    "@elemental/launch-environment": "workspace:^",
+    "@elemental/message-feedback": "workspace:^",
+    "@elemental/session-reference": "workspace:^",
+    "@elemental/session-log-export": "workspace:^",
+    "@elemental/session-stats": "workspace:^",
+    "@elemental/session-turn-outline": "workspace:^",
+    "@elemental/api-session-controller": "workspace:^",
+    "@elemental/api-settings-controller": "workspace:^",
+    "@elemental/api-workspace-controller": "workspace:^",
+    "@elemental/subprocess": "workspace:^",
+    "@elemental/workspace": "workspace:^",
+    "@elemental/schemastery": "workspace:^",
+    "commander": "^15.0.0",
+    "open": "^11.0.0"
+  },
+  "peerDependencies": {
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/shell-env": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/shell-env": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  }
+}

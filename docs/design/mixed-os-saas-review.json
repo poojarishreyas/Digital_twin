@@ -1,0 +1,36 @@
+{
+  "diagram_type": "architecture",
+  "specification": {
+    "path": "mixed-os-saas-v2.architecture.json",
+    "sha256": "1f2a3d351f26d585fde106de5ae580a7253c3e3b805850f7a972cbae95e0ec74",
+    "bytes": 3873
+  },
+  "artifact": {
+    "path": "mixed-os-saas.html",
+    "sha256": "0b3d2044b6a68985adb40da6832b0b1b2eb80fb9facc8e71c5bb679f334c28ce",
+    "bytes": 727343
+  },
+  "validation": {
+    "checks_passed": 9,
+    "checks_total": 9,
+    "composition_errors": 0,
+    "composition_warnings": 0
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "containment": "passed",
+    "viewports": [
+      "1440x900",
+      "1600x1000",
+      "1920x1080",
+      "2048x1320"
+    ],
+    "screenshots_inspected": [
+      "1440x900 light",
+      "1440x900 dark",
+      "2048x1320 light",
+      "2048x1320 dark"
+    ]
+  },
+  "implementation_status": "proposed architecture; no runtime or production changes"
+}

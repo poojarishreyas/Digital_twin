@@ -1,0 +1,44 @@
+{
+  "name": "@elemental/skill-badge",
+  "description": "Bundled powered-by badge skill provider for Elemental Harness",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/skill/skill-badge"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "assets",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/skill": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/skill": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "mode": "desktop_smoke",
+  "worker_id": "cleanup-smoke-9c4ea9ae7603469fbc5f6488eeef5557",
+  "limitations": [
+    "No Linux firewall or host/LAN/internet isolation assertion"
+  ],
+  "after_exception": {
+    "containers": 0,
+    "networks": 0
+  },
+  "after_abrupt_exit": {
+    "containers": 2,
+    "networks": 1
+  },
+  "after_reconciliation": {
+    "containers": 0,
+    "networks": 0
+  },
+  "passed": true
+}

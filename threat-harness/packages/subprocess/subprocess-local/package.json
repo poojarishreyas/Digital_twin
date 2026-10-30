@@ -1,0 +1,55 @@
+{
+  "name": "@elemental/subprocess-local",
+  "description": "Local-subprocess implementation of the Elemental Harness subprocess seam",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/subprocess/subprocess-local"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "scripts/ensure-spawn-helper.mjs",
+    "lib/types/**/*.d.ts"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/ensure-spawn-helper.mjs"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/subprocess": "workspace:^",
+    "@elemental/timeout": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "koffi": "^3.1.0",
+    "node-pty": "1.2.0-beta.15"
+  },
+  "devDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/loader-smoke": "workspace:^",
+    "@elemental/subprocess": "workspace:^",
+    "@elemental/timeout": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  }
+}

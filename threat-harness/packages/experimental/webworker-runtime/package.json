@@ -1,0 +1,77 @@
+{
+  "name": "@elemental/experimental-webworker-runtime",
+  "description": "Browser-only harness runtime: in-memory VFS, module transform and loader, postMessage tunnel, and the dedicated Web Worker assembly, with the Node-compatibility layer that lets the host tree run unchanged",
+  "version": "0.1.2-alpha.3",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/experimental/webworker-runtime"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./worker": "./lib/worker.js",
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    }
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/util-crypto": "workspace:^",
+    "@noble/hashes": "^2.3.0",
+    "@yarnpkg/parsers": "^3.1.0",
+    "acorn": "^8.17.0",
+    "buffer": "^6.0.3",
+    "picomatch": "^4.0.4",
+    "readable-stream": "^4.7.0"
+  },
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-modules": "workspace:^",
+    "@elemental/host-webserver": "workspace:^",
+    "@elemental/invariants": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/api-gateway": "workspace:^",
+    "@elemental/bash-sandbox": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-modules": "workspace:^",
+    "@elemental/host-webserver": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/sandbox-local": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/session-persistence-jsonl": "workspace:^",
+    "@elemental/subagent": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/node-addon-landlock-run": "workspace:^",
+    "@types/picomatch": "^3.0.2",
+    "@types/readable-stream": "^4.0.24",
+    "chokidar": "^5.0.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/worker.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

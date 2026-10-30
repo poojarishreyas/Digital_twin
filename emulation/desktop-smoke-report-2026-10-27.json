@@ -1,0 +1,183 @@
+﻿{
+  "scope": "Docker Desktop behavior smoke only; no host/LAN/internet isolation assertion",
+  "docker_engine": "29.9.2",
+  "hardware": {
+    "cpus": 12,
+    "memory_bytes": 8183758848
+  },
+  "leftovers": {
+    "containers": 0,
+    "networks": 0
+  },
+  "passed": true,
+  "results": [
+    {
+      "repetition": 1,
+      "fixture": "nginx:vulnerable",
+      "expected": "confirmed",
+      "observed": "confirmed",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 0,
+      "sampled_ram_mb": 108,
+      "budget": {
+        "cpu_millis": 450,
+        "ram_mb": 256
+      },
+      "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+      "scans": {
+        "nmap_port_open": true,
+        "nuclei_header": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "nginx:secure",
+      "expected": "not_reproduced",
+      "observed": "not_reproduced",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 0,
+      "sampled_ram_mb": 55,
+      "budget": {
+        "cpu_millis": 450,
+        "ram_mb": 256
+      },
+      "image_id": "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+      "scans": {
+        "nmap_port_open": true,
+        "nuclei_header": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "postgresql:vulnerable",
+      "expected": "confirmed",
+      "observed": "confirmed",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 0,
+      "sampled_ram_mb": 130,
+      "budget": {
+        "cpu_millis": 950,
+        "ram_mb": 640
+      },
+      "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+      "scans": {
+        "nmap_port_open": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "postgresql:secure",
+      "expected": "not_reproduced",
+      "observed": "not_reproduced",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 0,
+      "sampled_ram_mb": 68,
+      "budget": {
+        "cpu_millis": 950,
+        "ram_mb": 640
+      },
+      "image_id": "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46",
+      "scans": {
+        "nmap_port_open": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "redis:vulnerable",
+      "expected": "confirmed",
+      "observed": "confirmed",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 8,
+      "sampled_ram_mb": 31,
+      "budget": {
+        "cpu_millis": 450,
+        "ram_mb": 256
+      },
+      "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+      "scans": {
+        "nmap_port_open": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "redis:secure",
+      "expected": "not_reproduced",
+      "observed": "not_reproduced",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 6,
+      "sampled_ram_mb": 6,
+      "budget": {
+        "cpu_millis": 450,
+        "ram_mb": 256
+      },
+      "image_id": "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635",
+      "scans": {
+        "nmap_port_open": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "openssh:vulnerable",
+      "expected": "confirmed",
+      "observed": "confirmed",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 0,
+      "sampled_ram_mb": 6,
+      "budget": {
+        "cpu_millis": 450,
+        "ram_mb": 256
+      },
+      "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+      "scans": {
+        "nmap_port_open": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "openssh:secure",
+      "expected": "not_reproduced",
+      "observed": "not_reproduced",
+      "ready": true,
+      "tcp_reachable": true,
+      "sampled_cpu_millis": 0,
+      "sampled_ram_mb": 3,
+      "budget": {
+        "cpu_millis": 450,
+        "ram_mb": 256
+      },
+      "image_id": "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad",
+      "scans": {
+        "nmap_port_open": true
+      },
+      "passed": true
+    },
+    {
+      "repetition": 1,
+      "fixture": "nginx-proxy-chain",
+      "ready": true,
+      "direct_back_denied": true,
+      "backend_marker_seen": true,
+      "sampled_cpu_millis": 0,
+      "sampled_ram_mb": 7,
+      "budget": {
+        "cpu_millis": 700,
+        "ram_mb": 384
+      },
+      "passed": true
+    }
+  ]
+}

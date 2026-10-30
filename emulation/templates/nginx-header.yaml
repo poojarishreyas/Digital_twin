@@ -1,0 +1,16 @@
+id: twin-nginx-header
+info:
+  name: Synthetic Nginx header presence
+  author: digital-twin-lab
+  severity: info
+  description: Checks the local synthetic HTTP twin response only.
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/"
+    matchers:
+      - type: word
+        part: header
+        words:
+          - "Server: nginx"
+

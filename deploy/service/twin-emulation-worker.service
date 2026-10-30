@@ -1,0 +1,23 @@
+[Unit]
+Description=Digital Twin Phase 2 isolated lab worker
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/digital-twin
+EnvironmentFile=/etc/twin-emulation/worker.env
+Environment=PYTHONPATH=/opt/digital-twin/ingestion
+ExecStart=/opt/digital-twin/.venv/bin/python -m twin_ingestion.phase2.worker
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/run/docker.sock
+
+[Install]
+WantedBy=multi-user.target
+

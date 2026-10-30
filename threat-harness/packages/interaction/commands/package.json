@@ -1,0 +1,81 @@
+{
+  "name": "@elemental/commands",
+  "description": "Plugin-owned human command registry for Elemental Harness UIs",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/interaction/commands"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./brand": {
+      "types": "./lib/types/brand.d.ts",
+      "default": "./lib/types/brand.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/brand": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/util-crypto": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/brand": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  }
+}

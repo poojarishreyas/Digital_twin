@@ -1,0 +1,672 @@
+{
+  "schema_version": "1.0",
+  "truth_status": "hypotheses_require_independent_wire_verification",
+  "scenarios": [
+    {
+      "id": "s01",
+      "description": "Version header disclosure enabled",
+      "proposed_truth": true,
+      "test": "nginx.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "directives": [
+            {
+              "order": 1,
+              "name": "server_tokens",
+              "values": [
+                "on"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s02",
+      "description": "Version header disclosure disabled",
+      "proposed_truth": false,
+      "test": "nginx.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "directives": [
+            {
+              "order": 1,
+              "name": "server_tokens",
+              "values": [
+                "off"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s03",
+      "description": "Disclosure enabled with request body limit",
+      "proposed_truth": true,
+      "test": "nginx.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "directives": [
+            {
+              "order": 1,
+              "name": "server_tokens",
+              "values": [
+                "on"
+              ],
+              "section": ""
+            },
+            {
+              "order": 2,
+              "name": "client_max_body_size",
+              "values": [
+                "1m"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s04",
+      "description": "Disclosure disabled with request body limit",
+      "proposed_truth": false,
+      "test": "nginx.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "directives": [
+            {
+              "order": 1,
+              "name": "server_tokens",
+              "values": [
+                "off"
+              ],
+              "section": ""
+            },
+            {
+              "order": 2,
+              "name": "client_max_body_size",
+              "values": [
+                "2m"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s05",
+      "description": "Unauthenticated synthetic SQL via trust",
+      "proposed_truth": true,
+      "test": "postgresql.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "postgresql",
+          "version": "17.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "listen_addresses",
+              "values": [
+                "*"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": [
+            {
+              "order": 1,
+              "name": "rule",
+              "values": [
+                "host",
+                "all",
+                "all",
+                "0.0.0.0/0",
+                "trust"
+              ]
+            }
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s06",
+      "description": "SCRAM requires a password",
+      "proposed_truth": false,
+      "test": "postgresql.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "postgresql",
+          "version": "17.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "listen_addresses",
+              "values": [
+                "*"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": [
+            {
+              "order": 1,
+              "name": "rule",
+              "values": [
+                "host",
+                "all",
+                "all",
+                "0.0.0.0/0",
+                "scram-sha-256"
+              ]
+            }
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s07",
+      "description": "First HBA reject precedes trust",
+      "proposed_truth": false,
+      "test": "postgresql.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "postgresql",
+          "version": "17.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "listen_addresses",
+              "values": [
+                "*"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": [
+            {
+              "order": 1,
+              "name": "rule",
+              "values": [
+                "host",
+                "all",
+                "all",
+                "0.0.0.0/0",
+                "reject"
+              ]
+            },
+            {
+              "order": 2,
+              "name": "rule",
+              "values": [
+                "host",
+                "all",
+                "all",
+                "0.0.0.0/0",
+                "trust"
+              ]
+            }
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s08",
+      "description": "First HBA trust precedes reject",
+      "proposed_truth": true,
+      "test": "postgresql.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "postgresql",
+          "version": "17.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "listen_addresses",
+              "values": [
+                "*"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": [
+            {
+              "order": 1,
+              "name": "rule",
+              "values": [
+                "host",
+                "all",
+                "all",
+                "0.0.0.0/0",
+                "trust"
+              ]
+            },
+            {
+              "order": 2,
+              "name": "rule",
+              "values": [
+                "host",
+                "all",
+                "all",
+                "0.0.0.0/0",
+                "reject"
+              ]
+            }
+          ]
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s09",
+      "description": "Unauthenticated remote PING",
+      "proposed_truth": true,
+      "test": "redis.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "redis",
+          "version": "7.4.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "protected-mode",
+              "values": [
+                "no"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s10",
+      "description": "Protected mode denies remote unauthenticated client",
+      "proposed_truth": false,
+      "test": "redis.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "redis",
+          "version": "7.4.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "protected-mode",
+              "values": [
+                "yes"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s11",
+      "description": "Synthetic password required with protection disabled",
+      "proposed_truth": false,
+      "test": "redis.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "redis",
+          "version": "7.4.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "protected-mode",
+              "values": [
+                "no"
+              ],
+              "section": ""
+            },
+            {
+              "order": 2,
+              "name": "requirepass",
+              "values": [
+                "<redacted>"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s12",
+      "description": "Explicit wildcard with unauthenticated access",
+      "proposed_truth": true,
+      "test": "redis.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "redis",
+          "version": "7.4.2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "bind",
+              "values": [
+                "0.0.0.0"
+              ],
+              "section": ""
+            },
+            {
+              "order": 2,
+              "name": "protected-mode",
+              "values": [
+                "no"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s13",
+      "description": "Synthetic password login enabled",
+      "proposed_truth": true,
+      "test": "openssh.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "openssh",
+          "version": "9.9p2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "passwordauthentication",
+              "values": [
+                "yes"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s14",
+      "description": "Password login disabled",
+      "proposed_truth": false,
+      "test": "openssh.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "openssh",
+          "version": "9.9p2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "passwordauthentication",
+              "values": [
+                "no"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s15",
+      "description": "DenyUsers blocks synthetic login despite password enabled",
+      "proposed_truth": false,
+      "test": "openssh.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "openssh",
+          "version": "9.9p2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "passwordauthentication",
+              "values": [
+                "yes"
+              ],
+              "section": ""
+            },
+            {
+              "order": 2,
+              "name": "denyusers",
+              "values": [
+                "synthetic"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s16",
+      "description": "AllowUsers permits synthetic password login",
+      "proposed_truth": true,
+      "test": "openssh.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "openssh",
+          "version": "9.9p2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "passwordauthentication",
+              "values": [
+                "yes"
+              ],
+              "section": ""
+            },
+            {
+              "order": 2,
+              "name": "allowusers",
+              "values": [
+                "synthetic"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s17",
+      "description": "Two-service proxy reaches synthetic backend",
+      "proposed_truth": true,
+      "test": "proxy_chain",
+      "services": [
+        {
+          "id": "front",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "upstream": "back",
+          "directives": [
+            {
+              "order": 1,
+              "name": "proxy_pass",
+              "values": [
+                "http://source-backend:8080"
+              ],
+              "section": "http/server/location /"
+            }
+          ]
+        },
+        {
+          "id": "back",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "directives": [
+            {
+              "order": 1,
+              "name": "server_tokens",
+              "values": [
+                "off"
+              ],
+              "section": ""
+            }
+          ]
+        }
+      ],
+      "links": [
+        [
+          "front",
+          "back"
+        ]
+      ]
+    },
+    {
+      "id": "s18",
+      "description": "Two-service proxy denies synthetic backend",
+      "proposed_truth": false,
+      "test": "proxy_chain",
+      "services": [
+        {
+          "id": "front",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "upstream": "back",
+          "directives": [
+            {
+              "order": 1,
+              "name": "proxy_pass",
+              "values": [
+                "http://source-backend:8080"
+              ],
+              "section": "http/server/location /"
+            },
+            {
+              "order": 2,
+              "name": "deny",
+              "values": [
+                "all"
+              ],
+              "section": ""
+            }
+          ]
+        },
+        {
+          "id": "back",
+          "kind": "nginx",
+          "version": "1.27.5",
+          "directives": [
+            {
+              "order": 1,
+              "name": "server_tokens",
+              "values": [
+                "off"
+              ],
+              "section": ""
+            }
+          ]
+        }
+      ],
+      "links": [
+        [
+          "front",
+          "back"
+        ]
+      ]
+    },
+    {
+      "id": "s19",
+      "description": "Unavailable source version is not silently replaced",
+      "proposed_truth": null,
+      "test": "redis.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "redis",
+          "version": "6.0.0",
+          "directives": [
+            {
+              "order": 1,
+              "name": "protected-mode",
+              "values": [
+                "no"
+              ],
+              "section": ""
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "s20",
+      "description": "Unsupported Match section remains excluded",
+      "proposed_truth": null,
+      "test": "openssh.policy",
+      "services": [
+        {
+          "id": "target",
+          "kind": "openssh",
+          "version": "9.9p2",
+          "directives": [
+            {
+              "order": 1,
+              "name": "passwordauthentication",
+              "values": [
+                "yes"
+              ],
+              "section": "User synthetic"
+            }
+          ],
+          "hba_rules": []
+        }
+      ],
+      "links": []
+    }
+  ]
+}

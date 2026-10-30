@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-twin.local/schema/telemetry-v1.schema.json",
+  "title": "Digital Twin Telemetry Envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "agent_id", "sequence", "sent_at", "full_snapshot", "host", "components", "relationships", "gaps", "metrics"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "agent_id": {"type": "string", "minLength": 16, "maxLength": 128},
+    "sequence": {"type": "integer", "minimum": 1},
+    "sent_at": {"type": "string", "format": "date-time"},
+    "full_snapshot": {"type": "boolean"},
+    "host": {"$ref": "#/$defs/host"},
+    "components": {"type": "array", "maxItems": 20000, "items": {"$ref": "#/$defs/component"}},
+    "removed": {"type": "array", "uniqueItems": true, "items": {"type": "string", "maxLength": 1024}},
+    "relationships": {"type": "array", "maxItems": 50000, "items": {"$ref": "#/$defs/relationship"}},
+    "gaps": {"type": "array", "maxItems": 1000, "items": {"$ref": "#/$defs/gap"}},
+    "metrics": {"$ref": "#/$defs/metrics"}
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source", "observed_at", "confidence"],
+      "properties": {
+        "source": {"type": "string", "maxLength": 2048},
+        "observed_at": {"type": "string", "format": "date-time"},
+        "confidence": {"enum": ["observed", "inferred"]}
+      }
+    },
+    "host": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "hostname", "os", "architecture"],
+      "properties": {
+        "id": {"type": "string", "minLength": 16, "maxLength": 128},
+        "hostname": {"type": "string", "minLength": 1, "maxLength": 255},
+        "os": {"enum": ["windows", "linux"]},
+        "os_version": {"type": "string", "maxLength": 512},
+        "architecture": {"type": "string", "maxLength": 32},
+        "kernel": {"type": "string", "maxLength": 256},
+        "hardware": {"type": "object", "additionalProperties": {"type": "string", "maxLength": 256}}
+      }
+    },
+    "component": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "id", "hash", "data", "evidence"],
+      "properties": {
+        "kind": {"enum": ["service", "listener", "firewall", "privilege", "configuration", "identity", "process"]},
+        "id": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "archetype_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "data": {"type": "object"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "relationship": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "source_id", "target_id", "evidence"],
+      "properties": {
+        "kind": {"enum": ["HAS_SERVICE", "HAS_LISTENER", "HAS_FIREWALL", "HAS_PRIVILEGE", "HAS_CONFIGURATION", "HAS_IDENTITY", "HAS_PROCESS", "OBSERVED_CONNECTION", "INFERRED_REACHABILITY"]},
+        "source_id": {"type": "string", "maxLength": 1024},
+        "target_id": {"type": "string", "maxLength": 1024},
+        "properties": {"type": "object"},
+        "evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "gap": {
+      "type": "object", "additionalProperties": false,
+      "required": ["collector", "field", "reason", "at"],
+      "properties": {
+        "collector": {"type": "string", "maxLength": 128},
+        "field": {"type": "string", "maxLength": 256},
+        "reason": {"enum": ["permission_denied", "unsupported", "unsupported_or_unavailable", "inaccessible", "not_detected", "parse_error", "outbox_overflow"]},
+        "detail": {"type": "string", "maxLength": 2048},
+        "at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "metrics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["collection_ms", "cpu_percent", "ram_bytes", "envelope_bytes", "polling_interval_sec"],
+      "properties": {
+        "collection_ms": {"type": "integer", "minimum": 0},
+        "cpu_percent": {"type": "number", "minimum": 0},
+        "ram_bytes": {"type": "integer", "minimum": 0},
+        "envelope_bytes": {"type": "integer", "minimum": 0},
+        "polling_interval_sec": {"type": "integer", "minimum": 1},
+        "triggered_at": {"type": "string", "maxLength": 64},
+        "event_to_collect_ms": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}
+

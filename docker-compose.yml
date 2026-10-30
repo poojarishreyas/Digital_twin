@@ -1,0 +1,98 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-digital_twin}
+      POSTGRES_USER: ${POSTGRES_USER:-twin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./deploy/postgres/init.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
+    ports: ["127.0.0.1:5432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  neo4j:
+    image: neo4j:5.26-community
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:?Set NEO4J_PASSWORD in .env}
+      NEO4J_server_memory_heap_initial__size: 256m
+      NEO4J_server_memory_heap_max__size: 512m
+    ports: ["127.0.0.1:7474:7474", "127.0.0.1:7687:7687"]
+    volumes:
+      - neo4jdata:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  ingestion:
+    build: ./ingestion
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-twin}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-digital_twin}
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:?Set NEO4J_PASSWORD in .env}
+      TWIN_GRPC_BIND: 0.0.0.0:8443
+      TWIN_HTTP_BIND: 0.0.0.0
+      TWIN_HTTP_PORT: 8080
+      TWIN_TLS_CA: /certs/ca.crt
+      TWIN_TLS_CERT: /certs/server.crt
+      TWIN_TLS_KEY: /certs/server.key
+      TWIN_SCHEMA_PATH: /app/schema/telemetry-v1.schema.json
+      TWIN_FINDING_SCHEMA_PATH: /app/schema/finding-v1.schema.json
+      TWIN_STALE_AFTER_SECONDS: ${TWIN_STALE_AFTER_SECONDS:-180}
+      TWIN_MAX_PATH_DEPTH: ${TWIN_MAX_PATH_DEPTH:-8}
+      TWIN_EMULATION_API_TOKEN: ${TWIN_EMULATION_API_TOKEN:-}
+      TWIN_AUTH_MODE: ${TWIN_AUTH_MODE:-tokens}
+      TWIN_AUTH_FILE: /run/twin-auth/auth.json
+      TWIN_COOKIE_SECURE: ${TWIN_COOKIE_SECURE:-false}
+      TWIN_ALLOWED_ORIGINS: ${TWIN_ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      TWIN_MAX_RUN_CPU_MILLIS: ${TWIN_MAX_RUN_CPU_MILLIS:-2000}
+      TWIN_MAX_RUN_RAM_MB: ${TWIN_MAX_RUN_RAM_MB:-4096}
+      TWIN_MAX_PENDING_RUNS: ${TWIN_MAX_PENDING_RUNS:-10}
+      TWIN_MAX_TENANT_PENDING_RUNS: ${TWIN_MAX_TENANT_PENDING_RUNS:-3}
+      TWIN_OPERATOR_TENANT: ${TWIN_OPERATOR_TENANT:-default}
+      # One-line agent enrollment. Create the issuing CA once with deploy/pki/new-enrollment-ca.(sh|ps1);
+      # enrollment stays disabled (and the dashboard says so) until it exists.
+      TWIN_ENROLL_CA_CERT: /run/twin-enroll/enroll-ca.crt
+      TWIN_ENROLL_CA_KEY: /run/twin-enroll/enroll-ca.key
+      TWIN_PUBLIC_GRPC_ADDRESS: ${TWIN_PUBLIC_GRPC_ADDRESS:-localhost:8443}
+      TWIN_GRPC_SERVER_NAME: ${TWIN_GRPC_SERVER_NAME:-ingestion.local}
+    volumes:
+      - ./certs/enrollment:/run/twin-enroll:ro
+      - ./certs/ca.crt:/certs/ca.crt:ro
+      - ./certs/server.crt:/certs/server.crt:ro
+      - ./certs/server.key:/certs/server.key:ro
+      - ./schema:/app/schema:ro
+      - type: bind
+        source: ./secrets/auth
+        target: /run/twin-auth
+        read_only: true
+        bind: {create_host_path: false}
+    ports: ["127.0.0.1:8080:8080", "${TWIN_AGENT_BIND:-127.0.0.1}:8443:8443"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/readyz', timeout=4)"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    depends_on:
+      postgres: { condition: service_healthy }
+      neo4j: { condition: service_healthy }
+
+  ui:
+    build: ./ui
+    volumes:
+      - ./deploy/agent-install:/srv/agent/scripts:ro
+      - ./bin:/srv/agent/bin:ro
+    ports: ["127.0.0.1:3000:80"]
+    depends_on: [ingestion]
+
+volumes:
+  pgdata:
+  neo4jdata:

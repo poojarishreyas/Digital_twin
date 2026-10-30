@@ -1,0 +1,13 @@
+server_address: localhost:8443
+# Omit state_dir to use ProgramData\TwinAgent on Windows or
+# /var/lib/twin-agent on Linux (writable by the installed service).
+poll_interval: 30s
+full_snapshot_interval: 6h
+outbox_max_envelopes: 1000
+tls:
+  ca: ./certs/ca.crt
+  certificate: ./certs/agent.crt
+  key: ./certs/agent.key
+  server_name: ingestion.local
+# Optional `config_files` overrides may be added for nonstandard lab paths.
+

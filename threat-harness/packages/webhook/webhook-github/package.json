@@ -1,0 +1,62 @@
+{
+  "name": "@elemental/webhook-github",
+  "description": "Signed GitHub HTTP webhook adapter for the Elemental Harness webhook runtime",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/webhook/webhook-github"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/credentials": "workspace:^",
+    "@elemental/host-webserver": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/webhook": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/util-values": "workspace:^",
+    "@elemental/schemastery": "workspace:^",
+    "@octokit/webhooks": "^14.2.0"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/cordis-plugin-include": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/credentials": "workspace:^",
+    "@elemental/host-webserver": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/webhook": "workspace:^"
+  }
+}

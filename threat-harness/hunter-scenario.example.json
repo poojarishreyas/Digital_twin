@@ -1,0 +1,8 @@
+{
+  "id": "lab-redis",
+  "test": "redis.policy",
+  "services": [
+    {"id": "target", "kind": "redis", "version": "7.4.2",
+     "directives": [{"order": 1, "name": "protected-mode", "values": ["no"]}]}
+  ]
+}

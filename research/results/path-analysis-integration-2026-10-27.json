@@ -1,0 +1,19 @@
+﻿{
+  "mtls_ingest": true,
+  "windows_and_linux_synthetic_hosts": true,
+  "certificate_identity_enforced": true,
+  "duplicate_idempotent": true,
+  "service_removal_converged": true,
+  "config_and_port_edit_converged": true,
+  "full_snapshot_reconciled": true,
+  "archetype_host_edges_preserved": true,
+  "secret_absent_from_graph": true,
+  "permission_gap_visible": true,
+  "evidenced_candidate_path": true,
+  "two_hop_evidence_analysis": true,
+  "isolation_preview_read_only": true,
+  "cross_host_write_rejected": true,
+  "forged_confirmation_rejected": true,
+  "invalid_payload_not_echoed": true,
+  "nodes_after": 4
+}

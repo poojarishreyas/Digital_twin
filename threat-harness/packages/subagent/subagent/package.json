@@ -1,0 +1,132 @@
+{
+  "name": "@elemental/subagent",
+  "description": "Abstract subagent seam (ctx.subagents): named-provider registry for delegating to child agents",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/subagent/subagent"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client.d.ts",
+      "default": "./lib/types/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/brand": "workspace:^",
+    "@elemental/util-values": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-presets": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-persistence": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/session-projection-cache": "workspace:^",
+    "@elemental/session-query": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/util-time": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@elemental/agent-presets": {
+      "optional": true
+    },
+    "@elemental/sandbox": {
+      "optional": true
+    },
+    "@elemental/sandbox-policy": {
+      "optional": true
+    },
+    "@elemental/session-persistence": {
+      "optional": true
+    },
+    "@elemental/session-projection": {
+      "optional": true
+    },
+    "@elemental/session-projection-cache": {
+      "optional": true
+    },
+    "@elemental/session-query": {
+      "optional": true
+    },
+    "@elemental/jobs": {
+      "optional": true
+    },
+    "@elemental/user-approval": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-presets": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-persistence": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/session-projection-cache": "workspace:^",
+    "@elemental/session-query": "workspace:^",
+    "@elemental/storage": "workspace:^",
+    "@elemental/storage-domain": "workspace:^",
+    "@elemental/storage-json": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/util-time": "workspace:^"
+  }
+}

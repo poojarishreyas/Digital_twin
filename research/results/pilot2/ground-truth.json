@@ -1,0 +1,266 @@
+{
+  "s01": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 12:11:06 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "5d4dfdbf44b1341689808b70ed18634d34b4f0bf60c25b761ba67d378eaa393a",
+    "images": [
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8"
+    ]
+  },
+  "s02": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "HTTP/1.1 200 OK\r\nServer: nginx\r\nDate: Sun, 25 Oct 2026 12:11:09 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "fe00ae1b457ecf6cf54737d4cdb097c2adf5792b489e0f7cb0e9891e4fa1c984",
+    "images": [
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8"
+    ]
+  },
+  "s03": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 12:11:13 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "4ebff515d2fed96ecb1208669bafe58423b043349f9ad1574429d3f65251eda3",
+    "images": [
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8"
+    ]
+  },
+  "s04": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "HTTP/1.1 200 OK\r\nServer: nginx\r\nDate: Sun, 25 Oct 2026 12:11:16 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 34a04005bcaf",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "716bf31158772fa6d3ffe88ea1f4788b9ef3aa2db9de52860f8ea07f46904542",
+    "images": [
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8"
+    ]
+  },
+  "s05": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "1\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "4b5876d9331ecf83907f0badd31a0861f1b1af5d4e0f6759239d084ed667a104",
+    "images": [
+      "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46"
+    ]
+  },
+  "s06": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 2,
+      "wire": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: fe_sendauth: no password supplied\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "7bb3ecdd388cb49bdcd28896d5e7831163e7cc7521bfd1557214cc0847a6f2ec",
+    "images": [
+      "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46"
+    ]
+  },
+  "s07": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 2,
+      "wire": "psql: error: connection to server at \"172.18.0.2\", port 5432 failed: FATAL:  pg_hba.conf rejects connection for host \"172.18.0.3\", user \"synthetic\", database \"synthetic\", no encryption\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "9c3d25727f1b03c01b95f7a3439c5f3e00af149c327d1c01ae3a3a674f3fdafb",
+    "images": [
+      "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46"
+    ]
+  },
+  "s08": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "1\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "3978a8e0c270fff31239a1882b999a1d023d794c6e11700d3efe6a6256516aed",
+    "images": [
+      "sha256:5d706d5aa3ad311722f373fdc09e6a22b454bec70d34d9786383983fd83c5e46"
+    ]
+  },
+  "s09": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "PONG\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "2558e909677655833c38b6c742da7afb5087799575a996a931724f7a823888c1",
+    "images": [
+      "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635"
+    ]
+  },
+  "s10": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "DENIED Redis is running in protected mode because protected mode is enabled and no password is set for the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1) Just disable protected mode sending the command 'CONFIG SET protected-mode no' from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet if you do so. Use CONFIG REWRITE to make this change permanent. 2) Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to 'no', and then restarting the server. 3) If you started the server manually just for testing, restart it with the '--protected-mode no' option. 4) Set up an authentication password for the default user. NOTE: You only need to do one of the above things in order for the server to start accepting connections from the outside.\n\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "b31c640d434f01d6d7c8a138b0efddfd6759a3499f884e632374795e193b1ae6",
+    "images": [
+      "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635"
+    ]
+  },
+  "s11": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "NOAUTH Authentication required.\n\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "d4202308137b7ad198270e944fe4f9067f15193e2bbea0344a436796ddcd500c",
+    "images": [
+      "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635"
+    ]
+  },
+  "s12": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "PONG\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "7adb6d7a23cb6e6e964bd5fc42183c43ad1366a8f51aef327ef1950bcc5bf602",
+    "images": [
+      "sha256:519f0189dfdee3bc0bad61fb265fe73d864b5c64020e6579ad48a45c49965635"
+    ]
+  },
+  "s13": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\noracle-ok",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "6c01efc0df80d9a07a76f9d55b1654eafa81c5e9f37657cb0acc6f2c5e545dbf",
+    "images": [
+      "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad"
+    ]
+  },
+  "s14": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 255,
+      "wire": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nsynthetic@172.18.0.2: Permission denied (publickey,keyboard-interactive).\r\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "0c62eb240b9197ca5485400e2a00e3639b7479879270e01b56c3c31e42351ca2",
+    "images": [
+      "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad"
+    ]
+  },
+  "s15": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 5,
+      "wire": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\nPermission denied, please try again.\r\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "1735e7ef5301fece25b74c9deda8863535e7b0b681ef0ea173e83145b3c1f7b1",
+    "images": [
+      "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad"
+    ]
+  },
+  "s16": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "Warning: Permanently added '[172.18.0.2]:2222' (ED25519) to the list of known hosts.\r\noracle-ok",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "a997e8cb19385e093b77f745e43bb48e50817b0d77e6a781db161c7c34437c82",
+    "images": [
+      "sha256:34186d2ec9ce6f23fe5973b17cba9fe5b784c4fe4e502b95e6fecfd16453b5ad"
+    ]
+  },
+  "s17": {
+    "truth": true,
+    "verified": true,
+    "proposed_truth": true,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "HTTP/1.1 200 OK\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 12:12:19 GMT\r\nContent-Type: text/plain\r\nContent-Length: 27\r\nConnection: keep-alive\r\n\r\nsynthetic twin 3c482346f375",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "68c70ad1b1a2ff4c55f643c86071642c7779c05efe268bcfcc4c7ec9eac2d90e",
+    "images": [
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8"
+    ]
+  },
+  "s18": {
+    "truth": false,
+    "verified": true,
+    "proposed_truth": false,
+    "evidence": {
+      "exit_code": 0,
+      "wire": "HTTP/1.1 403 Forbidden\r\nServer: nginx/1.27.5\r\nDate: Sun, 25 Oct 2026 12:12:26 GMT\r\nContent-Type: text/html\r\nContent-Length: 153\r\nConnection: keep-alive\r\n\r\n<html>\r\n<head><title>403 Forbidden</title></head>\r\n<body>\r\n<center><h1>403 Forbidden</h1></center>\r\n<hr><center>nginx/1.27.5</center>\r\n</body>\r\n</html>\r\n",
+      "oracle_version": "wire-oracle-1"
+    },
+    "source_snapshot": "447b808caac6f2208685420bc1c0d090a883b66abec03a23fd09f88fd1c3c9a2",
+    "images": [
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8",
+      "sha256:62223d644fa234c3a1cc785ee14242ec47a77364226f1c811d2f669f96dc2ac8"
+    ]
+  },
+  "s19": {
+    "truth": null,
+    "verified": false,
+    "error": "version_unavailable:6.0.0;mapped=7.4.2"
+  },
+  "s20": {
+    "truth": null,
+    "verified": false,
+    "error": "match_section_unsupported:User synthetic"
+  }
+}

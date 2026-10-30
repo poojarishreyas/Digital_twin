@@ -1,0 +1,80 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "3.0",
+      "default": "3.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "pattern": "^[a-f0-9-]{36}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "linux_isolated",
+        "desktop_smoke"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "manifest_hash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Manifest Hash",
+      "type": "string"
+    },
+    "model_lock": {
+      "title": "Model Lock",
+      "type": "object"
+    },
+    "budgets": {
+      "title": "Budgets",
+      "type": "object"
+    },
+    "environment": {
+      "title": "Environment",
+      "type": "object"
+    },
+    "rows": {
+      "items": {
+        "type": "object"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "patches": {
+      "default": [],
+      "items": {
+        "type": "object"
+      },
+      "title": "Patches",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "created_at",
+    "mode",
+    "manifest_hash",
+    "model_lock",
+    "budgets",
+    "environment",
+    "rows",
+    "limitations"
+  ],
+  "title": "Report",
+  "type": "object"
+}

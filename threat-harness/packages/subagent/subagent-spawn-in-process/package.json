@@ -1,0 +1,61 @@
+{
+  "name": "@elemental/subagent-spawn-in-process",
+  "description": "In-process spawn subagent backend: runs a fresh child agent on ctx.agents",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/subagent/subagent-spawn-in-process"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/subagent": "workspace:^",
+    "@elemental/subagent-in-process-driver": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-loop": "workspace:^",
+    "@elemental/agent-loop-testkit": "workspace:^",
+    "@elemental/bash-local": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/llm-deepseek": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/subagent": "workspace:^",
+    "@elemental/subagent-in-process-driver": "workspace:^",
+    "@elemental/tool-bash": "workspace:^",
+    "@elemental/tool-subagent": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/session-projection": "workspace:^"
+  }
+}

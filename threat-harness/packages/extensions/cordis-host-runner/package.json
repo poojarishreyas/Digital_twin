@@ -1,0 +1,79 @@
+{
+  "name": "@elemental/cordis-host-runner",
+  "description": "Dynamic package definition registry, host-half sandbox lifecycle, and invoke handler table for model-mounted dual-half packages",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/extensions/cordis-host-runner"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/util-values": "workspace:^",
+    "@elemental/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/brand": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/cordis-plugin-timer": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/brand": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^"
+  }
+}

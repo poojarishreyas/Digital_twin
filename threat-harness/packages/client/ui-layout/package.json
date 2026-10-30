@@ -1,0 +1,69 @@
+{
+  "name": "@elemental/client-ui-layout",
+  "description": "Shell plugin: three-column AppFrame with drag handles, ctx.layout viewing-state service (navigation + panels)",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/client/ui-layout"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "inject": [
+        "@elemental/client-locale",
+        "@elemental/client-ui-renderer",
+        "@elemental/client-ui-session",
+        "@elemental/client-ui-theme"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/client-locale": "workspace:^",
+    "@elemental/client-store": "workspace:^",
+    "@elemental/client-ui-renderer": "workspace:^",
+    "@elemental/client-ui-session": "workspace:^",
+    "@elemental/client-ui-slots": "workspace:^",
+    "@elemental/client-ui-theme": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@types/react": "~18.3.1",
+    "@elemental/cordis": "workspace:^",
+    "react": "^18.2.0"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

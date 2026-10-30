@@ -1,0 +1,154 @@
+{
+  "name": "@elemental/api-session-controller",
+  "description": "Session Remote commands, cold reads, and live control transport",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/api/session-controller"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./remote-events": {
+      "types": "./lib/types/remote-events.d.ts",
+      "default": "./lib/types/remote-events.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "external": [
+        "@elemental/api-gateway/client"
+      ],
+      "inject": [
+        "@elemental/api-gateway"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/brand": "workspace:^",
+    "@elemental/deque": "workspace:^",
+    "@elemental/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-default-model": "workspace:^",
+    "@elemental/agent-presets": "workspace:^",
+    "@elemental/api-gateway": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/file-reference": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/native-command": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-persistence": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/session-projection-cache": "workspace:^",
+    "@elemental/session-query": "workspace:^",
+    "@elemental/session-title": "workspace:^",
+    "@elemental/skill": "workspace:^",
+    "@elemental/subagent": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/typert-registry": "workspace:^",
+    "@elemental/util-time": "workspace:^",
+    "@elemental/util-workspace-path": "workspace:^",
+    "@elemental/workspace": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@elemental/jobs": {
+      "optional": true
+    },
+    "@elemental/session-persistence": {
+      "optional": true
+    },
+    "@elemental/session-projection-cache": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-default-model": "workspace:^",
+    "@elemental/agent-presets": "workspace:^",
+    "@elemental/api-gateway": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-store": "workspace:^",
+    "@elemental/file-reference": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/native-command": "workspace:^",
+    "@elemental/permission-presets": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-persistence": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/session-projection-cache": "workspace:^",
+    "@elemental/session-query": "workspace:^",
+    "@elemental/session-title": "workspace:^",
+    "@elemental/skill": "workspace:^",
+    "@elemental/storage": "workspace:^",
+    "@elemental/storage-domain": "workspace:^",
+    "@elemental/storage-json": "workspace:^",
+    "@elemental/subagent": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/typert-registry": "workspace:^",
+    "@elemental/util-crypto": "workspace:^",
+    "@elemental/util-time": "workspace:^",
+    "@elemental/util-workspace-path": "workspace:^",
+    "@elemental/workspace": "workspace:^"
+  }
+}

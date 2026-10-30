@@ -1,0 +1,59 @@
+{
+  "name": "@elemental/session-query-sqlite",
+  "description": "Concrete ctx.sessionQuery backend with SQLite FTS5 search",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/session-query/session-query-sqlite"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-persistence": "workspace:^",
+    "@elemental/session-query": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@elemental/session-persistence": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-persistence": "workspace:^",
+    "@elemental/session-persistence-jsonl": "workspace:^",
+    "@elemental/session-query": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/session-projection": "workspace:^"
+  }
+}

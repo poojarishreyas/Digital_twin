@@ -1,0 +1,17 @@
+# Applied after eval.cordis.yml with `run-eval.ts --overlay`: gives the agent
+# the bash tool instead of PowerShell on Windows (Git Bash), to measure how the
+# shell the model writes commands for changes its failed commands and steps.
+# Shell commands run outside the sandbox under the eval preset; Git Bash cannot
+# start under the Windows restricted-token sandbox (`CreateFileMapping … Win32 error 5`).
+
+- id: bash-sandbox
+  disabled: false
+
+- id: tool-bash
+  disabled: false
+
+- id: pwsh-sandbox
+  disabled: true
+
+- id: tool-pwsh
+  disabled: true

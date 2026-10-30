@@ -1,0 +1,61 @@
+{
+  "name": "@elemental/terminal-bash",
+  "description": "Persistent shell PTY backend over the Elemental Harness subprocess terminal primitive",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/terminal/terminal-bash"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/terminal": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/subprocess": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/session-projection": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/pwsh-local": "workspace:^",
+    "@elemental/schemastery": "workspace:^",
+    "@xterm/headless": "^6.0.0"
+  },
+  "devDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/terminal": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/subprocess": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  }
+}

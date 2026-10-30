@@ -1,0 +1,378 @@
+{
+  "$defs": {
+    "Database": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "database_probe",
+          "title": "Name",
+          "type": "string"
+        },
+        "query": {
+          "const": "select_one",
+          "default": "select_one",
+          "title": "Query",
+          "type": "string"
+        },
+        "authenticated": {
+          "default": false,
+          "title": "Authenticated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name"
+      ],
+      "title": "Database",
+      "type": "object"
+    },
+    "Edit": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "enum": [
+            "directives",
+            "hba_rules"
+          ],
+          "title": "Field",
+          "type": "string"
+        },
+        "index": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "value": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        },
+        "append_name": {
+          "anyOf": [
+            {
+              "const": "requirepass",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Append Name"
+        }
+      },
+      "required": [
+        "field",
+        "index",
+        "value"
+      ],
+      "title": "Edit",
+      "type": "object"
+    },
+    "HTTP": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "http_probe",
+          "title": "Name",
+          "type": "string"
+        },
+        "method": {
+          "default": "GET",
+          "enum": [
+            "GET",
+            "HEAD"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "path": {
+          "default": "/",
+          "enum": [
+            "/",
+            "/health"
+          ],
+          "title": "Path",
+          "type": "string"
+        },
+        "redirects": {
+          "default": 0,
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Redirects",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name"
+      ],
+      "title": "HTTP",
+      "type": "object"
+    },
+    "Inspect": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "inspect_config",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name"
+      ],
+      "title": "Inspect",
+      "type": "object"
+    },
+    "Nuclei": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "run_nuclei",
+          "title": "Name",
+          "type": "string"
+        },
+        "template": {
+          "const": "twin-nginx-header",
+          "title": "Template",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name",
+        "template"
+      ],
+      "title": "Nuclei",
+      "type": "object"
+    },
+    "Patch": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "test_patch",
+          "title": "Name",
+          "type": "string"
+        },
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/Edit"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Changes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name",
+        "changes"
+      ],
+      "title": "Patch",
+      "type": "object"
+    },
+    "Scan": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "scan_service",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name"
+      ],
+      "title": "Scan",
+      "type": "object"
+    },
+    "Security": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "security_check",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name"
+      ],
+      "title": "Security",
+      "type": "object"
+    },
+    "TCP": {
+      "additionalProperties": false,
+      "properties": {
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Target Id",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "name": {
+          "const": "tcp_probe",
+          "title": "Name",
+          "type": "string"
+        },
+        "operation": {
+          "const": "connect",
+          "default": "connect",
+          "title": "Operation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_id",
+        "port",
+        "name"
+      ],
+      "title": "TCP",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "database_probe": "#/$defs/Database",
+      "http_probe": "#/$defs/HTTP",
+      "inspect_config": "#/$defs/Inspect",
+      "run_nuclei": "#/$defs/Nuclei",
+      "scan_service": "#/$defs/Scan",
+      "security_check": "#/$defs/Security",
+      "tcp_probe": "#/$defs/TCP",
+      "test_patch": "#/$defs/Patch"
+    },
+    "propertyName": "name"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Inspect"
+    },
+    {
+      "$ref": "#/$defs/Scan"
+    },
+    {
+      "$ref": "#/$defs/Security"
+    },
+    {
+      "$ref": "#/$defs/Nuclei"
+    },
+    {
+      "$ref": "#/$defs/HTTP"
+    },
+    {
+      "$ref": "#/$defs/TCP"
+    },
+    {
+      "$ref": "#/$defs/Database"
+    },
+    {
+      "$ref": "#/$defs/Patch"
+    }
+  ]
+}

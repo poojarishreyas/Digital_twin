@@ -1,0 +1,357 @@
+{
+  "mode": "desktop_smoke",
+  "matched_subset": "four real service containers; identical two tested targets",
+  "selection": {
+    "entries": [
+      "h0"
+    ],
+    "critical": [
+      "h1"
+    ],
+    "max_hops": 4,
+    "assumptions": [
+      "Only directed observed or inferred edges are traversed.",
+      "A socket observation does not prove exploitability or other routes.",
+      "Each path requires all mapped service twins in the same wave.",
+      "Path enumeration stops at the configured cap; truncated state is excluded."
+    ],
+    "path_universe_size": 1,
+    "planned_paths": 1,
+    "untested_paths": 0,
+    "paths": [
+      {
+        "id": "h0|INFERRED_REACHABILITY:h1",
+        "nodes": [
+          "h0",
+          "h1"
+        ],
+        "edge_kinds": [
+          "INFERRED_REACHABILITY"
+        ],
+        "services": [
+          "h0",
+          "h1"
+        ],
+        "status": "planned",
+        "reason": ""
+      }
+    ],
+    "waves": [
+      {
+        "index": 1,
+        "service_ids": [
+          "h0",
+          "h1"
+        ],
+        "path_ids": [
+          "h0|INFERRED_REACHABILITY:h1"
+        ],
+        "cpu_millis": 700,
+        "ram_mb": 384
+      }
+    ],
+    "excluded": [],
+    "truncated": false
+  },
+  "records": [
+    {
+      "repetition": 1,
+      "policy": "selective",
+      "container_services": 2,
+      "same_test_targets": [
+        "h0",
+        "h1"
+      ],
+      "verdicts": {
+        "h0": "confirmed",
+        "h1": "not_reproduced"
+      },
+      "active_seconds": 5.431909800012363,
+      "horizon_seconds": 20,
+      "readiness_seconds": 3.0650408000074094,
+      "peak_ram_mb": 15.05078125,
+      "peak_cpu_millis": 274.0553151356515,
+      "cpu_seconds": 0.8461980000000001,
+      "ram_mb_seconds": 40.708147059762155,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": []
+    },
+    {
+      "repetition": 1,
+      "policy": "always_on",
+      "container_services": 4,
+      "same_test_targets": [
+        "h0",
+        "h1"
+      ],
+      "verdicts": {
+        "h0": "confirmed",
+        "h1": "not_reproduced"
+      },
+      "active_seconds": 22.400532700004987,
+      "horizon_seconds": 20,
+      "readiness_seconds": 5.915833499995642,
+      "peak_ram_mb": 25.78515625,
+      "peak_cpu_millis": 447.1850633742918,
+      "cpu_seconds": 1.7633879999999997,
+      "ram_mb_seconds": 405.8566913768675,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": []
+    },
+    {
+      "repetition": 2,
+      "policy": "selective",
+      "container_services": 2,
+      "same_test_targets": [
+        "h0",
+        "h1"
+      ],
+      "verdicts": {
+        "h0": "confirmed",
+        "h1": "not_reproduced"
+      },
+      "active_seconds": 5.24014769999485,
+      "horizon_seconds": 20,
+      "readiness_seconds": 3.099002199989627,
+      "peak_ram_mb": 14.671875,
+      "peak_cpu_millis": 316.9867005858995,
+      "cpu_seconds": 0.773184,
+      "ram_mb_seconds": 34.20444872936946,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": []
+    },
+    {
+      "repetition": 2,
+      "policy": "always_on",
+      "container_services": 4,
+      "same_test_targets": [
+        "h0",
+        "h1"
+      ],
+      "verdicts": {
+        "h0": "confirmed",
+        "h1": "not_reproduced"
+      },
+      "active_seconds": 22.514117200000328,
+      "horizon_seconds": 20,
+      "readiness_seconds": 6.406867800003965,
+      "peak_ram_mb": 25.8984375,
+      "peak_cpu_millis": 359.6763214741621,
+      "cpu_seconds": 1.8237130000000001,
+      "ram_mb_seconds": 408.4074535801198,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": []
+    },
+    {
+      "repetition": 3,
+      "policy": "selective",
+      "container_services": 2,
+      "same_test_targets": [
+        "h0",
+        "h1"
+      ],
+      "verdicts": {
+        "h0": "confirmed",
+        "h1": "not_reproduced"
+      },
+      "active_seconds": 5.602463600007468,
+      "horizon_seconds": 20,
+      "readiness_seconds": 3.189681300005759,
+      "peak_ram_mb": 14.29296875,
+      "peak_cpu_millis": 297.5209270407316,
+      "cpu_seconds": 0.8316840000000001,
+      "ram_mb_seconds": 42.396919768001965,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": []
+    },
+    {
+      "repetition": 3,
+      "policy": "always_on",
+      "container_services": 4,
+      "same_test_targets": [
+        "h0",
+        "h1"
+      ],
+      "verdicts": {
+        "h0": "confirmed",
+        "h1": "not_reproduced"
+      },
+      "active_seconds": 22.499846200007596,
+      "horizon_seconds": 20,
+      "readiness_seconds": 5.903400399998645,
+      "peak_ram_mb": 25.484375,
+      "peak_cpu_millis": 392.18760056886856,
+      "cpu_seconds": 1.7096069999999992,
+      "ram_mb_seconds": 413.95915753301057,
+      "sample_interval_seconds": 0.5,
+      "sample_errors": 0,
+      "cleanup_errors": []
+    }
+  ],
+  "synthetic_graph": {
+    "nodes": 100,
+    "physically_instrumented_hosts": 0,
+    "purpose": "planner scaling only",
+    "plan": {
+      "entries": [
+        "n0",
+        "n40",
+        "n80"
+      ],
+      "critical": [
+        "n4",
+        "n44",
+        "n84"
+      ],
+      "max_hops": 4,
+      "assumptions": [
+        "Only directed observed or inferred edges are traversed.",
+        "A socket observation does not prove exploitability or other routes.",
+        "Each path requires all mapped service twins in the same wave.",
+        "Path enumeration stops at the configured cap; truncated state is excluded."
+      ],
+      "path_universe_size": 3,
+      "planned_paths": 3,
+      "untested_paths": 0,
+      "paths": [
+        {
+          "id": "n0|INFERRED_REACHABILITY:n1|INFERRED_REACHABILITY:n2|INFERRED_REACHABILITY:n3|INFERRED_REACHABILITY:n4",
+          "nodes": [
+            "n0",
+            "n1",
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "edge_kinds": [
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY"
+          ],
+          "services": [
+            "n0",
+            "n1",
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "status": "planned",
+          "reason": ""
+        },
+        {
+          "id": "n40|INFERRED_REACHABILITY:n41|INFERRED_REACHABILITY:n42|INFERRED_REACHABILITY:n43|INFERRED_REACHABILITY:n44",
+          "nodes": [
+            "n40",
+            "n41",
+            "n42",
+            "n43",
+            "n44"
+          ],
+          "edge_kinds": [
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY"
+          ],
+          "services": [
+            "n40",
+            "n41",
+            "n42",
+            "n43",
+            "n44"
+          ],
+          "status": "planned",
+          "reason": ""
+        },
+        {
+          "id": "n80|INFERRED_REACHABILITY:n81|INFERRED_REACHABILITY:n82|INFERRED_REACHABILITY:n83|INFERRED_REACHABILITY:n84",
+          "nodes": [
+            "n80",
+            "n81",
+            "n82",
+            "n83",
+            "n84"
+          ],
+          "edge_kinds": [
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY",
+            "INFERRED_REACHABILITY"
+          ],
+          "services": [
+            "n80",
+            "n81",
+            "n82",
+            "n83",
+            "n84"
+          ],
+          "status": "planned",
+          "reason": ""
+        }
+      ],
+      "waves": [
+        {
+          "index": 1,
+          "service_ids": [
+            "n0",
+            "n1",
+            "n2",
+            "n3",
+            "n4"
+          ],
+          "path_ids": [
+            "n0|INFERRED_REACHABILITY:n1|INFERRED_REACHABILITY:n2|INFERRED_REACHABILITY:n3|INFERRED_REACHABILITY:n4"
+          ],
+          "cpu_millis": 1450,
+          "ram_mb": 768
+        },
+        {
+          "index": 2,
+          "service_ids": [
+            "n40",
+            "n41",
+            "n42",
+            "n43",
+            "n44"
+          ],
+          "path_ids": [
+            "n40|INFERRED_REACHABILITY:n41|INFERRED_REACHABILITY:n42|INFERRED_REACHABILITY:n43|INFERRED_REACHABILITY:n44"
+          ],
+          "cpu_millis": 1450,
+          "ram_mb": 768
+        },
+        {
+          "index": 3,
+          "service_ids": [
+            "n80",
+            "n81",
+            "n82",
+            "n83",
+            "n84"
+          ],
+          "path_ids": [
+            "n80|INFERRED_REACHABILITY:n81|INFERRED_REACHABILITY:n82|INFERRED_REACHABILITY:n83|INFERRED_REACHABILITY:n84"
+          ],
+          "cpu_millis": 1450,
+          "ram_mb": 768
+        }
+      ],
+      "excluded": [],
+      "truncated": false
+    }
+  },
+  "full_vm_comparison": {
+    "status": "not_run",
+    "reason": "No controlled full-VM backend or matched hardware available"
+  },
+  "limitations": [
+    "Candidate path coverage is not attack-path validation",
+    "Always-on retains all four services for the declared horizon; selective destroys its selected services after the tests"
+  ]
+}

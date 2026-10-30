@@ -1,0 +1,54 @@
+{
+  "name": "@elemental/bash-local",
+  "description": "Local-subprocess implementation of the Elemental Harness bash executor seam",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/shell/bash-local"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/shell": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/subprocess": "workspace:^",
+    "@elemental/timeout": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/settings": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/shell": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/subprocess": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/timeout": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/settings": "workspace:^"
+  }
+}

@@ -1,0 +1,53 @@
+# Evaluation overlay for scripts/eval/run-eval.ts, applied over the shipped
+# base profile by the headless base driver. It changes only what an unattended
+# run needs: a model chosen by environment, workspace-write sandboxing with no
+# approval prompts (nobody is there to answer), and uncompressed session logs.
+
+- id: agent-default-model
+  name: '@elemental/agent-default-model'
+  config:
+    provider: !!js process.env.ELEMENTAL_EVAL_PROVIDER ?? 'deepseek-official'
+    model: !!js process.env.ELEMENTAL_EVAL_MODEL ?? 'deepseek-v4-flash'
+
+- id: sandbox-policy
+  name: '@elemental/sandbox-policy'
+  config:
+    mode: workspace-write
+    workspaceRoot: !!js process.cwd()
+
+- id: approval
+  name: '@elemental/user-approval'
+  config:
+    policy: never
+
+# The shipped presets pair workspace-write with approval prompts, and a
+# headless run cannot answer them. This preset keeps the sandbox and makes
+# every denial final instead of asking.
+- id: permission
+  name: '@elemental/permission-presets'
+  config:
+    presets:
+      eval:
+        sandbox: workspace-write
+        approval: never
+        name: eval
+        description: Sandboxed workspace writes; denials are final because no one can approve.
+    defaultPreset: eval
+
+- id: fs-sandbox
+  name: '@elemental/fs-sandbox'
+  config:
+    cwd: !!js process.cwd()
+
+- id: session-persistence-jsonl
+  name: '@elemental/session-persistence-jsonl'
+  config:
+    root: !!js elementalHomePath('sessions')
+    compression: none
+
+- id: session-title-llm
+  disabled: true
+
+- insert:
+    - id: code-runtime
+      name: '@elemental/code-runtime-worker-thread'

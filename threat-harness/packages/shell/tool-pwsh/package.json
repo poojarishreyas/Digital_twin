@@ -1,0 +1,75 @@
+{
+  "name": "@elemental/tool-pwsh",
+  "description": "Model-facing pwsh tool over the bash executor seam",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/shell/tool-pwsh"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/shell": "workspace:^",
+    "@elemental/shell-env": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/shell-permission-policy": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-loop": "workspace:^",
+    "@elemental/app-boot": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/jobs": "workspace:^",
+    "@elemental/jobs-local": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/loader-smoke": "workspace:^",
+    "@elemental/pwsh-local": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/shell": "workspace:^",
+    "@elemental/shell-env": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/tool-jobs": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/shell-permission-policy": "workspace:^"
+  }
+}

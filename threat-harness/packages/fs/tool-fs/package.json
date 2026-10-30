@@ -1,0 +1,78 @@
+{
+  "name": "@elemental/tool-fs",
+  "description": "Model-facing filesystem tools (read, write, edit) over the Elemental Harness filesystem seam (ctx.fs)",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/fs/tool-fs"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts",
+    "grammars/*.wasm",
+    "grammars/README.md",
+    "grammars/LICENSES"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "diff": "^9.0.0",
+    "@elemental/schemastery": "workspace:^",
+    "web-tree-sitter": "^0.25.10"
+  },
+  "peerDependencies": {
+    "@elemental/attachment": "workspace:^",
+    "@elemental/fs": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/compaction-tool-result-pruner": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/agent-loop": "workspace:^",
+    "@elemental/agent-loop-testkit": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/fs": "workspace:^",
+    "@elemental/fs-local": "workspace:^",
+    "@elemental/fs-observation-policy": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/llm-deepseek": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/user-approval": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/compaction-tool-result-pruner": "workspace:^",
+    "@elemental/token-meter": "workspace:^"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "name": "@elemental/llm-deepseek",
+  "description": "deepseek chat-completions adapter for the Elemental Harness LLM seam",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/llm/llm-deepseek"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/anonymous-user-id": "workspace:^",
+    "@elemental/atomic-write": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/credentials": "workspace:^",
+    "@elemental/deepseek-llm-api-extensions": "workspace:^",
+    "@elemental/fs": "workspace:^",
+    "@elemental/home-paths": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/launch-environment": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/settings": "workspace:^",
+    "@elemental/timeout": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/brand": "workspace:^",
+    "@elemental/util-values": "workspace:^",
+    "@elemental/schemastery": "workspace:^",
+    "eventsource-parser": "^3.1.0"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/anonymous-user-id": "workspace:^",
+    "@elemental/atomic-write": "workspace:^",
+    "@elemental/attachment": "workspace:^",
+    "@elemental/credentials": "workspace:^",
+    "@elemental/deepseek-llm-api-extensions": "workspace:^",
+    "@elemental/fs": "workspace:^",
+    "@elemental/home-paths": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/launch-environment": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/plugin-package-inventory-deepseek": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-log-deepseek": "workspace:^",
+    "@elemental/settings": "workspace:^",
+    "@elemental/timeout": "workspace:^"
+  }
+}

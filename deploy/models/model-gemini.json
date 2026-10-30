@@ -1,0 +1,12 @@
+{
+  "condition": "primary_hosted_gemini_flash",
+  "backend": "omniroute",
+  "endpoint": "http://127.0.0.1:20128/v1",
+  "requested_model": "lynx-harness",
+  "expected_upstream": "gemini-3.8-flash",
+  "context_length": 65536,
+  "weights": "closed, provider-managed; the upstream version can change behind the model name",
+  "routing": "OmniRoute combo; the response model and route decision are recorded with every decision",
+  "reproducibility": "not weight-pinned; report the observed response models and run dates with results",
+  "validation_status": "schema_smoke_only_2026-10-26"
+}

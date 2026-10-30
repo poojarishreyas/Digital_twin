@@ -1,0 +1,86 @@
+{
+  "name": "@elemental/goal",
+  "description": "Event-sourced same-session goal state and lifecycle service for the Elemental Harness",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/goal/goal"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./client": {
+      "types": "./lib/types/client.d.ts",
+      "default": "./lib/types/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/brand": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/bash-local": "workspace:^",
+    "@elemental/session-projection": "workspace:^",
+    "@elemental/brand": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/loader-smoke": "workspace:^",
+    "@elemental/scope": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/session-checkpoint-policy": "workspace:^",
+    "@elemental/session-persistence-jsonl": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  }
+}

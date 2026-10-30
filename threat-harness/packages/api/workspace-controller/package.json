@@ -1,0 +1,99 @@
+{
+  "name": "@elemental/api-workspace-controller",
+  "description": "Workspace Remote commands and reconnect-safe state transport",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/api/workspace-controller"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "elemental": {
+    "client": {
+      "external": [
+        "@elemental/api-gateway/client"
+      ],
+      "inject": [
+        "@elemental/api-gateway",
+        "@elemental/client-connection"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/client.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts",
+    "lib/typert.host.js",
+    "lib/typert.host.d.ts",
+    "lib/typert.remote-client.js",
+    "lib/typert.remote-client.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@elemental/deque": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/api-gateway": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/host-directory-picker": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/storage-domain": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/workspace": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis": "workspace:^",
+    "@elemental/api-gateway": "workspace:^",
+    "@elemental/client-connection": "workspace:^",
+    "@elemental/client-store": "workspace:^",
+    "@elemental/host-directory-picker": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/storage-domain": "workspace:^",
+    "@elemental/typert-protocol": "workspace:^",
+    "@elemental/workspace": "workspace:^"
+  }
+}

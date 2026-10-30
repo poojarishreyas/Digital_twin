@@ -1,0 +1,16 @@
+{
+  "model_id": "Qwen/Qwen3.8-27B",
+  "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "served_name": "twinhunter-qwen38-27b-1d4bf0f2",
+  "license": "Apache-2.0",
+  "dtype": "bfloat16",
+  "quantization": null,
+  "context_length": 16384,
+  "vllm_version": "0.32.0",
+  "transformers_version": "5.19.0",
+  "gpu_memory_utilization": 0.85,
+  "gpu_family": "A100",
+  "minimum_gpu_memory_mib": 76000,
+  "minimum_free_gpu_memory_mib": 70000,
+  "validation_status": "awaiting_gpu_run"
+}

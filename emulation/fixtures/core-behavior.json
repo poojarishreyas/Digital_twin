@@ -1,0 +1,11 @@
+[
+  {"service":"nginx","version":"nginx/1.27.5","case":"vulnerable","directives":[{"order":1,"name":"listen","values":["8080"]},{"order":2,"name":"server_tokens","values":["on"]}],"expected":"confirmed"},
+  {"service":"nginx","version":"nginx/1.27.5","case":"secure","directives":[{"order":1,"name":"listen","values":["8080"]},{"order":2,"name":"server_tokens","values":["off"]}],"expected":"not_reproduced"},
+  {"service":"postgresql","version":"PostgreSQL 17.2","case":"vulnerable","directives":[{"order":1,"name":"listen_addresses","values":["*"]}],"hba_rules":[{"order":1,"name":"rule","values":["host","all","all","0.0.0.0/0","trust"]}],"expected":"confirmed"},
+  {"service":"postgresql","version":"PostgreSQL 17.2","case":"secure","directives":[{"order":1,"name":"listen_addresses","values":["*"]}],"hba_rules":[{"order":1,"name":"rule","values":["host","all","all","0.0.0.0/0","reject"]}],"expected":"not_reproduced"},
+  {"service":"redis","version":"Redis server v=7.4.2","case":"vulnerable","directives":[{"order":1,"name":"protected-mode","values":["no"]}],"expected":"confirmed"},
+  {"service":"redis","version":"Redis server v=7.4.2","case":"secure","directives":[{"order":1,"name":"protected-mode","values":["yes"]}],"expected":"not_reproduced"},
+  {"service":"openssh","version":"OpenSSH_9.9p2","case":"vulnerable","directives":[{"order":1,"name":"passwordauthentication","values":["yes"]}],"expected":"confirmed"},
+  {"service":"openssh","version":"OpenSSH_9.9p2","case":"secure","directives":[{"order":1,"name":"passwordauthentication","values":["no"]}],"expected":"not_reproduced"}
+]
+

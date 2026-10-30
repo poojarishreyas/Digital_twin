@@ -1,0 +1,62 @@
+{
+  "name": "@elemental/tool-bash-persistent",
+  "description": "Model-facing owner-scoped persistent Bash tool backed by the Harness PTY service",
+  "version": "0.1.2-alpha.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/shell/tool-bash-persistent"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@elemental/agent": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/terminal": "workspace:^",
+    "@elemental/timeout": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "dependencies": {
+    "@elemental/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis-plugin-include": "workspace:^",
+    "@elemental/cordis-plugin-loader": "workspace:^",
+    "@elemental/agent": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/llm": "workspace:^",
+    "@elemental/terminal": "workspace:^",
+    "@elemental/terminal-bash": "workspace:^",
+    "@elemental/sandbox": "workspace:^",
+    "@elemental/sandbox-policy": "workspace:^",
+    "@elemental/session": "workspace:^",
+    "@elemental/subprocess-local": "workspace:^",
+    "@elemental/system-prompt": "workspace:^",
+    "@elemental/timeout": "workspace:^",
+    "@elemental/tools": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "@elemental/session-projection": "workspace:^"
+  }
+}

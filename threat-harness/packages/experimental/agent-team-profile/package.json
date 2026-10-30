@@ -1,0 +1,53 @@
+{
+  "name": "@elemental/experimental-agent-team-profile",
+  "description": "Private profile bundle enabling Agent Teams over base",
+  "version": "0.1.2-alpha.3",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poojarishreyas/Elemental_harness.git",
+    "directory": "packages/experimental/agent-team-profile"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./invariant": {
+      "types": "./lib/types/invariant.d.ts",
+      "default": "./lib/invariant.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/invariant.js",
+    "cordis.patch.yml",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "elemental": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@elemental/experimental-agent-team": "workspace:^",
+    "@elemental/experimental-tool-agent-team": "workspace:^"
+  },
+  "peerDependencies": {
+    "@elemental/invariants": "workspace:^",
+    "@elemental/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@elemental/cordis-plugin-include": "workspace:^",
+    "@elemental/invariants": "workspace:^",
+    "@elemental/cordis": "workspace:^",
+    "js-yaml": "^4.2.0"
+  }
+}
