@@ -23,8 +23,12 @@ bundle() {  # upload the code with Unix line endings (a Windows checkout has CRL
   archive=$(mktemp --suffix=.tgz); work=$(mktemp -d)
   (cd "$ROOT" && tar -cf - --exclude=node_modules --exclude=__pycache__ --exclude=.venv \
      agent ingestion ui deploy schema docker-compose.yml) | tar -xf - -C "$work"
-  { grep -rIl $'\r' "$work" 2>/dev/null || true; } | while IFS= read -r f; do sed -i 's/\r$//' "$f"; done
-  if grep -q $'\r' "$work/deploy/aws/ecommerce/host-setup.sh"; then
+  # Not grep: Git Bash's grep hides carriage returns. Convert every text file by type.
+  find "$work" -type f \( -name '*.sh' -o -name '*.py' -o -name '*.sql' -o -name '*.yml' -o -name '*.yaml' \
+    -o -name '*.conf' -o -name '*.json' -o -name '*.txt' -o -name '*.cypher' -o -name 'Dockerfile*' \
+    -o -name '*.go' -o -name '*.mod' -o -name '*.sum' -o -name '*.ts' -o -name '*.tsx' -o -name '*.css' \
+    -o -name '*.html' -o -name '*.js' -o -name '.dockerignore' -o -name '*.service' \) -exec sed -i 's/\r$//' {} +
+  if [ "$(tr -cd '\r' < "$work/deploy/aws/ecommerce/host-setup.sh" | wc -c)" -ne 0 ]; then
     echo "Could not convert line endings; aborting before upload." >&2; exit 1
   fi
   tar -czf "$archive" -C "$work" agent ingestion ui deploy schema docker-compose.yml
@@ -101,6 +105,7 @@ curl -s -H \"X-aws-ec2-metadata-token: \$T\" http://169.254.169.254/latest/user-
 mkdir -p /opt/twin
 curl -fsS --retry 3 '$url' -o /root/repo.tgz || { echo 'DOWNLOAD FAILED'; exit 1; }
 tar -xzf /root/repo.tgz -C /opt/twin
+find /opt/twin -type f \\( -name '*.sh' -o -name '*.py' -o -name '*.sql' -o -name '*.yml' -o -name '*.conf' \\) -exec sed -i 's/\\r\$//' {} +
 echo 'code downloaded; running setup'
 bash /root/boot.sh"
   cid=$(aws ssm send-command --document-name AWS-RunShellScript --instance-ids "${ids[@]}" --timeout-seconds 3600 \
