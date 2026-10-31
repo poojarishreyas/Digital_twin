@@ -50,6 +50,13 @@ test('research-backed report selects the shop scenario and keeps unknown workspa
   assert.equal(fixed.findings[0].status, 'Remediated in simulation')
   assert.deepEqual(fixed.execution, {llmCalled: false, liveProbesExecuted: false, liveChangesApplied: false})
   assert.match(reports.reportMarkdown({...scan, routes: []}, ['path-1']), /No attack path found/)
+  const confirmed = {...route, validation_status: 'partially_confirmed', confirmed_hops: 1,
+    steps: [{...route.steps[0], confirmed: true, confirmation: {evidence_source: 'sandbox:run-1', basis: ['confirmed_chain_scenario'], run_id: 'run-1', test_ids: ['scenario.http_chain'], observed_at: '2026-10-31T01:00:00Z'}}],
+    remediation: {service: 'fixture', change: 'require authentication', retest: 'anonymous denied', workflows: 'customer access preserved'}}
+  const mergedReport = reports.reportData({...scan, routes: [confirmed]}, [])
+  assert.equal(mergedReport.findings[0].hops[0].confirmation.run_id, 'run-1')
+  assert.equal(mergedReport.findings[0].confirmedHops, 1)
+  assert.match(reports.reportMarkdown({...scan, routes: [confirmed]}, []), /Sandbox repair evidence/)
 })
 
 test('scan remains private until three minutes and catches up after a suspended tab', () => {

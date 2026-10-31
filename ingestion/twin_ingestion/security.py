@@ -399,6 +399,8 @@ def access_rule(method, path):
                  "/api/research/reports": "report.import"}
         if path in fixed:
             return fixed[path], "operator"
+        if re.fullmatch(r"/api/emulation/runs/[^/]+/promote", path):
+            return "run.promote", "operator"
     return "route.unknown", "admin"
 
 

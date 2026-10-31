@@ -41,9 +41,10 @@ export function FindingAnalysis({route, topology, analysis, fixed}: {route: Asse
       <section><h4>Hop-by-hop topology evidence</h4><div className="table-wrap"><table className="table report-table">
         <thead><tr><th>Hop</th><th>Evidence</th><th>Observation</th></tr></thead>
         <tbody>{hops.map((hop, index) => <tr key={index}><td><b>{hop.from} → {hop.to}</b></td>
-          <td>{hop.kind === 'OBSERVED_CONNECTION' ? 'Observed connection' : hop.kind === 'INFERRED_REACHABILITY' ? 'Inferred reachability' : 'Evidence not recorded'}<small>{hop.source}</small></td>
+          <td>{hop.kind === 'OBSERVED_CONNECTION' ? 'Observed connection' : hop.kind === 'INFERRED_REACHABILITY' ? 'Inferred reachability' : 'Evidence not recorded'}<small>{hop.source}</small>{hop.confirmed && <small><b>Confirmed in sandbox</b> · {hop.confirmation?.evidence_source ?? 'Source not recorded'} · {hop.confirmation?.basis.join(', ')}</small>}</td>
           <td>{hop.observedAt ? new Date(hop.observedAt).toLocaleString() : 'Time not recorded'}<small>Freshness: {hop.freshness}</small></td></tr>)}</tbody>
       </table></div></section>
+      {route.remediation && <section className="report-basis"><h4>Sandbox repair evidence · {route.remediation.service}</h4><p>Change: {route.remediation.change}</p><p>Retest: {route.remediation.retest}</p><p>Normal workflows: {route.remediation.workflows}</p></section>}
       {route.issues.length > 0 && <section><h4>Evidence gaps</h4><ul>{route.issues.map((issue, index) => <li key={index}>{issue.asset_id}: {issue.reason.replaceAll('_', ' ')}{issue.gap_count ? ` (${issue.gap_count} gaps)` : ''}</li>)}</ul></section>}
       <section><h4>Remediation plan</h4><ol>{analysis.remediation.map(value => <li key={value}>{value}</li>)}</ol></section>
       <section><div className="row between"><h4>Verification plan</h4><span className="chip">Not executed</span></div><ul>{analysis.validation.map(value => <li key={value}>{value}</li>)}</ul></section>

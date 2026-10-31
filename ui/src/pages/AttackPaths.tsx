@@ -224,7 +224,7 @@ function FindingCard({route, topology, codebase, index, fixed, fixing, disabled,
   const name = (id: string) => hostName(topology, id)
   const analysis = analyzeFinding(route, topology, codebase)
   return <article className={`attack-finding ${fixed ? 'fixed' : ''}`}>
-    <div className="row between"><div className="row"><span className={`chip ${fixed ? 'ok' : analysis.severity === 'High' ? 'danger' : 'warn'}`}>{fixed ? 'Fix preview complete' : analysis.severity === 'High' ? 'High · scenario priority' : analysis.severity}</span><span className="chip">{analysis.category}</span></div><small className="mono muted">#{index} · {route.hop_count} hops</small></div>
+    <div className="row between"><div className="row"><span className={`chip ${fixed ? 'ok' : analysis.severity === 'High' ? 'danger' : 'warn'}`}>{fixed ? 'Fix preview complete' : analysis.severity === 'High' ? 'High · scenario priority' : analysis.severity}</span><span className="chip">{analysis.category}</span><RouteStatus route={route}/></div><small className="mono muted">#{index} · {route.hop_count} hops</small></div>
     <div><h3>{analysis.title}</h3><p className="muted">{analysis.service}</p></div>
     <div className="report-basis"><b>{analysis.classification}</b><p>{analysis.basis}</p></div>
     <div><span className="finding-label">Attack path</span><ol className="finding-path">{route.nodes.map((node, i) => <li key={node}>
@@ -236,4 +236,10 @@ function FindingCard({route, topology, codebase, index, fixed, fixing, disabled,
       <div className="row between"><small className="muted">{route.issues.length ? `${route.issues.length} telemetry issues need review before real validation.` : 'Connectivity provides context; exploitability requires validation.'}</small>
         <button className="btn primary" disabled={disabled} onClick={onFix}><Icon name={fixing ? 'pulse' : 'wrench'} size={15}/>{fixing ? 'Trying fix…' : 'Fix now'}</button></div>}
   </article>
+}
+
+function RouteStatus({route}: {route: Assessment}) {
+  if (route.validation_status === 'proven') return <span className="chip danger">proven · every hop confirmed</span>
+  if (route.validation_status === 'partially_confirmed') return <span className="chip warn">{route.confirmed_hops}/{route.hop_count} hops confirmed</span>
+  return <span className="chip">Topology route unvalidated</span>
 }

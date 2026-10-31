@@ -120,7 +120,8 @@ export function hopEvidence(route: Assessment, topology: Topology) {
     const step = route.steps[index]
     return {from: assetLabel(topology, route.nodes[index]), to: assetLabel(topology, node),
       kind: step?.kind ?? 'NOT_RECORDED', source: step?.evidence_source ?? 'Not recorded',
-      observedAt: step?.observed_at ?? null, freshness: step?.freshness ?? 'unknown'}
+      observedAt: step?.observed_at ?? null, freshness: step?.freshness ?? 'unknown',
+      confirmed: step?.confirmed ?? false, confirmation: step?.confirmation ?? null}
   })
 }
 
@@ -135,7 +136,8 @@ export function reportData(scan: ScanReport, fixed: string[]) {
     scope: 'Captured topology, supplied deployment-source scenarios and published security guidance. Absence of a demo path is not an assurance that the live environment is secure.',
     findings: scan.routes.map(route => ({...analyzeFinding(route, scan.topology, scan.codebase), routeId: route.id,
       status: scan.codebase ? 'Vulnerable source; runtime unverified' : fixed.includes(route.id) ? 'Remediated in simulation' : 'Unverified scenario',
-      path: route.nodes.map(id => assetLabel(scan.topology, id)), hops: hopEvidence(route, scan.topology), telemetryIssues: route.issues})),
+      path: route.nodes.map(id => assetLabel(scan.topology, id)), hops: hopEvidence(route, scan.topology), telemetryIssues: route.issues,
+      validationStatus: route.validation_status ?? 'unvalidated', confirmedHops: route.confirmed_hops ?? 0, sandboxRemediation: route.remediation ?? null})),
   }
 }
 
@@ -152,7 +154,10 @@ export function reportMarkdown(scan: ScanReport, fixed: string[]) {
       `Service: ${finding.service}`, `Basis: ${finding.basis}`, '', '### Executive analysis', '', finding.summary, '', '### Root cause', '', finding.rootCause, '',
       '### Impact and prerequisites', '', ...finding.impact.map(value => `- ${value}`), '', ...finding.prerequisites.map(value => `- Prerequisite: ${value}`), '',
       '### Attack path and evidence', '', finding.path.join(' → '), '',
+      `Sandbox route status: ${finding.validationStatus}; ${finding.confirmedHops}/${finding.hops.length} hops confirmed.`, '',
       ...finding.hops.map(hop => `- ${hop.from} → ${hop.to}: ${hop.kind}; ${hop.source}; observed ${hop.observedAt ?? 'not recorded'}; freshness ${hop.freshness}.`), '',
+      ...finding.hops.filter(hop => hop.confirmed).map(hop => `- Sandbox confirmation: ${hop.from} → ${hop.to}; ${hop.confirmation?.evidence_source ?? 'source not recorded'}; ${hop.confirmation?.basis.join(', ') ?? 'basis not recorded'}.`), '',
+      ...(finding.sandboxRemediation ? ['### Sandbox repair evidence', '', `Service: ${finding.sandboxRemediation.service}`, `Change: ${finding.sandboxRemediation.change}`, `Retest: ${finding.sandboxRemediation.retest}`, `Normal workflows: ${finding.sandboxRemediation.workflows}`, ''] : []),
       ...finding.evidence.map(value => `- ${value.label}: ${value.detail} [${value.source}]`), '',
       ...finding.telemetryIssues.map(value => `- Telemetry issue: ${value.asset_id}; ${value.reason}.`), '',
       '### Remediation plan', '', ...finding.remediation.map((value, index) => `${index + 1}. ${value}`), '',

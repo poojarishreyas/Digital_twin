@@ -2,6 +2,7 @@ import asyncio
 import json
 import logging
 from dataclasses import asdict
+from datetime import datetime, timezone
 from uuid import uuid4
 from fastapi import FastAPI, Header, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
@@ -20,6 +21,7 @@ from .phase3.contracts import Report
 from .phase3.metrics import summarize
 from .phase3.insights import insights as research_insights
 from .path_analysis import analyze_paths
+from .confirmation import confirmed_transitions
 from .sarif import run_detail_to_sarif
 from .audit import AuditStore
 from .security import AuthManager, BodyLimitMiddleware, COOKIE, RateLimiter, ROLES, access_rule
@@ -719,6 +721,25 @@ def create_app(settings: Settings, history: HistoryStore, graph: GraphStore, eve
         if detail is None:
             raise HTTPException(404, "run not found")
         return detail
+
+    @app.post("/api/emulation/runs/{run_id}/promote")
+    async def promote_run(run_id: str, request: Request):
+        """Turn this run's executed, confirmed findings into confirmed hops in the tenant's twin."""
+        if runs is None:
+            raise HTTPException(503, "emulation store unavailable")
+        tenant = tenant_of(request)
+        try:
+            detail = await runs.detail(tenant, run_id)
+        except ValueError:
+            detail = None
+        if detail is None:
+            raise HTTPException(404, "run not found")
+        if detail["run"].get("status") != "completed":
+            raise HTTPException(409, "only a completed run can confirm attack transitions")
+        transitions = confirmed_transitions(await graph.topology(tenant), detail)
+        written = await graph.record_confirmations(tenant, transitions, datetime.now(timezone.utc).isoformat())
+        await events.publish(tenant, {"type": "attack_transitions_confirmed", "run_id": run_id, "count": written})
+        return {"run_id": run_id, "confirmed_transitions": transitions, "written": written}
 
     @app.get("/api/emulation/runs/{run_id}/sarif")
     async def run_sarif(run_id: str, request: Request, include_not_reproduced: bool = Query(False)):
