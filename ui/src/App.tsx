@@ -20,8 +20,8 @@ const PAGES = [
   {id: 'twin', label: '3D Twin', icon: 'cube', group: 'Monitor'},
   {id: 'hosts', label: 'Hosts', icon: 'server', group: 'Monitor'},
   {id: 'paths', label: 'Attack paths', icon: 'route', group: 'Analyze'},
-  // Research pages stay reachable by URL (#simulations, #research) but are kept out of the sidebar.
-  {id: 'simulations', label: 'Simulations', icon: 'flask', group: 'Analyze', hidden: true},
+  {id: 'simulations', label: 'Simulations', icon: 'flask', group: 'Analyze'},
+  // TwinHunter research stays reachable by URL (#research) but is kept out of the sidebar.
   {id: 'research', label: 'TwinHunter', icon: 'spark', group: 'Analyze', hidden: true},
   {id: 'company', label: 'Company validation', icon: 'route', group: 'Analyze'},
   {id: 'team', label: 'Team', icon: 'users', group: 'Govern', admin: true},

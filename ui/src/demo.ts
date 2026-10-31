@@ -71,6 +71,15 @@ const JOINERS: [HostSpec, [string, string, 'O' | 'I'][]][] = [
 ]
 const classified: Record<string, {entry: boolean; critical: boolean}> = {}
 const runs: Record<string, RunDetail[]> = {}
+// Demo-only harness results: hops confirmed by "Confirm hops in twin" and the repair verified per route.
+const confirmedHops: Record<string, Map<string, string>> = {}
+const repairs: Record<string, Map<string, {service: string; change: string; retest: string; workflows: string}>> = {}
+const FIXES: Record<string, {change: string; retest: string; workflows: string}> = {
+  nginx: {change: 'server_tokens on → off', retest: 'version header no longer disclosed', workflows: 'storefront pages and API proxy still served'},
+  redis: {change: 'protected-mode no → yes, requirepass set', retest: 'unauthenticated command refused', workflows: 'cart sessions still read and written'},
+  postgresql: {change: 'pg_hba trust → scram-sha-256', retest: 'passwordless login refused', workflows: 'application role still queries orders'},
+  openssh: {change: 'PasswordAuthentication yes → no', retest: 'password login refused', workflows: 'key-based admin login still works'},
+}
 const minutesAgo = (m: number) => new Date(Date.now() - m * 60000).toISOString()
 const hostId = (t: TenantSpec, name: string) => `${t.id.slice(0, 2)}${name.replace(/[^a-z0-9]/g, '')}`.padEnd(14, '0').slice(0, 14)
 
@@ -117,10 +126,19 @@ function paths(t: TenantSpec, maxDepth: number, isolated: string | null): PathRe
   const assessments = found.map((nodes, i) => ({
     id: `p${i}-${nodes.join('').slice(0, 10)}`, nodes, hop_count: nodes.length - 1, review_order: i + 1,
     steps: nodes.slice(1).map((target, k) => { const e = live.find(x => x.source === nodes[k] && x.target === target)!
-      return {source: nodes[k], target, kind: e.kind, observed_at: String(e.properties.observed_at), evidence_source: String(e.properties.evidence_source), freshness: stale.has(nodes[k]) ? 'stale' : 'current'} }),
+      const run = confirmedHops[t.id]?.get(`${nodes[k]}>${target}`)
+      return {source: nodes[k], target, kind: e.kind, observed_at: String(e.properties.observed_at), evidence_source: String(e.properties.evidence_source), freshness: stale.has(nodes[k]) ? 'stale' : 'current',
+        confirmed: Boolean(run), ...(run ? {confirmation: {evidence_source: `sandbox:${run.slice(0, 8)}`, observed_at: new Date().toISOString(), basis: ['confirmed_chain_scenario'], test_ids: ['scenario.http_chain'], run_id: run}} : {})} }),
     issues: nodes.flatMap((n, k) => [...(stale.has(n) ? [{asset_id: n, reason: 'STALE_AGENT', step: k}] : []), ...(gappy.has(n) ? [{asset_id: n, reason: 'COLLECTION_GAPS', gap_count: gappy.get(n)}] : [])]),
     next_action: 'Validate each hop in an isolated twin before treating this route as exploitable.',
-  }))
+  })).map(a => {
+    const proven = a.steps.filter(s => s.confirmed).length
+    const status = proven === a.steps.length ? 'proven' as const : proven ? 'partially_confirmed' as const : 'unvalidated' as const
+    const remediation = repairs[t.id]?.get(a.nodes.join('>'))
+    return {...a, validation_status: status, confirmed_hops: proven, ...(remediation ? {remediation} : {}),
+      next_action: status === 'proven' ? 'Every hop was reproduced on isolated replicas. Remediate the confirmed services, then re-test.'
+        : status === 'partially_confirmed' ? `${proven} of ${a.steps.length} hops are confirmed. Validate the remaining hops in an isolated scenario.` : a.next_action}
+  })
   const counts = new Map<string, number>()
   found.forEach(p => p.slice(1, -1).forEach(n => counts.set(n, (counts.get(n) ?? 0) + 1)))
   const label = (id: string) => String(hosts.find(h => h.id === id)?.properties.hostname ?? id)
@@ -306,6 +324,28 @@ export async function demoFetch(method: string, path: string, body: unknown): Pr
     const run = seedRun(t, 'running', 0, 2); runsFor(t).unshift(run)
     setTimeout(() => { const done = seedRun(t, 'completed', 0, 2); Object.assign(run, {...done, run: {...done.run, id: run.run.id, created_at: run.run.created_at}}) }, 9000)
     return json({run_id: run.run.id, status: 'queued'}, 202)
+  }
+  const promote = route.match(/^\/api\/emulation\/runs\/([^/]+)\/promote$/)
+  if (promote && method === 'POST') {
+    if (!need('operator')) return json({detail: 'role does not permit this action'}, 403)
+    const r = runsFor(t).find(x => x.run.id === promote[1])
+    if (!r) return json({detail: 'run not found'}, 404)
+    if (r.run.status !== 'completed') return json({detail: 'only a completed run can confirm attack transitions'}, 409)
+    const hops = (confirmedHops[t.id] ??= new Map()), fixed = (repairs[t.id] ??= new Map())
+    const topo = topology(t), kindOf = (id: string) => id.split(':').at(-1)!
+    let written = 0
+    for (const p of r.run.plan?.paths ?? []) {
+      const nodes = p.nodes ?? []
+      if (!r.validated_path_ids.includes(p.id) || nodes.length < 2) continue
+      nodes.slice(1).forEach((target, k) => { if (!hops.has(`${nodes[k]}>${target}`)) written++; hops.set(`${nodes[k]}>${target}`, r.run.id) })
+      const services = nodes.flatMap(n => topo.edges.filter(e => e.source === n && e.kind === 'HAS_SERVICE').map(e => e.target))
+      const weak = r.findings.find(f => f.verdict === 'confirmed' && services.includes(f.target_id) && FIXES[kindOf(f.target_id)])
+      const service = weak?.target_id ?? services.find(s => FIXES[kindOf(s)])
+      const owner = topo.edges.find(e => e.kind === 'HAS_SERVICE' && e.target === service)?.source
+      const hostname = String(topo.nodes.find(n => n.id === owner)?.properties.hostname ?? owner ?? '')
+      if (service) fixed.set(nodes.join('>'), {service: `${kindOf(service)} on ${hostname}`, ...FIXES[kindOf(service)]})
+    }
+    return json({run_id: r.run.id, written, confirmed_transitions: []})
   }
   const sarif = route.match(/^\/api\/emulation\/runs\/([^/]+)\/sarif$/)
   if (sarif) {

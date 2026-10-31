@@ -166,6 +166,10 @@ export function AttackPaths({data, selected, onSelect}: PageProps) {
                 </li>
               })}
             </ol>
+            {path.remediation && <div className="alert info" style={{marginTop: 4, display: 'block'}}>
+              <b><Icon name="shieldCheck" size={14}/> Fix verified on a sandbox copy · {path.remediation.service}</b>
+              <div style={{fontSize: 13, marginTop: 4}}>Change: <code>{path.remediation.change}</code><br/>Retest: {path.remediation.retest}<br/>Normal use: {path.remediation.workflows}</div>
+            </div>}
             <details className="disclosure" style={{marginTop: 6}}><summary>Analysis scope and assumptions</summary><div>
               <ul style={{margin: 0, paddingLeft: 18, color: 'var(--text-2)', fontSize: 13}}>{report?.universe.assumptions.map(a => <li key={a}>{a}</li>)}</ul>
               <p className="muted" style={{fontSize: 12, marginTop: 8}}>Limits: {report?.universe.max_paths} paths, {report?.universe.max_states.toLocaleString()} traversal states{report?.universe.truncated ? ' — results truncated' : ''}. Evidence older than {report?.universe.freshness_threshold_seconds}s is flagged.</p>
