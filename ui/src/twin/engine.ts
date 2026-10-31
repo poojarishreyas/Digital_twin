@@ -42,6 +42,24 @@ function serviceKind(node: Topology['nodes'][number]): string {
   try { return String(JSON.parse(String(node.properties.data_json ?? '{}')).name ?? 'service') } catch { return 'service' }
 }
 
+// Only application-level services become 3D modules; OS housekeeping units (acpid, auditd,
+// chronyd, ...) stay in the inspector list and are summarized as a count on the host label.
+const NOTABLE = /^(nginx|httpd|apache2|haproxy|caddy|envoy|postgres(ql)?(-?\d+)?|mysqld?|mariadb|mongod|redis\d*(-server)?|valkey|memcached|rabbitmq(-server)?|kafka|elasticsearch|sshd|openssh|docker|containerd|kubelet|larkspur@.+|company-.+)$/
+function notable(node: Topology['nodes'][number]): boolean {
+  if (String(node.properties.evidence_source ?? '').startsWith('workload:')) return true
+  return NOTABLE.test(serviceKind(node).replace(/\.service$/, ''))
+}
+
+function endpointIp(id: string): string | null {
+  const match = /^endpoint:(.+):\d+$/.exec(id)
+  return match ? match[1].replace(/^\[|\]$/g, '') : null
+}
+
+// Addresses that are never useful on the map: loopback, link-local (cloud metadata), unspecified.
+function noiseIp(ip: string): boolean {
+  return /^(127\.|169\.254\.|0\.0\.0\.0$|::1$|fe80:)/i.test(ip)
+}
+
 export class TwinEngine {
   readonly scene = new THREE.Scene()
   private renderer: THREE.WebGLRenderer
@@ -139,7 +157,21 @@ export class TwinEngine {
     this.clearWorld()
     const byId = new Map(topology.nodes.map(n => [n.id, n]))
     const hostIds = topology.nodes.filter(n => n.labels.includes('Host')).map(n => n.id)
-    const live = topology.edges.filter(e => LIVE_EDGES.has(e.kind) && byId.has(e.source) && byId.has(e.target))
+    // Addresses owned by enrolled hosts: a connection to one of them is drawn host-to-host
+    // (resolved edges), so the raw "ip:ephemeral-port" endpoint would only add clutter.
+    const owner = new Map<string, string>()
+    for (const e of topology.edges) if (e.kind === 'HAS_LISTENER') {
+      try {
+        for (const ip of JSON.parse(String(byId.get(e.target)?.properties.data_json ?? '{}')).addresses ?? []) owner.set(String(ip), e.source)
+      } catch { /* listener without address data */ }
+    }
+    const resolved = new Set(topology.edges.map(e => String(e.properties?.resolved_endpoint ?? '')).filter(Boolean))
+    const hidden = (id: string) => {
+      const ip = endpointIp(id)
+      return ip !== null && (noiseIp(ip) || owner.has(ip) || resolved.has(id))
+    }
+    const live = topology.edges.filter(e => LIVE_EDGES.has(e.kind) && byId.has(e.source) && byId.has(e.target)
+      && !hidden(e.source) && !hidden(e.target))
     // Non-host assets that take part in connectivity (endpoints) are drawn as small platforms.
     const placed = new Set(hostIds)
     for (const e of live) for (const id of [e.source, e.target]) if (!byId.get(id)!.labels.includes('Component')) placed.add(id)
@@ -207,7 +239,9 @@ export class TwinEngine {
     this.pickables.push(platform)
 
     let top = PLATFORM_H
-    services.forEach(service => {
+    const shown = services.filter(notable).slice(0, 8)
+    const housekeeping = services.length - shown.length
+    shown.forEach(service => {
       const kind = serviceKind(service), accent = SERVICE_COLORS[kind] ?? 0x8b5cf6
       const tint = new THREE.Color(0xffffff).lerp(new THREE.Color(accent), 0.32)
       const mat = new THREE.MeshStandardMaterial({color: tint, roughness: 0.35, metalness: 0.08, emissive: 0x000000})
@@ -240,7 +274,7 @@ export class TwinEngine {
     const element = document.createElement('div')
     element.className = `twin-label${isHost ? '' : ' endpoint'}`
     const name = String(node.properties.hostname ?? node.id.split(':').slice(-2).join(':'))
-    element.innerHTML = `<b></b>${entry ? '<i class="entry">Entry</i>' : ''}${critical ? '<i class="critical">Critical</i>' : ''}`
+    element.innerHTML = `<b></b>${entry ? '<i class="entry">Entry</i>' : ''}${critical ? '<i class="critical">Critical</i>' : ''}${housekeeping > 0 ? `<small>+${housekeeping} system</small>` : ''}`
     element.querySelector('b')!.textContent = name.length > 22 ? name.slice(0, 21) + '…' : name
     const label = new CSS2DObject(element)
     label.position.set(0, top + (critical ? 2.1 : 1.0), 0)
