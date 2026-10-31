@@ -29,7 +29,7 @@ export function Simulations({data, selected, onSelect}: PageProps) {
   const {principal} = useSession()
   const twin = useRef<TwinHandle>(null)
   const [runs, setRuns] = useState<Run[]>([]), [chosen, setChosen] = useState<string | null>(null), [detail, setDetail] = useState<RunDetail | null>(null)
-  const [error, setError] = useState(''), [phase, setPhase] = useState<{wave: number; phase: string} | null>(null), [filter, setFilter] = useState<Verdict | 'all'>('all')
+  const [error, setError] = useState(''), [phase, setPhase] = useState<{wave: number; phase: string} | null>(null), [filter, setFilter] = useState<Verdict | 'all'>('all'), [promoted, setPromoted] = useState('')
   const canOperate = principal.role !== 'viewer'
 
   const refresh = useCallback(async () => {
@@ -47,6 +47,15 @@ export function Simulations({data, selected, onSelect}: PageProps) {
     if (!chosen) return
     try { downloadJson(`twin-findings-${chosen.slice(0, 8)}.sarif.json`, await api.get(`/api/emulation/runs/${chosen}/sarif`)) }
     catch (e) { setError(message(e)) }
+  }
+
+  async function promote() {
+    if (!chosen) return
+    try {
+      const r = await api.post<{written: number}>(`/api/emulation/runs/${chosen}/promote`, {})
+      setPromoted(r.written ? `${r.written} attack hop${r.written > 1 ? 's' : ''} confirmed in the twin — see Attack paths`
+        : 'No hop qualified: a confirmed finding must be on a service the source was observed reaching.')
+    } catch (e) { setError(message(e)) }
   }
 
   async function replay() {
@@ -97,7 +106,9 @@ export function Simulations({data, selected, onSelect}: PageProps) {
                 {phase && phase.phase !== 'done' ? <button className="btn sm" onClick={stop}><Icon name="stop" size={13}/>Stop</button>
                   : <button className="btn primary sm" disabled={!plan?.waves.length} onClick={() => void replay()}><Icon name="play" size={13}/>Replay emulation</button>}
                 {phase && <span className="chip accent">{phase.phase === 'done' ? 'Replay finished' : `Wave ${phase.wave} · ${phase.phase}`}</span>}
+                {detail.run.status === 'completed' && <button className="btn sm" onClick={() => void promote()}><Icon name="bolt" size={13}/>Confirm hops in twin</button>}
               </div>
+              {promoted && <p style={{marginTop: 8}}>{promoted}</p>}
             </div>}
           </div>
         </Twin3D>

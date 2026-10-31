@@ -27,9 +27,11 @@ export type GraphNode = {id: string; labels: string[]; properties: Record<string
 export type GraphEdge = {source: string; target: string; kind: string; properties: Record<string, unknown>}
 export type Topology = {nodes: GraphNode[]; edges: GraphEdge[]; truncated_nodes?: boolean; truncated_edges?: boolean}
 
-export type PathStep = {source: string; target: string; kind: string; observed_at: string | null; evidence_source: string | null; freshness: string}
+export type PathConfirmation = {evidence_source: string | null; observed_at: string | null; basis: string[]; test_ids: string[]; run_id: string | null}
+export type PathStep = {source: string; target: string; kind: string; observed_at: string | null; evidence_source: string | null; freshness: string; confirmed?: boolean; confirmation?: PathConfirmation}
 export type PathIssue = {asset_id: string; reason: string; step?: number; gap_count?: number}
-export type Assessment = {id: string; nodes: string[]; hop_count: number; steps: PathStep[]; review_order: number; issues: PathIssue[]; next_action: string}
+export type Assessment = {id: string; nodes: string[]; hop_count: number; steps: PathStep[]; review_order: number; issues: PathIssue[]; next_action: string
+  validation_status?: 'unvalidated' | 'partially_confirmed' | 'proven'; confirmed_hops?: number}
 export type PathReport = {
   assessments: Assessment[]; warnings: string[]; ordering: string
   universe: {entries: string[]; critical: string[]; path_count: number; max_paths: number; max_states: number; truncated: boolean

@@ -71,7 +71,7 @@ export function AttackPaths({data, selected, onSelect}: PageProps) {
   return <>
     <div className="page-head">
       <div><span className="eyebrow"><Icon name="route" size={14}/>Attack path analysis</span><h1>Candidate attack paths</h1>
-        <p>Directed routes from entry assets to critical assets over observed and inferred connectivity. Replays animate telemetry-derived candidates — every route stays <b>unvalidated</b> until a sandbox test confirms each hop.</p></div>
+        <p>Directed routes from entry assets to critical assets over observed and inferred connectivity. Replays animate telemetry-derived candidates — every route stays <b>unvalidated</b> until a sandbox test confirms each hop; confirmed hops turn a route <b>proven</b>.</p></div>
       <div className="row">
         <label className="row" style={{gap: 8, fontSize: 12.5, color: 'var(--muted)'}}>Hop limit
           <div className="segmented" role="group" aria-label="Hop limit">{[2, 3, 4, 6, 8].map(n => <button key={n} className={depth === n ? 'on' : ''} onClick={() => setDepth(n)}>{n}</button>)}</div></label>
@@ -120,7 +120,9 @@ export function AttackPaths({data, selected, onSelect}: PageProps) {
               <span className="mono muted" style={{paddingTop: 2}}>#{route.review_order}</span>
               <span className="meta">
                 <b>{name(route.nodes[0])} → {name(route.nodes[route.nodes.length - 1])}</b>
-                <small>{route.hop_count} hops · {route.issues.length ? `${route.issues.length} telemetry issue${route.issues.length > 1 ? 's' : ''}` : 'clean telemetry'}{shield && route.nodes.includes(shield) ? ' · interrupted by shield' : ''}</small>
+                <small>{route.validation_status === 'proven' ? <span className="chip danger" style={{height: 18, marginRight: 6}}>proven</span>
+                  : route.validation_status === 'partially_confirmed' ? <span className="chip warn" style={{height: 18, marginRight: 6}}>{route.confirmed_hops}/{route.hop_count} confirmed</span> : null}
+                  {route.hop_count} hops · {route.issues.length ? `${route.issues.length} telemetry issue${route.issues.length > 1 ? 's' : ''}` : 'clean telemetry'}{shield && route.nodes.includes(shield) ? ' · interrupted by shield' : ''}</small>
                 <span className="hops">{route.nodes.map((n, i) => <span key={n} className="row" style={{gap: 4}}>{i > 0 && <span className="hop-arrow">›</span>}<span className={`hop ${hopClass(route, i)}`}>{name(n)}</span></span>)}</span>
               </span>
             </button>)}
@@ -146,7 +148,7 @@ export function AttackPaths({data, selected, onSelect}: PageProps) {
         </Twin3D>
 
         {path && <section className="card" aria-label="Route evidence">
-          <div className="card-head"><div><h2>Hop-by-hop evidence</h2><p>{path.next_action}</p></div><span className="chip warn">unvalidated</span></div>
+          <div className="card-head"><div><h2>Hop-by-hop evidence</h2><p>{path.next_action}</p></div><StatusChip route={path}/></div>
           <div className="card-body">
             <ol className="timeline">
               {path.nodes.map((n, i) => {
@@ -159,6 +161,7 @@ export function AttackPaths({data, selected, onSelect}: PageProps) {
                   {i === 0 && <span className="chip info" style={{marginLeft: 8}}>entry</span>}{i === path.nodes.length - 1 && <span className="chip violet" style={{marginLeft: 8}}>critical</span>}
                   {step && <small><span className={`chip ${step.kind === 'INFERRED_REACHABILITY' ? 'warn' : 'ok'}`} style={{height: 18, marginRight: 6}}>{readable(step.kind)}</span>
                     {step.freshness} evidence · {step.evidence_source ?? 'source not recorded'} · observed {ago(step.observed_at)}</small>}
+                  {step?.confirmed && <small style={{color: 'var(--danger)'}}><Icon name="bolt" size={12}/> Confirmed in sandbox ({step.confirmation?.basis.map(readable).join(', ')}) · {step.confirmation?.evidence_source}</small>}
                   {issues.map((x, k) => <small key={k} style={{color: '#b45309'}}><Icon name="alert" size={12}/> {readable(x.reason)}{x.gap_count ? ` (${x.gap_count} gaps)` : ''}</small>)}
                 </li>
               })}
@@ -172,4 +175,10 @@ export function AttackPaths({data, selected, onSelect}: PageProps) {
       </div>
     </div>
   </>
+}
+
+function StatusChip({route}: {route: Assessment}) {
+  if (route.validation_status === 'proven') return <span className="chip danger">proven · every hop confirmed</span>
+  if (route.validation_status === 'partially_confirmed') return <span className="chip warn">{route.confirmed_hops}/{route.hop_count} hops confirmed</span>
+  return <span className="chip warn">unvalidated</span>
 }

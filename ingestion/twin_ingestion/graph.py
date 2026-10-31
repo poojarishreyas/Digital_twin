@@ -149,6 +149,24 @@ class GraphStore:
             record = await result.single()
             return bool(record and record["changed"])
 
+    async def record_confirmations(self, tenant: str, transitions: list[dict], recorded_at: str) -> int:
+        """Write sandbox-confirmed hops. Agent envelopes can neither submit nor replace these edges."""
+        written = 0
+        async with self.driver.session() as session:
+            for hop in transitions:
+                result = await session.run(
+                    """MATCH (s:Host:Asset {key:$source}),(t:Host:Asset {key:$target})
+                       MERGE (s)-[r:CONFIRMED_ATTACK_TRANSITION]->(t)
+                       SET r.properties_json=$properties,r.evidence_source=$evidence_source,
+                           r.observed_at=datetime($at),r.confidence='confirmed',r.last_seen=datetime($at)
+                       RETURN count(r) AS n""",
+                    source=scoped(tenant, hop["source"]), target=scoped(tenant, hop["target"]),
+                    properties=json.dumps(hop["properties"], sort_keys=True),
+                    evidence_source="sandbox:" + str(hop["properties"].get("run_id", "")), at=recorded_at)
+                record = await result.single()
+                written += int(record["n"]) if record else 0
+        return written
+
     async def candidate_paths(self, tenant: str, max_depth: int) -> list[list[dict]]:
         return analyze_paths(await self.topology(tenant), [], max_depth)["paths"]
 

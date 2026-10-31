@@ -30,6 +30,18 @@ def analyze_paths(topology, inventory, max_depth=4, stale_after_seconds=180,
             owners[edge["target"]].add(edge["source"])
     excluded = Counter()
     eligible = {}
+    # Sandbox-confirmed hops never create a route; they upgrade hops on observed/inferred routes.
+    confirmed = {}
+    for edge in topology["edges"]:
+        if edge["kind"] == "CONFIRMED_ATTACK_TRANSITION" and edge["source"] in nodes and edge["target"] in nodes:
+            props = edge.get("properties", {})
+            try:
+                detail = json.loads(props.get("properties_json") or "{}")
+            except (TypeError, ValueError):
+                detail = {}
+            confirmed[(edge["source"], edge["target"])] = {
+                "evidence_source": props.get("evidence_source"), "observed_at": props.get("observed_at"),
+                "basis": detail.get("basis", []), "test_ids": detail.get("test_ids", []), "run_id": detail.get("run_id")}
     for edge in topology["edges"]:
         if edge["kind"] not in EDGE_KINDS:
             excluded[edge["kind"]] += 1
@@ -55,7 +67,8 @@ def analyze_paths(topology, inventory, max_depth=4, stale_after_seconds=180,
                    "Simple paths stop at the first critical asset and never repeat an asset.",
                    "Only uniquely matched enrolled workload listeners resolve remote endpoints; other unresolved endpoints limit multi-hop coverage.",
                    "Connectivity does not establish a usable credential, vulnerability, or privilege transition.",
-                   "Every returned path is unvalidated; a finding on one service does not validate the chain."]
+                   "A hop is confirmed only when an observed connection reached a service whose isolated replica reproduced a weakness, or a sandboxed chain scenario passed it.",
+                   "A path is proven only when every hop is confirmed; a finding on one service does not validate the rest of the chain."]
     warnings = []
     if not entries:
         warnings.append("Declare at least one entry asset.")
@@ -80,6 +93,10 @@ def analyze_paths(topology, inventory, max_depth=4, stale_after_seconds=180,
                 issues.append({"asset_id": step["source"], "reason": "edge_evidence_" + step["freshness"], "step": index + 1})
             if not step["evidence_source"]:
                 issues.append({"asset_id": step["source"], "reason": "missing_evidence_source", "step": index + 1})
+            proof = confirmed.get((step["source"], step["target"]))
+            step["confirmed"] = proof is not None
+            if proof:
+                step["confirmation"] = proof
             expected = "observed" if kind == "OBSERVED_CONNECTION" else "inferred"
             if step["confidence"] != expected:
                 issues.append({"asset_id": step["source"], "reason": "evidence_semantics_mismatch", "step": index + 1})
@@ -107,10 +124,14 @@ def analyze_paths(topology, inventory, max_depth=4, stale_after_seconds=180,
                 if gaps:
                     issues.append({"asset_id": asset_id, "reason": "collection_gaps", "gap_count": len(gaps)})
         path_id = hashlib.sha256(json.dumps([asset_ids, kinds], separators=(",", ":")).encode()).hexdigest()[:24]
+        proven = sum(step["confirmed"] for step in steps)
+        status = "proven" if proven == len(steps) else "partially_confirmed" if proven else "unvalidated"
+        action = {"proven": "Every hop was reproduced on isolated replicas. Remediate the confirmed services, then re-test.",
+                  "partially_confirmed": f"{proven} of {len(steps)} hops are confirmed. Validate the remaining hops in an isolated scenario.",
+                  "unvalidated": "Validate every transition and its prerequisites in an isolated scenario."}[status]
         assessments.append({"id": path_id, "nodes": list(asset_ids), "hop_count": len(kinds), "steps": steps,
-                            "validation_status": "unvalidated", "telemetry_complete": not issues,
-                            "issues": issues, "next_action": "Refresh or complete telemetry, then validate every transition in an isolated scenario."
-                            if issues else "Validate every transition and its prerequisites in an isolated scenario."})
+                            "validation_status": status, "confirmed_hops": proven, "telemetry_complete": not issues,
+                            "issues": issues, "next_action": "Refresh or complete telemetry. " + action if issues else action})
     assessments.sort(key=lambda p: (p["hop_count"], len(p["issues"]), p["id"]))
     for rank, path in enumerate(assessments, 1):
         path["review_order"] = rank
@@ -131,6 +152,7 @@ def analyze_paths(topology, inventory, max_depth=4, stale_after_seconds=180,
                    "limitation": "No configuration is changed. Real segmentation and legitimate workflows require separate validation."}
     return {"max_depth": max_depth, "paths": [p["steps"] for p in assessments], "assessments": assessments,
             "universe": {"entries": entries, "critical": critical, "path_count": len(assessments),
+                         "proven_count": sum(p["validation_status"] == "proven" for p in assessments),
                          "max_paths": max_paths, "max_states": max_states, "max_hops": max_depth,
                          "topology_truncated": topology_truncated, "traversal_truncated": traversal_truncated,
                          "truncated": topology_truncated or traversal_truncated, "excluded_edges": dict(sorted(excluded.items())),
