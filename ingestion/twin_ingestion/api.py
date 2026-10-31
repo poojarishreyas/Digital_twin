@@ -27,6 +27,7 @@ from .identity import IdentityError, IdentityStore
 from .enrollment import CertificateIssuer, EnrollmentError, clean_hostname
 from .company.api import register_routes as register_company_routes
 from .company.store import CompanyStore
+from .codebases import CodebaseStore, register_routes as register_codebase_routes
 
 
 class Classification(BaseModel):
@@ -180,7 +181,8 @@ def create_app(settings: Settings, history: HistoryStore, graph: GraphStore, eve
                runs: RunStore | None = None, research: ResearchStore | None = None,
                audit: AuditStore | None = None, identity: IdentityStore | None = None,
                issuer: CertificateIssuer | None = None, setup_code: str | None = None,
-               auth: AuthManager | None = None, company: CompanyStore | None = None) -> FastAPI:
+               auth: AuthManager | None = None, company: CompanyStore | None = None,
+               codebases: CodebaseStore | None = None, github=None) -> FastAPI:
     auth = auth or AuthManager(settings, allow_missing_manifest=identity is not None)
     if identity is not None:
         auth.directory = identity
@@ -292,6 +294,7 @@ def create_app(settings: Settings, history: HistoryStore, graph: GraphStore, eve
             raise HTTPException(403, "emulation API is disabled or token invalid")
 
     register_company_routes(app, settings, company, graph, events, lambda request: tenant_of(request))
+    register_codebase_routes(app, codebases, lambda request: tenant_of(request), github)
 
     @app.get("/healthz")
     async def health():
@@ -632,6 +635,8 @@ def create_app(settings: Settings, history: HistoryStore, graph: GraphStore, eve
         if max_depth > settings.max_path_depth:
             raise HTTPException(400, f"max_depth must be <= {settings.max_path_depth}")
         tenant = tenant_of(request)
+        if codebases is not None and await codebases.get(tenant) is None:
+            raise HTTPException(409, "Add a codebase before starting attack-path analysis")
         snapshot, agents = await asyncio.gather(graph.topology(tenant), history.inventory(tenant, settings.stale_after_seconds))
         try:
             return analyze_paths(snapshot, agents, max_depth, settings.stale_after_seconds, isolated_asset)

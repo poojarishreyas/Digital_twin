@@ -14,11 +14,13 @@ import {Hosts} from './pages/Hosts'
 import {Team} from './pages/Team'
 import {Platform} from './pages/Platform'
 import {CompanyValidation} from './pages/CompanyValidation'
+import {Codebase} from './pages/Codebase'
 
 const PAGES = [
   {id: 'overview', label: 'Overview', icon: 'grid', group: 'Monitor'},
   {id: 'twin', label: '3D Twin', icon: 'cube', group: 'Monitor'},
   {id: 'hosts', label: 'Hosts', icon: 'server', group: 'Monitor'},
+  {id: 'codebase', label: 'Codebase', icon: 'file', group: 'Analyze'},
   {id: 'paths', label: 'Attack paths', icon: 'route', group: 'Analyze'},
   // Research pages stay reachable by URL (#simulations, #research) but are kept out of the sidebar.
   {id: 'simulations', label: 'Simulations', icon: 'flask', group: 'Analyze', hidden: true},
@@ -98,6 +100,7 @@ function Shell() {
         {current.id === 'overview' && <Overview {...shared}/>}
         {current.id === 'twin' && <Explorer {...shared}/>}
         {current.id === 'hosts' && <Hosts data={data}/>}
+        {current.id === 'codebase' && <Codebase go={shared.go}/>}
         {current.id === 'paths' && <AttackPaths {...shared}/>}
         {current.id === 'simulations' && <Simulations {...shared}/>}
         {current.id === 'research' && <Research/>}

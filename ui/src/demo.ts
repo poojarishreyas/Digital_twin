@@ -290,6 +290,8 @@ export async function demoFetch(method: string, path: string, body: unknown): Pr
     quotas: {max_pending_runs: 3, max_run_cpu_millis: 2000, max_run_ram_mb: 4096, max_path_depth: 8},
     managed_by: 'database', isolation: {graph: 'tenant-scoped node keys', history: 'tenant-keyed rows', events: 'tenant-partitioned stream', sandbox: 'per-run internal networks labeled by tenant'}} satisfies TenantInfo)
   if (route === '/api/inventory') return json(inventory(t))
+  if (route === '/api/codebase' && method === 'GET') return json({codebase: null, pr_enabled: false})
+  if (route.startsWith('/api/codebase')) return json({detail: 'Use the connected backend to verify a GitHub repository; synthetic demo mode cannot create pull requests'}, 409)
   if (route === '/api/topology') return json(topology(t))
   if (route === '/api/paths') { const isolated = url.searchParams.get('isolated_asset'); return json(paths(t, Number(url.searchParams.get('max_depth') ?? 4), isolated)) }
   const classify = route.match(/^\/api\/assets\/(.+)\/classification$/)
