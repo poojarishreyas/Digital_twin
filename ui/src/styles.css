@@ -281,6 +281,9 @@ table.table { width: 100%; border-collapse: collapse; font-size: 13px }
 .finding-remedy p { color: var(--muted); margin-top: 3px }
 .finding-success { display: flex; gap: 10px; align-items: flex-start; color: var(--ok); padding: 12px; border-radius: 10px; background: var(--ok-soft); font-size: 13px }
 .finding-success small { display: block; margin-top: 3px; font-weight: 400 }
+.path-preview-toggle { position: fixed; right: 18px; bottom: 18px; z-index: 81; border: 1px solid var(--border-strong); border-radius: 999px; background: var(--surface); color: var(--muted); padding: 8px 12px; font: inherit; font-size: 11px; cursor: pointer; opacity: .48; box-shadow: 0 4px 16px rgba(0, 0, 0, .12); transition: opacity .15s ease }
+.path-preview-toggle:hover, .path-preview-toggle:focus-visible, .path-preview-toggle.on { opacity: 1 }
+.path-preview-toggle.on { color: var(--danger); border-color: var(--danger) }
 .report-basis { padding: 12px 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); font-size: 12px }
 .report-basis p { margin-top: 4px }
 .finding-analysis { margin-top: 2px }

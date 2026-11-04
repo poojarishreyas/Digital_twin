@@ -54,6 +54,7 @@ const PRINCIPAL_ID = 'demo.analyst'
 let current: TenantSpec | null = null   // null = platform console
 let signedIn = false
 const revoked = new Set<string>()
+const reenrolledIds: Record<string, string> = {}
 // Like the real platform: creating a customer does not make the platform admin a member; accepting its invite does.
 const memberOf = new Set(['acme', 'globex', 'initech'])
 const inviteTenant: Record<string, string> = {}
@@ -81,7 +82,7 @@ const FIXES: Record<string, {change: string; retest: string; workflows: string}>
   openssh: {change: 'PasswordAuthentication yes → no', retest: 'password login refused', workflows: 'key-based admin login still works'},
 }
 const minutesAgo = (m: number) => new Date(Date.now() - m * 60000).toISOString()
-const hostId = (t: TenantSpec, name: string) => `${t.id.slice(0, 2)}${name.replace(/[^a-z0-9]/g, '')}`.padEnd(14, '0').slice(0, 14)
+const hostId = (t: TenantSpec, name: string) => reenrolledIds[`${t.id}|${name}`] ?? `${t.id.slice(0, 2)}${name.replace(/[^a-z0-9]/g, '')}`.padEnd(14, '0').slice(0, 14)
 
 function topology(t: TenantSpec): Topology {
   const nodes: GraphNode[] = [], edges: GraphEdge[] = []
@@ -216,11 +217,20 @@ function customers(): Customer[] {
 }
 
 function simulateJoins(t: TenantSpec, token: EnrollmentToken & {secret: string}) {
-  const available = JOINERS.filter(([spec]) => !t.hosts.some(h => h.name === spec.name)).slice(0, Math.min(token.max_uses, 3))
+  const removed: typeof JOINERS = t.hosts.filter(h => revoked.has(hostId(t, h.name)))
+    .map(h => [h, t.links.filter(([a, b]) => a === h.name || b === h.name)])
+  const available = [...removed, ...JOINERS]
+    .filter(([spec], index, all) => all.findIndex(([candidate]) => candidate.name === spec.name) === index)
+    .filter(([spec]) => !t.hosts.some(h => h.name === spec.name && !revoked.has(hostId(t, h.name))))
+    .slice(0, Math.min(token.max_uses, 3))
   available.forEach(([spec, links], i) => setTimeout(() => {
     if (token.revoked || token.uses >= token.max_uses) return
+    if (t.hosts.some(h => h.name === spec.name && revoked.has(hostId(t, h.name)))) {
+      t.hosts = t.hosts.filter(h => h.name !== spec.name)
+      reenrolledIds[`${t.id}|${spec.name}`] = `demo-${crypto.randomUUID()}`
+    }
     t.hosts.push({...spec, services: [...spec.services]})
-    for (const link of links) if (t.hosts.some(h => h.name === link[0]) && t.hosts.some(h => h.name === link[1])) t.links.push(link)
+    for (const link of links) if (!t.links.some(existing => existing.join('|') === link.join('|')) && t.hosts.some(h => h.name === link[0]) && t.hosts.some(h => h.name === link[1])) t.links.push(link)
     enrolledAt[hostId(t, spec.name)] = new Date().toISOString()
     token.uses++
   }, 5000 + i * 4500))

@@ -12,6 +12,9 @@ export type Analysis = {
 }
 export type ScanReport = {
   id: string; capturedAt: string; routes: Assessment[]; topology: Topology; total: number; truncated: boolean
+  generation?: string
+  newGeneration?: boolean
+  previewMode?: 'path' | 'hidden'
   codebase?: CodebaseSnapshot
 }
 
@@ -127,15 +130,16 @@ export function hopEvidence(route: Assessment, topology: Topology) {
 
 export function reportData(scan: ScanReport, fixed: string[]) {
   return {schema: 'twinhunter.frontend-report.v1', reportId: scan.id, snapshotCapturedAt: scan.capturedAt,
-    mode: scan.codebase ? 'Pinned source review with illustrative topology replay' : 'Frontend demonstration',
+    mode: scan.previewMode ? 'Manual path display preview; candidate routes are not verified vulnerabilities' : scan.codebase ? 'Pinned source review with illustrative topology replay' : 'Frontend demonstration',
+    previewMode: scan.previewMode ?? null,
     codebase: scan.codebase ? {url: scan.codebase.url, commit: scan.codebase.commit, status: scan.codebase.status} : null,
     execution: {llmCalled: false, liveProbesExecuted: false, liveChangesApplied: false},
     summary: {reviewedRoutes: scan.routes.length, unresolvedFindings: scan.routes.filter(route => !fixed.includes(route.id)).length,
       fixedInCurrentScan: scan.routes.filter(route => fixed.includes(route.id)).length, previousDemoFixes: fixed.length,
       availableCandidates: scan.total, truncated: scan.truncated},
     scope: 'Captured topology, supplied deployment-source scenarios and published security guidance. Absence of a demo path is not an assurance that the live environment is secure.',
-    findings: scan.routes.map(route => ({...analyzeFinding(route, scan.topology, scan.codebase), routeId: route.id,
-      status: scan.codebase ? 'Vulnerable source; runtime unverified' : fixed.includes(route.id) ? 'Remediated in simulation' : 'Unverified scenario',
+    findings: scan.routes.map(route => ({...analyzeFinding(route, scan.topology, scan.codebase?.vulnerable ? scan.codebase : undefined), routeId: route.id,
+      status: scan.codebase?.vulnerable ? 'Vulnerable source; runtime unverified' : fixed.includes(route.id) ? 'Remediated in simulation' : 'New twin candidate; runtime validation required',
       path: route.nodes.map(id => assetLabel(scan.topology, id)), hops: hopEvidence(route, scan.topology), telemetryIssues: route.issues,
       validationStatus: route.validation_status ?? 'unvalidated', confirmedHops: route.confirmed_hops ?? 0, sandboxRemediation: route.remediation ?? null})),
   }
@@ -148,7 +152,7 @@ export function reportMarkdown(scan: ScanReport, fixed: string[]) {
     `Findings: ${data.summary.unresolvedFindings} unresolved; ${data.summary.fixedInCurrentScan} remediated in simulation.`,
     `Previous demo fixes retained: ${fixed.length}. Candidate results truncated: ${scan.truncated ? 'yes' : 'no'}.`, '']
   if (scan.codebase) lines.push(`Repository: ${scan.codebase.url}`, `Commit: ${scan.codebase.commit}`, `Source status: ${scan.codebase.status}`, '')
-  if (!scan.routes.length) lines.push('## No attack path found', '', scan.codebase ? 'No unresolved topology path reported for the checked source snapshot. AWS deployment is unverified.' : 'No unresolved paths were found in this preview. Previously simulated fixes remain applied.', '')
+  if (!scan.routes.length) lines.push(scan.previewMode === 'hidden' ? '## No attack path shown' : scan.newGeneration ? '## New twin requires validation' : '## No attack path found', '', scan.previewMode === 'hidden' ? 'The manual preview switch is off. Candidate topology routes may still exist; this display is not a security conclusion.' : scan.newGeneration ? 'The previous clean result was for a different host generation. No candidate topology route was returned for this snapshot; runtime security remains unverified.' : scan.codebase ? 'No unresolved topology path reported for the checked source snapshot. AWS deployment is unverified.' : 'No unresolved paths were found in this preview. Previously simulated fixes remain applied.', '')
   for (const finding of data.findings) {
     lines.push(`## ${finding.id}: ${finding.title}`, '', `${finding.severity} (scenario priority) | ${finding.status} | ${finding.classification}`, '',
       `Service: ${finding.service}`, `Basis: ${finding.basis}`, '', '### Executive analysis', '', finding.summary, '', '### Root cause', '', finding.rootCause, '',

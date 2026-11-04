@@ -69,6 +69,26 @@ test('scan remains private until three minutes and catches up after a suspended 
   ]) assert.deepEqual(flow.scanState(started, started + elapsed), {step, complete})
 })
 
+test('demo host re-enrollment receives a new identity', async () => {
+  const demo = load('src/demo.ts')
+  const previous = global.setTimeout, joins = []
+  global.setTimeout = (callback, delay) => delay > 1000 ? (joins.push(callback), joins.length) : previous(callback, 0)
+  try {
+    await demo.demoFetch('POST', '/api/auth/login', {tenant: 'acme'})
+    const before = await (await demo.demoFetch('GET', '/api/hosts')).json()
+    const removed = before.find(host => host.hostname === 'web-01')
+    await demo.demoFetch('POST', `/api/hosts/${removed.agent_id}/revoke`, {})
+    await demo.demoFetch('POST', '/api/enrollment/tokens', {max_uses: 1})
+    assert.ok(joins.length)
+    joins[0]()
+    const after = await (await demo.demoFetch('GET', '/api/hosts')).json()
+    const rejoined = after.find(host => host.hostname === 'web-01')
+    assert.ok(rejoined)
+    assert.notEqual(rejoined.agent_id, removed.agent_id)
+    assert.equal(rejoined.revoked_at, null)
+  } finally { global.setTimeout = previous }
+})
+
 test('codebase gate → scan → real PR stays pending → merged source yields clean rescan', async () => {
   let now = 1000000, nextId = 0
   const timers = new Map(), listeners = new Map(), replayCalls = []
@@ -91,6 +111,7 @@ test('codebase gate → scan → real PR stays pending → merged source yields 
   const route = {id: 'path-1', nodes: ['web', 'app', 'db'], hop_count: 2, steps: [], review_order: 1, issues: [], next_action: ''}
   const originalSource = {url: 'https://github.com/example/lab', slug: 'example/lab', branch: 'main', commit: 'a'.repeat(40), vulnerable: true, status: 'vulnerable', file: 'app.py', scenario: 'order-history-auth'}
   let serverConnection = {codebase: originalSource, pr_enabled: true}, connected = false, repairCalls = 0
+  let hostAgentId = 'agent-original'
   const topology = {nodes: route.nodes.map((id, index) => ({id, labels: ['Host'], properties: {hostname: ['shop-web01', 'shop-app01', 'shop-db01'][index]}})), edges: []}
   const twinHandle = {
     async playAttack(nodes, isolated, onStep) {
@@ -105,7 +126,10 @@ test('codebase gate → scan → real PR stays pending → merged source yields 
     return React.createElement('twin', null, props.children)
   })
   const {AttackPaths} = load('src/pages/AttackPaths.tsx', {
-    '../api': {api: {get: async () => ({assessments: [route], universe: {entries: ['web'], critical: ['db'], path_count: 1}}), post: async (url, body) => {
+    '../api': {api: {get: async url => url === '/api/hosts'
+      ? [{agent_id: hostAgentId, revoked_at: null}]
+      : url === '/api/topology' ? topology
+      : {assessments: [route], universe: {entries: ['web'], critical: ['db'], path_count: 1}}, post: async (url, body) => {
       assert.equal(url, '/api/codebase/repair'); assert.equal(body.commit, originalSource.commit); repairCalls++
       serverConnection = {...serverConnection, codebase: {...originalSource, pr: {url: 'https://github.com/example/lab/pull/1', number: 1, base_commit: originalSource.commit}}}
       return serverConnection
@@ -154,6 +178,11 @@ test('codebase gate → scan → real PR stays pending → merged source yields 
     assert.equal(replayCalls.length, 0)
     assert.equal(button('Fix now'), undefined)
     await advance(1)
+    assert.equal(renderer.root.findAllByType('dialog').length, 1)
+    assert.match(text(), /No attack path shown/)
+    assert.equal(button('Show path preview').props['aria-pressed'], false)
+    await act(async () => button('Show path preview').props.onClick())
+    assert.equal(button('Hide path preview').props['aria-pressed'], true)
     assert.equal(renderer.root.findAllByType('dialog').length, 0)
     assert.deepEqual(replayCalls, [{nodes: route.nodes, isolated: null}])
     assert.match(text(), /Critical asset reached/)
@@ -172,7 +201,10 @@ test('codebase gate → scan → real PR stays pending → merged source yields 
     assert.match(text(), /Review repair PR #1/)
     assert.match(text(), /pending review/)
     assert.doesNotMatch(text(), /Simulated fix applied/)
-    assert.ok(button('Fix now').props.disabled)
+    assert.equal(button('Fix now').props.disabled, false)
+    // A stale UI PR link must not prevent retrying after closing it on GitHub.
+    await act(async () => button('Fix now').props.onClick())
+    assert.equal(repairCalls, 2)
     // An open PR is not a fixed default branch: the next scan still finds it.
     await act(async () => button('Run again').props.onClick())
     await advance(180000)
@@ -187,19 +219,39 @@ test('codebase gate → scan → real PR stays pending → merged source yields 
     assert.equal(replayCalls.length, replaysBeforeRescan)
     assert.doesNotMatch(text(), /No attack path found/)
     await advance(1)
-    assert.match(text(), /No attack path found/)
-    assert.match(text(), /Repository repair verified/)
+    assert.match(text(), /path in preview/)
+    await act(async () => button('Hide path preview').props.onClick())
+    assert.match(text(), /No attack path shown/)
+    assert.equal(button('Replay attack path'), undefined)
+    await act(async () => button('Show path preview').props.onClick())
+    assert.match(text(), /path in preview/)
+    await act(async () => button('Hide path preview').props.onClick())
     await act(async () => button('Download report').props.onClick())
-    assert.match(await exportedBlob.text(), /No attack path found/)
+    assert.match(await exportedBlob.text(), /No attack path shown/)
     assert.equal(button('Fix now'), undefined)
     assert.equal(button('Replay attack path'), undefined)
-    assert.equal(replayCalls.length, replaysBeforeRescan)
     // A further run keeps the fix too, and starts the full delay again.
+    await act(async () => button('View findings').props.onClick())
     await act(async () => button('Run again').props.onClick())
     assert.doesNotMatch(text(), /No attack path found/)
     await advance(180000)
-    assert.match(text(), /No attack path found/)
-    assert.equal(replayCalls.length, replaysBeforeRescan)
+    assert.match(text(), /No attack path shown/)
+    // Re-enrollment changes the host identity and invalidates the prior clean scan.
+    hostAgentId = 'agent-reenrolled'
+    await act(async () => button('Run again').props.onClick())
+    await advance(180000)
+    assert.match(text(), /new host generation/i)
+    assert.match(text(), /candidate routes/i)
+    assert.doesNotMatch(text(), /No attack path found/)
+    assert.doesNotMatch(text(), /Vulnerable source; runtime unverified/)
+    await act(async () => button('Show path preview').props.onClick())
+    assert.match(text(), /path in preview/)
+    await act(async () => button('Hide path preview').props.onClick())
+    // With the same generation, the next scan can return the clean source result.
+    await act(async () => button('View findings').props.onClick())
+    await act(async () => button('Run again').props.onClick())
+    await advance(180000)
+    assert.match(text(), /No attack path shown/)
     await act(async () => renderer.unmount())
     assert.equal(timers.size, 0)
     assert.equal(listeners.size, 0)
