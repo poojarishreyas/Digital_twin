@@ -50,7 +50,28 @@ install -d -m 0700 /etc/twin-agent
 install -d -m 0750 /var/lib/twin-agent
 
 if [ -f /etc/twin-agent/config.yaml ]; then
-  echo "This machine is already enrolled; keeping its identity and updating the agent binary."
+  echo "Replacing this machine's enrollment with the workspace selected by the new token."
+  if systemctl is-active --quiet twin-agent.service; then systemctl stop twin-agent.service; fi
+  cp -a /etc/twin-agent "$tmp/previous-config"
+  # The token chooses the workspace. Never replay the previous identity or its
+  # queued telemetry into the new workspace.
+  if ! TWIN_ENROLL_TOKEN="$TOKEN" /usr/local/bin/twin-agent enroll -url "$URL" -dir /etc/twin-agent -force $ALLOW_HTTP; then
+    cp -a "$tmp/previous-config/." /etc/twin-agent/
+    systemctl start twin-agent.service 2>/dev/null || true
+    echo "Enrollment failed; the previous identity was restored." >&2
+    exit 1
+  fi
+  if [ -d /var/lib/twin-agent ]; then
+    previous_state="/var/lib/twin-agent.previous.$(date +%Y%m%d%H%M%S).$$"
+    if ! mv /var/lib/twin-agent "$previous_state"; then
+      cp -a "$tmp/previous-config/." /etc/twin-agent/
+      systemctl start twin-agent.service 2>/dev/null || true
+      echo "Could not archive the old agent state; the previous identity was restored." >&2
+      exit 1
+    fi
+    chmod 0700 "$previous_state"
+  fi
+  install -d -m 0750 /var/lib/twin-agent
 else
   # Pass the token through the environment so it does not appear in process listings.
   TWIN_ENROLL_TOKEN="$TOKEN" /usr/local/bin/twin-agent enroll -url "$URL" -dir /etc/twin-agent $ALLOW_HTTP

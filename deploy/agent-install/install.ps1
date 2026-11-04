@@ -40,21 +40,45 @@ try {
   if ($service -and $service.Status -ne 'Stopped') { Stop-Service TwinAgent }
   Copy-Item "$temp\twin-agent.exe" $exe -Force
 
-  if (Test-Path (Join-Path $configDir 'config.yaml')) {
-    Write-Host 'This machine is already enrolled; keeping its identity and updating the agent binary.'
-  } else {
-    New-Item -ItemType Directory -Force -Path $configDir | Out-Null
-    # Only SYSTEM and Administrators may read the private key and configuration.
-    & icacls.exe $configDir /inheritance:r /grant:r 'SYSTEM:(OI)(CI)F' 'Administrators:(OI)(CI)F' | Out-Null
-    $env:TWIN_ENROLL_TOKEN = $Token   # Keeps the token out of process listings.
-    try {
-      $arguments = @('enroll', '-url', $Url, '-dir', $configDir)
-      if ($AllowHttp) { $arguments += '-allow-http' }
-      & $exe @arguments
-      if ($LASTEXITCODE -ne 0) { throw "Enrollment failed (exit $LASTEXITCODE)." }
-    } finally {
-      Remove-Item Env:\TWIN_ENROLL_TOKEN -ErrorAction SilentlyContinue
+  $replacing = Test-Path (Join-Path $configDir 'config.yaml')
+  $backup = Join-Path $temp 'previous-config'
+  $stateDir = Join-Path $env:ProgramData 'TwinAgent'
+  $archive = Join-Path $stateDir ('previous-state-' + [guid]::NewGuid())
+  $moved = @()
+  if ($replacing) {
+    Write-Host 'Replacing this machine enrollment with the workspace selected by the new token.'
+    Copy-Item -LiteralPath $configDir -Destination $backup -Recurse -Force
+  }
+  New-Item -ItemType Directory -Force -Path $configDir | Out-Null
+  # Only SYSTEM and Administrators may read the private key and configuration.
+  & icacls.exe $configDir /inheritance:r /grant:r 'SYSTEM:(OI)(CI)F' 'Administrators:(OI)(CI)F' | Out-Null
+  $env:TWIN_ENROLL_TOKEN = $Token   # Keeps the token out of process listings.
+  try {
+    $arguments = @('enroll', '-url', $Url, '-dir', $configDir)
+    if ($replacing) { $arguments += '-force' }
+    if ($AllowHttp) { $arguments += '-allow-http' }
+    & $exe @arguments
+    if ($LASTEXITCODE -ne 0) { throw "Enrollment failed (exit $LASTEXITCODE)." }
+    if ($replacing) {
+      New-Item -ItemType Directory -Force -Path $archive | Out-Null
+      & icacls.exe $archive /inheritance:r /grant:r 'SYSTEM:(OI)(CI)F' 'Administrators:(OI)(CI)F' | Out-Null
+      foreach ($name in @('agent-id', 'sequence', 'outbox')) {
+        $old = Join-Path $stateDir $name
+        if (Test-Path -LiteralPath $old) {
+          Move-Item -LiteralPath $old -Destination (Join-Path $archive $name)
+          $moved += $name
+        }
+      }
     }
+  } catch {
+    if ($replacing) {
+      Copy-Item -Path (Join-Path $backup '*') -Destination $configDir -Recurse -Force
+      foreach ($name in $moved) { Move-Item -LiteralPath (Join-Path $archive $name) -Destination (Join-Path $stateDir $name) -Force }
+      if ($service) { Start-Service TwinAgent }
+    }
+    throw
+  } finally {
+    Remove-Item Env:\TWIN_ENROLL_TOKEN -ErrorAction SilentlyContinue
   }
 
   if (-not $service) {
