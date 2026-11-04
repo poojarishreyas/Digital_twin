@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState, type FormEvent} from 'react'
 import {api, message} from '../api'
 import {tenantColor} from '../auth'
-import type {Customer, InviteResult} from '../types'
+import type {Billing, Customer, InviteResult} from '../types'
 import {Icon} from '../ui/icons'
 import {CopyField, Modal} from '../ui/Modal'
 import {ago} from '../useTwinData'
@@ -13,6 +13,7 @@ export function Platform() {
   const [customers, setCustomers] = useState<Customer[] | null>(null), [error, setError] = useState('')
   const [creating, setCreating] = useState(false), [invite, setInvite] = useState<{title: string; token: string} | null>(null)
   const [busy, setBusy] = useState('')
+  const [billing, setBilling] = useState<{customer: Customer; data: Billing} | null>(null)
   const load = useCallback(async () => {
     try { setCustomers(await api.get<Customer[]>('/api/platform/tenants')); setError('') } catch (e) { setError(message(e)) }
   }, [])
@@ -35,6 +36,11 @@ export function Platform() {
       const r = await api.post<InviteResult>('/api/platform/admins/invites', {label: 'Platform admin'})
       setInvite({title: 'Platform admin invite', token: r.invite_token})
     } catch (e) { setError(message(e)) }
+  }
+  async function showBilling(customer: Customer) {
+    setBusy(customer.id)
+    try { setBilling({customer, data: await api.get<Billing>(`/api/platform/tenants/${customer.id}/billing`)}) }
+    catch (e) { setError(message(e)) } finally { setBusy('') }
   }
 
   const list = customers ?? []
@@ -76,6 +82,7 @@ export function Platform() {
             <td>{c.last_report ? ago(c.last_report) : <span className="muted">never</span>}</td>
             <td>{c.runs}{c.active_runs > 0 && <span className="chip accent" style={{marginLeft: 4}}>{c.active_runs} active</span>}</td>
             <td><div className="row" style={{justifyContent: 'flex-end', flexWrap: 'nowrap'}}>
+              <button className="btn sm" disabled={busy === c.id} onClick={() => void showBilling(c)}>Billing</button>
               <button className="btn sm" disabled={busy === c.id || c.status !== 'active'} onClick={() => void newAdminInvite(c)}>Invite admin</button>
               {c.managed_by === 'database' && (c.status === 'active'
                 ? <button className="btn ghost sm" disabled={busy === c.id} onClick={() => void setStatus(c, 'suspended')}>Suspend</button>
@@ -84,6 +91,13 @@ export function Platform() {
     </section>
 
     {creating && <NewCustomer onClose={() => setCreating(false)} onCreated={async (name, token) => { setCreating(false); setInvite({title: `${name} is ready`, token}); await load() }}/>}
+    {billing && <Modal title={`${billing.customer.name} billing`} subtitle="Simulated payments only. No money is charged." onClose={() => setBilling(null)}>
+      <div className="stack" style={{gap: 12}}><p>Plan: <b>{billing.data.subscription?.plan ?? 'none'}</b> · {billing.data.subscription?.status ?? 'unavailable'}</p>
+        <p>Period ends: {billing.data.subscription ? new Date(billing.data.subscription.current_period_end).toLocaleDateString() : '—'}</p>
+        <h3>Recent demo payments</h3>{billing.data.payments.length ? billing.data.payments.map(p =>
+          <div key={p.id} className="list-row"><span className="meta"><b>{p.plan} · ₹{(p.amount_paise / 100).toLocaleString('en-IN')}</b>
+            <small>{new Date(p.created_at).toLocaleString()} · {p.created_by}</small></span><span className={`chip ${p.status === 'succeeded' ? 'ok' : 'danger'}`}>{p.status}</span></div>)
+          : <p className="muted">No demo payments yet.</p>}</div></Modal>}
     {invite && <Modal title={invite.title} subtitle="Send this link privately. It works once and expires in 72 hours." onClose={() => setInvite(null)}>
       <div className="stack" style={{gap: 14}}>
         <CopyField label="Invite link" value={inviteLink(invite.token)} secret/>

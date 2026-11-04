@@ -7,7 +7,13 @@ import pytest
 from fastapi.testclient import TestClient
 from twin_ingestion.api import EventHub, create_app
 from twin_ingestion.settings import Settings
-from twin_ingestion.security import AuthManager
+from twin_ingestion.security import AuthManager, access_rule
+
+
+def test_saas_billing_route_roles():
+    assert access_rule("GET", "/api/platform/tenants/acme/billing")[1] == "platform"
+    assert access_rule("GET", "/api/billing")[1] == "viewer"
+    assert access_rule("POST", "/api/billing/demo-checkout")[1] == "admin"
 
 TOKENS = {role: f"synthetic-{role}-" + "x" * 48 for role in ("viewer", "operator", "admin")}
 

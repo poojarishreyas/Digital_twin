@@ -357,6 +357,10 @@ def access_rule(method, path):
         return "platform." + {"GET": "read", "POST": "write", "PUT": "write", "DELETE": "write"}.get(method, "unknown"), "platform"
     if path == "/api/account/password" and method == "POST":
         return "account.password", "session"
+    if path == "/api/billing" and method == "GET":
+        return "billing.read", "viewer"
+    if path == "/api/billing/demo-checkout" and method == "POST":
+        return "billing.demo_checkout", "admin"
     if path.startswith("/api/team") or path.startswith("/api/enrollment"):
         return ("team." if path.startswith("/api/team") else "enrollment.") + ("read" if method == "GET" else "write"), "admin"
     if path == "/api/hosts" and method == "GET":

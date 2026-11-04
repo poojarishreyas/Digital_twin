@@ -62,7 +62,25 @@ CREATE TABLE IF NOT EXISTS enrolled_agents (
 );
 CREATE INDEX IF NOT EXISTS enrolled_agents_tenant ON enrolled_agents(tenant_id);
 CREATE INDEX IF NOT EXISTS invites_tenant ON invites(tenant_id);
+CREATE TABLE IF NOT EXISTS subscriptions (
+  tenant_id text PRIMARY KEY REFERENCES tenants(id) ON DELETE CASCADE,
+  plan text NOT NULL DEFAULT 'trial' CHECK (plan IN ('trial','starter','business')),
+  status text NOT NULL DEFAULT 'trialing' CHECK (status IN ('trialing','active')),
+  current_period_end timestamptz NOT NULL DEFAULT (now() + interval '14 days'),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS demo_payments (
+  id uuid PRIMARY KEY, tenant_id text NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  plan text NOT NULL CHECK (plan IN ('starter','business')),
+  amount_paise integer NOT NULL CHECK (amount_paise > 0), currency text NOT NULL DEFAULT 'INR',
+  status text NOT NULL CHECK (status IN ('succeeded','failed')),
+  created_by text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS demo_payments_tenant_time ON demo_payments(tenant_id,created_at DESC);
+INSERT INTO subscriptions(tenant_id) SELECT id FROM tenants ON CONFLICT DO NOTHING;
 """
+
+DEMO_PLANS = {"starter": 49900, "business": 149900}  # INR paise per simulated month
 
 
 class IdentityError(ValueError):
@@ -215,12 +233,43 @@ class IdentityStore:
         if not 1 <= len(name.strip()) <= 80:
             raise IdentityError("customer names are 1-80 characters")
         try:
-            await self.pool.execute("INSERT INTO tenants(id,name,created_by) VALUES($1,$2,$3)", tenant_id, name.strip(), created_by)
+            async with self.pool.acquire() as conn, conn.transaction():
+                await conn.execute("INSERT INTO tenants(id,name,created_by) VALUES($1,$2,$3)", tenant_id, name.strip(), created_by)
+                await conn.execute("INSERT INTO subscriptions(tenant_id) VALUES($1)", tenant_id)
         except Exception as exc:
             if "duplicate key" in str(exc) or exc.__class__.__name__ == "UniqueViolationError":
                 raise IdentityError("a customer with that ID already exists") from None
             raise
         await self.refresh()
+
+    async def billing(self, tenant_id: str) -> dict:
+        if tenant_id not in self.snapshot.tenants:
+            raise KeyError(tenant_id)
+        row = await self.pool.fetchrow("SELECT plan,status,current_period_end,updated_at FROM subscriptions WHERE tenant_id=$1", tenant_id)
+        payments = await self.pool.fetch("""SELECT id,plan,amount_paise,currency,status,created_by,created_at
+            FROM demo_payments WHERE tenant_id=$1 ORDER BY created_at DESC LIMIT 50""", tenant_id)
+        return {"subscription": dict(row) if row else None,
+                "payments": [{**dict(p), "id": str(p["id"])} for p in payments]}
+
+    async def demo_checkout(self, tenant_id: str, plan: str, outcome: str, actor: str) -> dict:
+        if plan not in DEMO_PLANS or outcome not in {"succeeded", "failed"}:
+            raise IdentityError("choose a valid demo plan and outcome")
+        payment_id = uuid4()
+        async with self.pool.acquire() as conn, conn.transaction():
+            # Lock the customer so a suspended workspace cannot complete checkout.
+            tenant = await conn.fetchrow("SELECT status FROM tenants WHERE id=$1 FOR UPDATE", tenant_id)
+            if tenant is None:
+                raise KeyError(tenant_id)
+            if tenant["status"] != "active":
+                raise IdentityError("this customer is suspended")
+            await conn.execute("""INSERT INTO demo_payments(id,tenant_id,plan,amount_paise,status,created_by)
+                VALUES($1,$2,$3,$4,$5,$6)""", payment_id, tenant_id, plan, DEMO_PLANS[plan], outcome, actor)
+            if outcome == "succeeded":
+                await conn.execute("""INSERT INTO subscriptions(tenant_id,plan,status,current_period_end)
+                    VALUES($1,$2,'active',now() + interval '30 days')
+                    ON CONFLICT (tenant_id) DO UPDATE SET plan=EXCLUDED.plan,status='active',
+                    current_period_end=now() + interval '30 days',updated_at=now()""", tenant_id, plan)
+        return {"id": str(payment_id), "status": outcome, "plan": plan, "amount_paise": DEMO_PLANS[plan], "currency": "INR"}
 
     async def set_tenant_status(self, tenant_id: str, status: str):
         if status not in {"active", "suspended"}:

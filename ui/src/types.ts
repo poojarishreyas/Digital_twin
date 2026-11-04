@@ -7,6 +7,8 @@ export type Customer = {id: string; name: string; status: 'active' | 'suspended'
   enrolled_agents: number; known_agents: number; reporting_agents: number; last_report: string | null; runs: number; active_runs: number
   pending_invites: number; created_at: string | null}
 export type InviteResult = {invite_token: string; invite: {id: string; tenant_id: string | null; role: Role | null; expires_at: string}}
+export type Billing = {subscription: null | {plan: 'trial' | 'starter' | 'business'; status: 'trialing' | 'active'; current_period_end: string; updated_at: string}
+  payments: {id: string; plan: 'starter' | 'business'; amount_paise: number; currency: 'INR'; status: 'succeeded' | 'failed'; created_by: string; created_at: string}[]}
 export type EnrollmentToken = {id: string; label: string; created_by: string; created_at: string; expires_at: string; max_uses: number
   uses: number; revoked: boolean; usable: boolean}
 export type Host = {agent_id: string; hostname: string; os: string; enrolled_at: string; certificate_expires_at: string

@@ -70,6 +70,30 @@ def test_password_hashing_round_trip():
         hash_password("short")
 
 
+@needs_db
+def test_demo_billing_is_tenant_scoped_and_failure_preserves_plan():
+    async def run():
+        pool, store = await fresh_store()
+        try:
+            await store.create_tenant("acme", "Acme", "root")
+            await store.create_tenant("globex", "Globex", "root")
+            assert (await store.billing("acme"))["subscription"]["plan"] == "trial"
+            failed = await store.demo_checkout("acme", "starter", "failed", "ada")
+            assert failed["status"] == "failed"
+            assert (await store.billing("acme"))["subscription"]["plan"] == "trial"
+            paid = await store.demo_checkout("acme", "business", "succeeded", "ada")
+            assert paid["amount_paise"] == 149900
+            assert (await store.billing("acme"))["subscription"]["plan"] == "business"
+            assert len((await store.billing("acme"))["payments"]) == 2
+            assert (await store.billing("globex"))["payments"] == []
+            await store.set_tenant_status("acme", "suspended")
+            with pytest.raises(IdentityError, match="suspended"):
+                await store.demo_checkout("acme", "starter", "succeeded", "ada")
+        finally:
+            await pool.close()
+    asyncio.run(run())
+
+
 def test_csr_checks_and_server_chosen_identity(tmp_path):
     issuer, ca = make_ca(tmp_path)
     with pytest.raises(EnrollmentError):

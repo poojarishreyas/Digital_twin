@@ -49,6 +49,12 @@ The base Compose file publishes only on loopback; remote agents require an expli
 
 Customers, users, memberships, invites, enrollment tokens and enrolled agents live in PostgreSQL (`twin_ingestion/identity.py`); passwords use scrypt and every token is stored only as a hash. The manifest file remains supported for file-managed tenants and CLI credentials. Publish the platform over HTTPS; the installers refuse plain HTTP to non-loopback hosts unless `--allow-http` is given for an isolated lab.
 
+### BEA SaaS demonstration: roles and simulated billing
+
+The first-run account is the **platform admin**. Only this role can create company customers, invite another platform admin, suspend a customer, and view all customers' billing summaries. Each company has its own tenant. Its **company admin** accepts the initial invite, manages team roles and hosts, and can run a simulated checkout. **Operators** can run simulations and change asset classifications. **Viewers** can inspect the workspace. The API enforces these roles and tenant boundaries.
+
+To demonstrate the SaaS lifecycle: create a customer in **Platform console**, accept its invite in a separate browser session, then open **Billing** in the company workspace. A new company starts on a 14-day trial. Choose Starter (INR 499/month) or Business (INR 1,499/month) and click **Simulate payment**. A successful simulation records a payment and starts a 30-day period; **Simulate failure** records a failed attempt without changing the subscription. The platform admin can inspect that company's billing from the customer list. These are illustrative prices and database records only: there is no payment gateway, card collection, real charge, automatic renewal, or subscription based access restriction.
+
 ## Multi-tenancy
 
 One control plane serves many isolated workspaces (tenants). Isolation is enforced server-side on every request:

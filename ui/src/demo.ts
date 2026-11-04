@@ -2,7 +2,7 @@
  * Synthetic multi-tenant backend for UI development (VITE_DEMO=1 with `npm run dev`).
  * Every value here is invented and labelled as demo data in the interface.
  */
-import type {Agent, AuditRow, Customer, EnrollmentToken, GraphEdge, GraphNode, Host, PathReport, PendingInvite, Principal, Run, RunDetail, TeamMember, TenantInfo, Topology, Verdict} from './types'
+import type {Agent, AuditRow, Billing, Customer, EnrollmentToken, GraphEdge, GraphNode, Host, PathReport, PendingInvite, Principal, Run, RunDetail, TeamMember, TenantInfo, Topology, Verdict} from './types'
 
 type HostSpec = {name: string; os: string; services: [string, string][]; entry?: boolean; critical?: boolean; stale?: boolean; gaps?: number}
 type TenantSpec = {id: string; name: string; role: Principal['role']; hosts: HostSpec[]; links: [string, string, 'O' | 'I'][]; status?: 'active' | 'suspended'; createdAt?: string}
@@ -228,6 +228,10 @@ function simulateJoins(t: TenantSpec, token: EnrollmentToken & {secret: string})
 
 const json = (value: unknown, status = 200) => new Response(JSON.stringify(value), {status, headers: {'content-type': 'application/json'}})
 const ROLE_RANK = {viewer: 0, operator: 1, admin: 2}
+const billing: Record<string, Billing> = {}
+function billingFor(id: string): Billing {
+  return billing[id] ??= {subscription: {plan: 'trial', status: 'trialing', current_period_end: new Date(Date.now() + 14 * 86400000).toISOString(), updated_at: new Date().toISOString()}, payments: []}
+}
 
 export async function demoFetch(method: string, path: string, body: unknown): Promise<Response> {
   await new Promise(r => setTimeout(r, 120 + Math.random() * 180))
@@ -255,6 +259,8 @@ export async function demoFetch(method: string, path: string, body: unknown): Pr
   }
   // ---------------------------------------------------------------- platform console
   if (route === '/api/platform/tenants' && method === 'GET') return json(customers())
+  const platformBilling = route.match(/^\/api\/platform\/tenants\/([^/]+)\/billing$/)
+  if (platformBilling) return TENANTS.some(x => x.id === platformBilling[1]) ? json(billingFor(platformBilling[1])) : json({detail: 'customer not found'}, 404)
   if (route === '/api/platform/tenants' && method === 'POST') {
     const id = String(b.id ?? ''), name = String(b.name ?? '').trim()
     if (!/^[a-z0-9][a-z0-9-]{0,31}$/.test(id) || !name) return json({detail: 'customer IDs are lowercase letters, digits and hyphens'}, 400)
@@ -274,6 +280,18 @@ export async function demoFetch(method: string, path: string, body: unknown): Pr
   const t = current
   if (!t) return json({detail: 'select a customer workspace first'}, 403)
   const need = (role: keyof typeof ROLE_RANK) => ROLE_RANK[t.role] >= ROLE_RANK[role]
+  if (route === '/api/billing' && method === 'GET') return json(billingFor(t.id))
+  if (route === '/api/billing/demo-checkout' && method === 'POST') {
+    if (!need('admin')) return json({detail: 'role does not permit this action'}, 403)
+    if (t.status === 'suspended') return json({detail: 'this customer is suspended'}, 400)
+    if (b.plan !== 'starter' && b.plan !== 'business') return json({detail: 'invalid demo plan'}, 400)
+    const status = b.outcome === 'failed' ? 'failed' : 'succeeded', now = new Date().toISOString(), data = billingFor(t.id)
+    const plan = b.plan as 'starter' | 'business'
+    const payment: Billing['payments'][number] = {id: crypto.randomUUID(), plan, amount_paise: plan === 'starter' ? 49900 : 149900, currency: 'INR', status, created_by: PRINCIPAL_ID, created_at: now}
+    data.payments.unshift(payment)
+    if (status === 'succeeded') data.subscription = {plan: b.plan, status: 'active', current_period_end: new Date(Date.now() + 30 * 86400000).toISOString(), updated_at: now}
+    return json(payment, 201)
+  }
   // ---------------------------------------------------------------- hosts, enrollment, team
   if (route === '/api/hosts') return json(hostsFor(t))
   const revokeHost = route.match(/^\/api\/hosts\/([^/]+)\/revoke$/)

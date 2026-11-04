@@ -15,6 +15,7 @@ import {Team} from './pages/Team'
 import {Platform} from './pages/Platform'
 import {CompanyValidation} from './pages/CompanyValidation'
 import {Codebase} from './pages/Codebase'
+import {Billing} from './pages/Billing'
 
 const PAGES = [
   {id: 'overview', label: 'Overview', icon: 'grid', group: 'Monitor'},
@@ -27,6 +28,7 @@ const PAGES = [
   {id: 'research', label: 'TwinHunter', icon: 'spark', group: 'Analyze', hidden: true},
   {id: 'company', label: 'Company validation', icon: 'route', group: 'Analyze'},
   {id: 'team', label: 'Team', icon: 'users', group: 'Govern', admin: true},
+  {id: 'billing', label: 'Billing', icon: 'building', group: 'Govern'},
   {id: 'workspace', label: 'Workspace', icon: 'building', group: 'Govern'},
   {id: 'audit', label: 'Access audit', icon: 'shield', group: 'Govern', admin: true},
 ] as const
@@ -106,6 +108,7 @@ function Shell() {
         {current.id === 'research' && <Research/>}
         {current.id === 'company' && <CompanyValidation/>}
         {current.id === 'team' && <Team/>}
+        {current.id === 'billing' && <Billing/>}
         {current.id === 'workspace' && <Workspace data={data}/>}
         {current.id === 'audit' && <Audit/>}
       </main>

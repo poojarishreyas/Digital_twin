@@ -123,6 +123,12 @@ class RoleChange(BaseModel):
     role: str = Field(pattern=ROLE)
 
 
+class DemoCheckout(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    plan: str = Field(pattern=r"^(starter|business)$")
+    outcome: str = Field(default="succeeded", pattern=r"^(succeeded|failed)$")
+
+
 class NewEnrollmentToken(BaseModel):
     model_config = ConfigDict(extra="forbid")
     label: str = Field(default="", max_length=80)
@@ -473,6 +479,29 @@ def create_app(settings: Settings, history: HistoryStore, graph: GraphStore, eve
         token, invite = await need_identity().create_invite(actor(request), None, None, platform_admin=True,
                                                              label=body.label, hours=body.hours)
         return {"invite_token": token, "invite": invite}
+
+    @app.get("/api/platform/tenants/{tenant_id}/billing")
+    async def platform_billing(tenant_id: str):
+        try:
+            return await need_identity().billing(tenant_id)
+        except KeyError:
+            raise HTTPException(404, "customer not found") from None
+
+    @app.get("/api/billing")
+    async def customer_billing(request: Request):
+        try:
+            return await need_identity().billing(tenant_of(request))
+        except KeyError:
+            raise HTTPException(404, "customer not found") from None
+
+    @app.post("/api/billing/demo-checkout", status_code=201)
+    async def demo_checkout(body: DemoCheckout, request: Request):
+        try:
+            return await need_identity().demo_checkout(tenant_of(request), body.plan, body.outcome, actor(request))
+        except IdentityError as exc:
+            raise HTTPException(400, str(exc)) from None
+        except KeyError:
+            raise HTTPException(404, "customer not found") from None
 
     # ---------------------------------------------------------------- customer team
     @app.get("/api/team")
