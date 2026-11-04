@@ -122,10 +122,11 @@ export function AttackPaths({data, selected, onSelect, go}: PageProps) {
   }
   async function fix(id: string) {
     if (fixing || !investigation?.codebase || principal.role === 'viewer') return
-    if (!connection.pr_enabled) { setError('GitHub write access is required to create a repair PR. Configure the workspace integration from Codebase.'); setOpen(true); return }
     playbackVersion.current++; twin.current?.stop(); setPlayback(null)
-    setFixStep(0); setFixing(id)
+    setFixStep(0); setFixing(id); setError('')
     try {
+      const current = await refreshSource()
+      if (!current.pr_enabled) throw new Error('GitHub write access is required to create a repair PR for this workspace and repository.')
       setFixStep(1)
       const result = await api.post<CodebaseConnection>('/api/codebase/repair', {commit: investigation.codebase.commit, repository: investigation.codebase.slug})
       setConnection(result); setOpen(true); setError('')
