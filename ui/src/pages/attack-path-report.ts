@@ -28,9 +28,10 @@ const SEGMENTATION = {title: 'MITRE ATT&CK · Network segmentation', url: 'https
 export function analyzeFinding(route: Assessment, topology: Topology, codebase?: CodebaseSnapshot): Analysis {
   const names = route.nodes.map(id => assetLabel(topology, id))
   const target = names.at(-1) ?? 'critical asset'
+  const manualPreview = route.id.startsWith('preview-topology-')
   // A known fixture selects a researched scenario, never a claim about live
   // configuration. Other workspaces get a connectivity assessment instead.
-  const shop = names[0] === 'shop-web01' && target === 'shop-db01' && names.some(name => name === 'shop-app01' || name === 'shop-orders01')
+  const shop = !manualPreview && names[0] === 'shop-web01' && target === 'shop-db01' && names.some(name => name === 'shop-app01' || name === 'shop-orders01')
   if (codebase) return {
     id: `TH-AUTH-${codebase.commit.slice(0, 12)}`, title: 'Unauthenticated order-history API exposes cross-customer orders',
     severity: 'High', category: 'Authentication and data access', classification: 'CWE-306 · Missing authentication',
@@ -55,6 +56,23 @@ export function analyzeFinding(route: Assessment, topology: Topology, codebase?:
     id: `TH-${shop ? 'AUTH' : 'NET'}-${route.id.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 24)}`,
     basis: shop ? 'Deployment-source scenario matched by fixture hostnames; live exploitability unverified.' : 'Topology evidence only; live security controls and exploitability unverified.',
     limitation: 'The frontend does not execute HTTP probes, authenticate to services, inspect live configuration or call an LLM. Red route animations show connectivity, not proof that each hop can be exploited. Fix and retest outcomes are simulated. No CVE is assigned and no CVSS score is asserted.',
+  }
+  if (manualPreview) return {
+    ...common, title: 'Illustrative connectivity route', severity: 'Needs validation',
+    controlAssetId: route.nodes.at(-1) ?? '', category: 'Topology preview',
+    classification: 'No vulnerability classification confirmed',
+    service: `Observed or inferred connection to ${target}`,
+    basis: 'Built from the captured topology for the manual preview. The path API returned no attack-path candidates.',
+    summary: `The topology contains a connection sequence from ${names[0] ?? 'a host'} to ${target}. Neither endpoint has been established as an attacker entry or a critical target.`,
+    rootCause: 'No security weakness has been established from this connection sequence.',
+    impact: ['No data disclosure, privilege gain or code execution has been demonstrated.'],
+    prerequisites: ['Identify a real entry point and a sensitive target before assessing this as an attack path.'],
+    evidence: [{label: 'Topology connection', detail: `${route.hop_count} observed or inferred connection hops are shown for illustration.`, source: 'Captured topology snapshot'},
+      {label: 'Active validation', detail: 'No exploit or service-level security test has run.', source: 'Execution status · not tested'}],
+    remediation: ['Review which assets are externally reachable and which contain sensitive data.'],
+    validation: ['Mark entry points and critical assets, then rerun the attack path analysis.', 'Validate each relevant hop before making a vulnerability claim.'],
+    detection: 'Review connection and authorization logs for the selected assets.',
+    rollback: 'No live change was made by this preview.', related: [], references: [SEGMENTATION],
   }
   if (shop) return {
     ...common,
@@ -139,7 +157,7 @@ export function reportData(scan: ScanReport, fixed: string[]) {
       availableCandidates: scan.total, truncated: scan.truncated},
     scope: 'Captured topology, supplied deployment-source scenarios and published security guidance. Absence of a demo path is not an assurance that the live environment is secure.',
     findings: scan.routes.map(route => ({...analyzeFinding(route, scan.topology, scan.codebase?.vulnerable ? scan.codebase : undefined), routeId: route.id,
-      status: scan.codebase?.vulnerable ? 'Vulnerable source; runtime unverified' : fixed.includes(route.id) ? 'Remediated in simulation' : 'New twin candidate; runtime validation required',
+      status: route.id.startsWith('preview-topology-') ? 'Connectivity preview only; no vulnerability established' : scan.codebase?.vulnerable ? 'Vulnerable source; runtime unverified' : fixed.includes(route.id) ? 'Remediated in simulation' : 'New twin candidate; runtime validation required',
       path: route.nodes.map(id => assetLabel(scan.topology, id)), hops: hopEvidence(route, scan.topology), telemetryIssues: route.issues,
       validationStatus: route.validation_status ?? 'unvalidated', confirmedHops: route.confirmed_hops ?? 0, sandboxRemediation: route.remediation ?? null})),
   }

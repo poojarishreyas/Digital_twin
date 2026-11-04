@@ -69,6 +69,19 @@ test('scan remains private until three minutes and catches up after a suspended 
   ]) assert.deepEqual(flow.scanState(started, started + elapsed), {step, complete})
 })
 
+test('manual preview uses a real topology connection when the path API has no candidates', () => {
+  const topology = {nodes: [
+    {id: 'web', labels: ['Host'], properties: {hostname: 'shop-web01'}},
+    {id: 'endpoint', labels: ['Service'], properties: {hostname: 'checkout-api'}},
+  ], edges: [{source: 'web', target: 'endpoint', kind: 'OBSERVED_CONNECTION', properties: {evidence_source: 'socket.established'}}]}
+  const route = flow.topologyPreviewRoute(topology)
+  assert.deepEqual(route.nodes, ['web', 'endpoint'])
+  assert.equal(route.validation_status, 'unvalidated')
+  assert.equal(route.steps[0].evidence_source, 'socket.established')
+  assert.match(reports.analyzeFinding(route, topology).title, /Illustrative connectivity route/)
+  assert.equal(flow.topologyPreviewRoute({...topology, edges: []}), null)
+})
+
 test('demo host re-enrollment receives a new identity', async () => {
   const demo = load('src/demo.ts')
   const previous = global.setTimeout, joins = []
@@ -170,8 +183,13 @@ test('codebase gate → scan → real PR stays pending → merged source yields 
     connected = true
     await act(async () => { renderer = create(React.createElement(AttackPaths, props)) })
     assert.equal(renderer.root.findAllByType('dialog').length, 1)
+    assert.equal(button('Show path preview').props['aria-pressed'], false)
     await act(async () => button('Analyze code and paths').props.onClick())
     assert.match(text(), /Reading the digital twin/)
+    assert.equal(button('Show path preview').props['aria-pressed'], false)
+    await act(async () => button('Show path preview').props.onClick())
+    assert.equal(button('Hide path preview').props['aria-pressed'], true)
+    await act(async () => button('Hide path preview').props.onClick())
     assert.doesNotMatch(text(), /\b180\b|\b3:00\b|countdown|remaining|1\/4/i)
     assert.equal(button('Fix now'), undefined)
     await advance(179999)

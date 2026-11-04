@@ -6,7 +6,7 @@ import {Icon} from '../ui/icons'
 import {Modal} from '../ui/Modal'
 import type {PageProps} from '../ui/Inspector'
 import {hostName} from '../useTwinData'
-import {lastScannedGeneration, rememberScannedGeneration, SCAN_DURATION_MS, scanState, showCandidateRoutes, twinGeneration} from './attack-path-flow'
+import {lastScannedGeneration, rememberScannedGeneration, SCAN_DURATION_MS, scanState, showCandidateRoutes, topologyPreviewRoute, twinGeneration} from './attack-path-flow'
 import {AnalysisReportActions, FindingAnalysis, analyzeFinding} from './AttackPathAnalysis'
 import type {ScanReport} from './attack-path-report'
 import {useCodebase, type CodebaseConnection} from '../codebase'
@@ -113,7 +113,8 @@ export function AttackPaths({data, selected, onSelect, go}: PageProps) {
     const previous = lastScannedGeneration(`${principal.tenant}:${checked.codebase.url}`)
     const newGeneration = !checked.codebase.vulnerable && previous !== null && previous !== generation
     const candidates = showCandidateRoutes(checked.codebase.vulnerable, previous, generation) ? latestReport.assessments : []
-    setPreviewRoutes(latestReport.assessments.slice(0, 15))
+    const previewFallback = latestReport.assessments.length ? null : topologyPreviewRoute(latestTopology)
+    setPreviewRoutes(latestReport.assessments.length ? latestReport.assessments.slice(0, 15) : previewFallback ? [previewFallback] : [])
     replayTopology.current = latestTopology
     setInvestigation({id: `TH-${Date.now().toString(36).toUpperCase()}`, capturedAt: new Date(Date.now()).toISOString(), routes: candidates.slice(0, 15), topology: latestTopology,
       total: candidates.length, truncated: latestReport.universe.truncated, codebase: checked.codebase, generation, newGeneration})
@@ -141,7 +142,7 @@ export function AttackPaths({data, selected, onSelect, go}: PageProps) {
   const rebuiltTwin = !!investigation?.newGeneration
   const noPathFound = phase === 'results' && routes.length === 0 && !rebuiltTwin
   const previewHidden = !previewPath && previewRoutes.length > 0
-  const displayedInvestigation = investigation && {...investigation, routes, total: report?.assessments.length ?? investigation.total,
+  const displayedInvestigation = investigation && {...investigation, routes, total: Math.max(report?.assessments.length ?? 0, routes.length),
     previewMode: previewPath ? 'path' as const : 'hidden' as const}
   const fixesInView = routes.filter(route => fixed.includes(route.id)).length
   const findings = investigation && <div className="stack" style={{gap: 14}}>
@@ -191,13 +192,13 @@ export function AttackPaths({data, selected, onSelect, go}: PageProps) {
       </section>
       <Twin3D ref={twin} topology={investigation?.topology ?? data.topology} selected={selected} onSelect={onSelect} height={540}>
         {activePath && playback && <div className="twin-hud">
-          <div className="hud-card"><h3><Icon name="route" size={15}/>{playback.repaired ? 'Fix verification replay' : 'Discovered attack path'}</h3>
+          <div className="hud-card"><h3><Icon name="route" size={15}/>{playback.repaired ? 'Fix verification replay' : activePath.id.startsWith('preview-topology-') ? 'Illustrative topology route' : 'Discovered attack path'}</h3>
             <p>{hostName(investigation!.topology, activePath.nodes[0])} → {hostName(investigation!.topology, activePath.nodes.at(-1) ?? '')}</p>
             <div className="row" style={{marginTop: 10}}><span className={`chip ${playback.repaired ? 'info' : 'danger'}`}>{playback.outcome ? playback.outcome === 'blocked' ? 'Route blocked' : playback.outcome === 'reached' ? 'Critical asset reached' : '3D replay unavailable' : `Following hop ${playback.hop + 1}`}</span>
               <button className="btn sm" disabled={!!fixing} onClick={() => void replay(activePath, playback.repaired)}><Icon name="play" size={13}/>Replay path</button>
               {!fixed.includes(activePath.id) && investigation?.codebase?.vulnerable && <button className="btn primary sm" disabled={!!fixing || principal.role === 'viewer'} onClick={() => { void fix(activePath.id); setOpen(true) }}><Icon name="wrench" size={13}/>Fix now</button>}</div>
           </div>
-          {playback.outcome === 'reached' && <div className="outcome reached"><Icon name="alert"/><div>Route replay reaches the critical asset<small>Illustrative topology replay · Fix now proposes a source repair PR.</small></div></div>}
+          {playback.outcome === 'reached' && <div className="outcome reached"><Icon name="alert"/><div>{activePath.id.startsWith('preview-topology-') ? 'Connectivity preview reached the last asset' : 'Route replay reaches the critical asset'}<small>Illustrative topology replay · No live exploit was performed.</small></div></div>}
           {playback.outcome === 'blocked' && <div className="outcome blocked"><Icon name="shieldCheck"/><div>Fix preview blocks the attack path<small>Simulated access boundary at {hostName(investigation!.topology, playback.isolated ?? '')}.</small></div></div>}
         </div>}
       </Twin3D>
@@ -207,8 +208,8 @@ export function AttackPaths({data, selected, onSelect, go}: PageProps) {
       <div className="card-body">{findings}</div>
     </section>}
 
-    {phase === 'results' && <button type="button" className={`path-preview-toggle ${previewPath ? 'on' : ''}`} aria-pressed={previewPath}
-      onClick={() => setPreviewPath(value => !value)}>{previewPath ? 'Hide path preview' : 'Show path preview'}</button>}
+    <button type="button" className={`path-preview-toggle ${previewPath ? 'on' : ''}`} aria-pressed={previewPath}
+      onClick={() => setPreviewPath(value => !value)}>{previewPath ? 'Hide path preview' : 'Show path preview'}</button>
     {open && <Modal title="Analyze attack paths" subtitle="TwinHunter · source and topology review" width={860} onClose={close}>
       <div className="stack">
         <div className="alert info"><Icon name="file"/><span><b>Source-backed analysis</b> · Code is checked at a pinned commit. Path animation is illustrative; no live exploit or AWS change is performed.</span></div>
@@ -250,7 +251,7 @@ function FindingCard({route, topology, codebase, index, fixed, fixing, disabled,
     <div className="row between"><div className="row"><span className={`chip ${fixed ? 'ok' : analysis.severity === 'High' ? 'danger' : 'warn'}`}>{fixed ? 'Fix preview complete' : analysis.severity === 'High' ? 'High · scenario priority' : analysis.severity}</span><span className="chip">{analysis.category}</span><RouteStatus route={route}/></div><small className="mono muted">#{index} · {route.hop_count} hops</small></div>
     <div><h3>{analysis.title}</h3><p className="muted">{analysis.service}</p></div>
     <div className="report-basis"><b>{analysis.classification}</b><p>{analysis.basis}</p></div>
-    <div><span className="finding-label">Attack path</span><ol className="finding-path">{route.nodes.map((node, i) => <li key={node}>
+    <div><span className="finding-label">{route.id.startsWith('preview-topology-') ? 'Illustrative connectivity route' : 'Attack path'}</span><ol className="finding-path">{route.nodes.map((node, i) => <li key={node}>
       {i > 0 && <span aria-hidden="true" className="hop-arrow">→</span>}<span className={`hop ${playback?.isolated === node ? 'shield' : playback && i === playback.hop && !playback.outcome ? 'now' : playback && i <= playback.hop && playback.outcome !== 'cancelled' ? 'hit' : i === 0 ? 'entry' : i === route.nodes.length - 1 ? 'critical' : ''}`}>{name(node)}</span></li>)}</ol></div>
     <div><button className="btn sm" disabled={disabled} onClick={onReplay}><Icon name="play" size={14}/>{fixed ? 'Replay blocked path' : 'Replay attack path'}</button></div>
     <div className="finding-remedy"><Icon name="wrench" size={17}/><div><b>Proposed fix</b><p>{analysis.remediation[0]}</p></div></div>
